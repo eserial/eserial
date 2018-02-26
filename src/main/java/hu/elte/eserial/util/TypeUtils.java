@@ -13,7 +13,7 @@ import hu.elte.eserial.util.model.TypeDepth;
 public class TypeUtils {
 
     /**
-     * {@link Class#isPrimitive()} extended to the primitives' wrapper types, {@link Date} and {@link Iterable}.
+     * {@link Class#isPrimitive()} extended to the primitives' wrapper types, {@link Date} and {@link Collection}.
      * @param clazz the class to check
      * @return {@code true} if the {@code clazz} can be serialized inline.
      */
