@@ -1,9 +1,9 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
+import java.util.Map;
+
 import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.recursion.model.EserialElement;
-
-import java.util.Map;
 
 /**
  * An abstract class for evaluating {@link EserialAnnotation} constraints
@@ -30,12 +30,12 @@ public abstract class AbstractInclusionRule<A> {
     public abstract boolean evaluate(EserialElement element, Map<String, Object> objectMap);
 
     /**
-     * Describes whether this rule is an inclusion or an exclusion rule.<br/>
-     * <br/>
+     * Describes whether this rule is an inclusion or an exclusion rule.<br>
+     * <br>
      * For inclusion rules the processing should be stopped when the {@link AbstractInclusionRule#evaluate}
-     * returns <b>true</b>.<br/>
+     * returns <b>true</b>.<br>
      * For exclusion rules the processing should be stopped when the {@link AbstractInclusionRule#evaluate}
-     * returns <b>false</b>.<br/>
+     * returns <b>false</b>.<br>
      * @return {@code true} if this is an inclusion rule, {@code false} if it's an exclusion rule
      */
     public abstract boolean isInclusionRule();

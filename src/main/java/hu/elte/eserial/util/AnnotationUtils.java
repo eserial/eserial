@@ -1,12 +1,12 @@
 package hu.elte.eserial.util;
 
-import hu.elte.eserial.annotation.EserialAnnotation;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import hu.elte.eserial.annotation.EserialAnnotation;
 
 /**
  * Utility class for {@link EserialAnnotation}s.
@@ -58,8 +58,8 @@ public class AnnotationUtils {
      * Compares to {@link EserialAnnotation}s according to their priorities.
      * @param lhs an {@link EserialAnnotation}
      * @param rhs an {@link EserialAnnotation}
-     * @return the value {@code 0} if {@code lhs.priority() == rhs.priority()},<br/>
-     *     a value less than {@code 0} if {@code lhs.priority() > rhs.priority()} and<br/>
+     * @return the value {@code 0} if {@code lhs.priority() == rhs.priority()},<br>
+     *     a value less than {@code 0} if {@code lhs.priority() > rhs.priority()} and<br>
      *     a value greater than {@code 0} if {@code lhs.priority() < rhs.priority()}
      *
      * @exception IllegalArgumentException if {@code lhs} or {@code rhs} is not an {@link EserialAnnotation}

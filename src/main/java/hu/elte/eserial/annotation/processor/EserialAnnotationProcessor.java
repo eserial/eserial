@@ -1,16 +1,16 @@
 package hu.elte.eserial.annotation.processor;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
 import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.inclusionrule.AbstractInclusionRule;
 import hu.elte.eserial.annotation.inclusionrule.InclusionRuleFactory;
 import hu.elte.eserial.recursion.model.EserialElement;
 import hu.elte.eserial.util.AnnotationUtils;
 import hu.elte.eserial.util.FieldUtils;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Processes {@link EserialAnnotation}s on getters, setters and classes.
@@ -21,7 +21,7 @@ public class EserialAnnotationProcessor {
 
     /**
      * Decides whether an {@code element} should be included depending on the {@link EserialAnnotation}s on its
-     * field (if exists), getter and containing class.<br/>
+     * field (if exists), getter and containing class.<br>
      * The annotations are grouped by their location (field, getter or class) and ordered by their priorities.
      * Annotation locations are checked in the following order:
      * <ol>

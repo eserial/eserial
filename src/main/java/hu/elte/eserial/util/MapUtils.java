@@ -6,7 +6,7 @@ import java.util.Map;
 public class MapUtils {
 
     /**
-     * Calculates the depth of a map. <br/>
+     * Calculates the depth of a map. <br>
      * These values don't add to the depth of the map:
      * <ul>
      *     <li>{@code} null</li>

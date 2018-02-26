@@ -1,13 +1,13 @@
 package hu.elte.eserial.recursion;
 
-import hu.elte.eserial.recursion.model.EserialElement;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.elte.eserial.recursion.model.EserialElement;
+
 /**
- * Simple class to check for recursion while serializing an object.<br/>
- * Usage:<br/>
+ * Simple class to check for recursion while serializing an object.<br>
+ * Usage:<br>
  * <ol>
  *     <li>While recursively visiting the object's elements, before each step the
  *     {@link RecursionChecker#beforeVisit} should be called with the element to visit.</li>

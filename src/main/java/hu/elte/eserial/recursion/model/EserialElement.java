@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
- * An <b>element</b> is defined by its accessor method (getter or setter) and the corresponding value.<br/>
+ * An <b>element</b> is defined by its accessor method (getter or setter) and the corresponding value.<br>
  * This is a convenience class wrapping these two with {@code equals} and {@code hashCode} methods.
  */
 public class EserialElement {

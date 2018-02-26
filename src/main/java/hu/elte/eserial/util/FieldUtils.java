@@ -34,7 +34,7 @@ public class FieldUtils {
     /**
      * @param clazz the class to find the field in
      * @param fieldName the name of the field
-     * @return a field from the class {@code clazz} with the name {@fieldName} or
+     * @return a field from the class {@code clazz} with the name {@code fieldName} or
      * {@code null} if no such field exists
      */
     public static Field getField(Class clazz, String fieldName) {
