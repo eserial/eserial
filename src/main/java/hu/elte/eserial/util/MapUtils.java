@@ -20,6 +20,7 @@ public class MapUtils {
      *     <li>getDepth({}) == 0</li>
      *     <li>getDepth({a: "a"}) == 1</li>
      *     <li>getDepth({a: "a", b: {}}) == 1</li>
+     *     <li>getDepth({a: "a", b: []}9 == 1</li>
      *     <li>getDepth({a: "a", b: {c: "c"}}) == 2</li>
      * </ul>
 

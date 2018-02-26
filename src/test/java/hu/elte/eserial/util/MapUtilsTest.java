@@ -1,12 +1,12 @@
 package hu.elte.eserial.util;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class MapUtilsTest {
 
@@ -58,5 +58,12 @@ public class MapUtilsTest {
         map2.put("c", "c");
         map1.put("b", map2);
         assertEquals(2, MapUtils.getDepth(map1));
+    }
+
+    @Test
+    public void testGetDepth_GivenMapWithList_Returns1() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("a", new ArrayList<>());
+        assertEquals(1, MapUtils.getDepth(map));
     }
 }
