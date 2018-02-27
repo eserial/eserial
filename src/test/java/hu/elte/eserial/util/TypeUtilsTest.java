@@ -12,7 +12,7 @@ public class TypeUtilsTest {
 
     @Test
     public void isPrimitive_withPrimitives() {
-        assertTrue(TypeUtils.isPrimitive(byte.class));
+        assertFalse(TypeUtils.isPrimitive(byte.class));
         assertTrue(TypeUtils.isPrimitive(short.class));
         assertTrue(TypeUtils.isPrimitive(int.class));
         assertTrue(TypeUtils.isPrimitive(long.class));
