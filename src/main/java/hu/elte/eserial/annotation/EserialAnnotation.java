@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.util.AnnotationUtils;
 
 /**
@@ -22,4 +23,5 @@ public @interface EserialAnnotation {
      * @see AnnotationUtils#compare(Annotation, Annotation)
      */
     int priority() default 0;
+    EserialAnnotationType type();
 }

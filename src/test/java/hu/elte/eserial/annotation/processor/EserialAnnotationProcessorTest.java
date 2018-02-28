@@ -29,7 +29,7 @@ public class EserialAnnotationProcessorTest {
     }
 
     @Test
-    public void testShouldIncludeElement_GivenIgnoreThisedField_ReturnsFalse()
+    public void testShouldIncludeElement_GivenExcludeThisedField_ReturnsFalse()
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
         Method getter = ExcludeThisDummy.class.getDeclaredMethod("getFieldExcluded");

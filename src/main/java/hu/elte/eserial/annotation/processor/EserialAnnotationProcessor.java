@@ -1,5 +1,7 @@
 package hu.elte.eserial.annotation.processor;
 
+import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.Inclusion;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import hu.elte.eserial.annotation.EserialAnnotation;
+import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.annotation.inclusionrule.AbstractInclusionRule;
 import hu.elte.eserial.annotation.inclusionrule.InclusionRuleFactory;
 import hu.elte.eserial.recursion.model.EserialElement;
@@ -36,12 +39,12 @@ public class EserialAnnotationProcessor {
 
         List<Annotation> annotations = new ArrayList<>();
 
-        annotations.addAll(AnnotationUtils.getEserialAnnotations(clazz));
-        annotations.addAll(AnnotationUtils.getEserialAnnotations(element.getAccessor()));
+        annotations.addAll(AnnotationUtils.getEserialAnnotations(clazz, Inclusion));
+        annotations.addAll(AnnotationUtils.getEserialAnnotations(element.getAccessor(), Inclusion));
         String fieldName = FieldUtils.getFieldName(element.getAccessor());
         Field field = FieldUtils.getField(clazz, fieldName);
         if (field != null) {
-            annotations.addAll(AnnotationUtils.getEserialAnnotations(field));
+            annotations.addAll(AnnotationUtils.getEserialAnnotations(field, Inclusion));
         }
 
         annotations.sort(AnnotationUtils::compare);

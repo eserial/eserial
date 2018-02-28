@@ -5,12 +5,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import hu.elte.eserial.annotation.enumeration.EnumeratedFormat;
 import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 
 /**
- * Indicates that an element should be excluded from the serialization/deserialization process.
+ * Decides how the annotated enum should be serialized/deserialized.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
-@EserialAnnotation(priority = Integer.MAX_VALUE, type = EserialAnnotationType.Inclusion)
-public @interface ExcludeThis { }
+@EserialAnnotation(type = EserialAnnotationType.Formatting)
+public @interface Enumerated {
+  EnumeratedFormat value();
+}

@@ -1,5 +1,6 @@
 package hu.elte.eserial.annotation;
 
+import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 
 import java.lang.annotation.Retention;
@@ -10,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  * to be included in the serialization/deserialization process.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@EserialAnnotation(priority = 1000)
+@EserialAnnotation(priority = 1000, type = EserialAnnotationType.Inclusion)
 public @interface IncludeMatching {
     IncludeMatcher[] value();
 }

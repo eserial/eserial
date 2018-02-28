@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import hu.elte.eserial.annotation.EserialAnnotation;
+import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 
 /**
  * Utility class for {@link EserialAnnotation}s.
@@ -15,34 +16,37 @@ public class AnnotationUtils {
 
     /**
      * @param accessibleObject a field or a method
+     * @param type the type of {@link EserialAnnotation}
      * @return a list of {@link EserialAnnotation}s on the {@code accessibleObject}
      *
-     * @see AnnotationUtils#getEserialAnnotations(List)
+     * @see AnnotationUtils#getEserialAnnotations(List, EserialAnnotationType)
      */
-    public static List<Annotation> getEserialAnnotations(AccessibleObject accessibleObject) {
-        return getEserialAnnotations(Arrays.asList(accessibleObject.getAnnotations()));
+    public static List<Annotation> getEserialAnnotations(AccessibleObject accessibleObject, EserialAnnotationType type) {
+        return getEserialAnnotations(Arrays.asList(accessibleObject.getAnnotations()), type);
     }
 
     /**
      * @param clazz a class
+     * @param type the type of {@link EserialAnnotation}
      * @return a list of {@link EserialAnnotation}s on the {@code clazz}
      *
-     * @see AnnotationUtils#getEserialAnnotations(List)
+     * @see AnnotationUtils#getEserialAnnotations(List,EserialAnnotationType)
      */
-    public static List<Annotation> getEserialAnnotations(Class clazz) {
-        return getEserialAnnotations(Arrays.asList(clazz.getDeclaredAnnotations()));
+    public static List<Annotation> getEserialAnnotations(Class clazz, EserialAnnotationType type) {
+        return getEserialAnnotations(Arrays.asList(clazz.getDeclaredAnnotations()), type);
     }
 
     /**
      * @param annotations a list of annotations
+     * @param type the type of {@link EserialAnnotation}
      * @return the {@code annotations} list's annotations which
      * have an {@link EserialAnnotation} on them
      *
-     * @see AnnotationUtils#isEserialAnnotation
+     * @see AnnotationUtils#isMatchingEserialAnnotation
      */
-    public static List<Annotation> getEserialAnnotations(List<Annotation> annotations) {
+    public static List<Annotation> getEserialAnnotations(List<Annotation> annotations, EserialAnnotationType type) {
         return annotations.stream()
-                .filter(AnnotationUtils::isEserialAnnotation)
+                .filter(annotation -> isMatchingEserialAnnotation(annotation, type))
                 .collect(Collectors.toList());
     }
 
@@ -52,6 +56,21 @@ public class AnnotationUtils {
      */
     public static boolean isEserialAnnotation(Annotation annotation) {
         return annotation.annotationType().getDeclaredAnnotation(EserialAnnotation.class) != null;
+    }
+
+    /**
+     * @param annotation an annotation
+     * @param type the type of {@link EserialAnnotation}
+     * @return {@code true} if the {@code} has an {@link EserialAnnotation} with the given type on it
+     */
+    public static boolean isMatchingEserialAnnotation(Annotation annotation, EserialAnnotationType type) {
+        Annotation eserialAnnotation = annotation.annotationType().getDeclaredAnnotation(EserialAnnotation.class);
+        if (eserialAnnotation == null) {
+            return false;
+        }
+        else {
+            return ((EserialAnnotation)eserialAnnotation).type().equals(type);
+        }
     }
 
     /**

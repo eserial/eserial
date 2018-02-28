@@ -8,9 +8,9 @@ import java.lang.annotation.Target;
 import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 
 /**
- * Indicates that an element should be excluded from the serialization/deserialization process.
+ * Indicated that the annotated element's {@code toString()} method should be used for serializing.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
-@EserialAnnotation(priority = Integer.MAX_VALUE, type = EserialAnnotationType.Inclusion)
-public @interface ExcludeThis { }
+@EserialAnnotation(type = EserialAnnotationType.Formatting)
+public @interface UseToString { }
