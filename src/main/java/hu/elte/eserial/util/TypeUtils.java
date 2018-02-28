@@ -32,31 +32,4 @@ public class TypeUtils {
                 || clazz == Date.class
                 || clazz == Collection.class;
     }
-
-    /**
-     * Constructs a {@link TypeDepth} with the depth information of the given {@code type}.<br>
-     * <br>
-     * Examples:<br>
-     * <ul>
-     *   <li>getTypeDepth({@code String}) == (String, 0)</li>
-     *   <li>getTypeDepth({@code List<String>}) == (String, 1)</li>
-     *   <li>getTypeDepth({@code List<List<String>>}) == (String, 2)</li>
-     * </ul>
-     *
-     * @param type a type (coming from a Field or Method)
-     * @return a TypeDepth instance with the innermost type and the generic depth of the type
-     *
-     * @exception IllegalArgumentException if the given {@code type} has more than 1 generic type parameter
-     */
-    public static TypeDepth getTypeDepth(Type type) {
-        int depth = 0;
-        while (type instanceof ParameterizedType) {
-            if (((ParameterizedType) type).getActualTypeArguments().length > 1) {
-                throw new IllegalArgumentException("Maps are currently not supported.");
-            }
-            type = ((ParameterizedType) type).getActualTypeArguments()[0];
-            depth++;
-        }
-        return new TypeDepth(type, depth);
-    }
 }

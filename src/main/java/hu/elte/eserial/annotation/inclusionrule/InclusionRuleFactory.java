@@ -4,7 +4,6 @@ import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.ExcludeThis;
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
-import hu.elte.eserial.annotation.MaxDepth;
 
 import java.lang.annotation.Annotation;
 
@@ -32,9 +31,6 @@ public class InclusionRuleFactory {
         }
         else if (annotation instanceof IncludeMatching) {
             return new IncludeMatchingInclusionRule((IncludeMatching)annotation);
-        }
-        else if (annotation instanceof MaxDepth) {
-            return new MaxDepthInclusionRule((MaxDepth)annotation);
         }
         else if (annotation == null) {
             throw new IllegalArgumentException("No InclusionRule for null.");

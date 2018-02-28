@@ -3,7 +3,6 @@ package hu.elte.eserial.annotation.inclusionrule;
 import hu.elte.eserial.annotation.ExcludeThis;
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
-import hu.elte.eserial.annotation.MaxDepth;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import org.junit.Test;
 
@@ -54,22 +53,6 @@ public class InclusionRuleFactoryTest {
             }
         });
         assertTrue(rule instanceof IncludeMatchingInclusionRule);
-    }
-
-    @Test
-    public void testGet_GivenMaxDepth_ReturnsAMaxDepthInclusionRule() {
-        AbstractInclusionRule rule = InclusionRuleFactory.get(new MaxDepth(){
-            @Override
-            public int value() {
-                return 0;
-            }
-
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return MaxDepth.class;
-            }
-        });
-        assertTrue(rule instanceof MaxDepthInclusionRule);
     }
 
     @Test(expected = IllegalArgumentException.class)

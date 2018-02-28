@@ -3,7 +3,6 @@ package hu.elte.eserial.util;
 import hu.elte.eserial.annotation.ExcludeThis;
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
-import hu.elte.eserial.annotation.MaxDepth;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import org.junit.Test;
 
@@ -46,28 +45,15 @@ public class AnnotationUtilsTest {
                 return IncludeMatching.class;
             }
         };
-        MaxDepth maxDepth = new MaxDepth() {
-            @Override
-            public int value() {
-                return 0;
-            }
 
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return MaxDepth.class;
-            }
-        };
-
-        List<Annotation> eserialAnnotations = Arrays.asList(excludeThis, includeElements, includeMatching, maxDepth);
+        List<Annotation> eserialAnnotations = Arrays.asList(excludeThis, includeElements, includeMatching);
         eserialAnnotations.sort(AnnotationUtils::compare);
 
         int exludeThisIndex = eserialAnnotations.indexOf(excludeThis);
         int includeElementsIndex = eserialAnnotations.indexOf(includeElements);
         int includeMatchingIndex = eserialAnnotations.indexOf(includeMatching);
-        int maxDepthIndex = eserialAnnotations.indexOf(maxDepth);
 
         assertTrue(exludeThisIndex < includeElementsIndex);
-        assertTrue(maxDepthIndex < includeElementsIndex);
         assertTrue(includeElementsIndex < includeMatchingIndex);
     }
 
