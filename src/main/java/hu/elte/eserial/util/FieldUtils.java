@@ -13,17 +13,17 @@ public class FieldUtils {
     /**
      * Extracts a (virtual) field name from a getter method.
      * @param getter the getter method of the (virtual) field
-     * @return the method's name without the first "get" part and
+     * @return the method's name without the first "get/set/is" part and
      * the remaining string's first letter in lowercase or {@code null} if
      * the method's name does not match a getter's format.
      */
     public static String getFieldName(Method getter) {
-        Pattern pattern = Pattern.compile("get([A-Z].*)");
+        Pattern pattern = Pattern.compile("(get|set|is)([A-Z].*)");
         Matcher matcher = pattern.matcher(getter.getName());
 
         String fieldName;
         if (matcher.matches()) {
-            fieldName = matcher.group(1);
+            fieldName = matcher.group(2);
             return fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1);
         }
         else {
