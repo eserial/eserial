@@ -1,4 +1,4 @@
-group 'hu.eserial'
+group 'hu.elte.eserial'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
