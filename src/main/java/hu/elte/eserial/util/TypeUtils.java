@@ -2,6 +2,7 @@ package hu.elte.eserial.util;
 
 import java.util.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -58,6 +59,16 @@ public class TypeUtils {
     }
 
     /**
+     * Determines if the given type is a number.
+     *
+     * @param type an arbitrary class
+     * @return {@code true} if {@code type} is a number
+     */
+    public static Boolean isNumber(Class<?> type) {
+        return Number.class.isAssignableFrom(type) || (isPrimitive(type) && !isBoolean(type) && !isCharacter(type));
+    }
+
+    /**
      * Determines if the given type is a collection.
      *
      * @param type an arbitrary class
@@ -105,5 +116,35 @@ public class TypeUtils {
      */
     public static Boolean isDate(Class<?> type) {
         return type == Date.class;
+    }
+
+    /**
+     * Determines if the given type is a list.
+     *
+     * @param type an arbitrary class
+     * @return {@code true} if {@code type} is a list
+     */
+    public static Boolean isList(Class<?> type) {
+        return List.class.isAssignableFrom(type);
+    }
+
+    /**
+     * Determines if the given type is a boolean.
+     *
+     * @param type an arbitrary class
+     * @return {@code true} if {@code type} is a boolean
+     */
+    public static Boolean isBoolean(Class<?> type) {
+        return type == Boolean.class || type == boolean.class;
+    }
+
+    /**
+     * Determines if the given type is a character.
+     *
+     * @param type an arbitrary class
+     * @return {@code true} if {@code type} is a character
+     */
+    public static Boolean isCharacter(Class<?> type) {
+        return type == Character.class || type == char.class;
     }
 }

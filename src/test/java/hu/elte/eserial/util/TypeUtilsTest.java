@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
@@ -72,6 +73,24 @@ public class TypeUtilsTest {
     }
 
     @Test
+    public void isNumber_GivenNumbers_ReturnsTrue() {
+        assertTrue(TypeUtils.isNumber(short.class));
+        assertTrue(TypeUtils.isNumber(int.class));
+        assertTrue(TypeUtils.isNumber(long.class));
+        assertTrue(TypeUtils.isNumber(float.class));
+        assertTrue(TypeUtils.isNumber(double.class));
+        assertTrue(TypeUtils.isNumber(Number.class));
+    }
+
+    @Test
+    public void isNumber_GivenNonNumbers_ReturnsFalse() {
+        assertFalse(TypeUtils.isNumber(char.class));
+        assertFalse(TypeUtils.isNumber(Character.class));
+        assertFalse(TypeUtils.isNumber(boolean.class));
+        assertFalse(TypeUtils.isNumber(Boolean.class));
+    }
+
+    @Test
     public void isMap_GivenMaps_ReturnsTrue() {
         assertTrue(TypeUtils.isMap(Map.class));
         assertTrue(TypeUtils.isMap(HashMap.class));
@@ -113,5 +132,37 @@ public class TypeUtilsTest {
     @Test
     public void isDate_GivenNonDate_ReturnsFalse() {
         assertFalse(TypeUtils.isEnum(Integer.class));
+    }
+
+    @Test
+    public void isList_GivenList_ReturnsTrue() {
+        assertTrue(TypeUtils.isList(List.class));
+    }
+
+    @Test
+    public void isList_GivenNonList_ReturnsFalse() {
+        assertFalse(TypeUtils.isList(Map.class));
+    }
+
+    @Test
+    public void isBoolean_GivenBoolean_ReturnsTrue() {
+        assertTrue(TypeUtils.isBoolean(Boolean.class));
+        assertTrue(TypeUtils.isBoolean(boolean.class));
+    }
+
+    @Test
+    public void isBoolean_GivenNonBoolean_ReturnsFalse() {
+        assertFalse(TypeUtils.isBoolean(Integer.class));
+    }
+
+    @Test
+    public void isCharacter_GivenCharacter_ReturnsTrue() {
+        assertTrue(TypeUtils.isCharacter(Character.class));
+        assertTrue(TypeUtils.isCharacter(char.class));
+    }
+
+    @Test
+    public void isCharacter_GivenNonCharacter_ReturnsFalse() {
+        assertFalse(TypeUtils.isCharacter(Integer.class));
     }
 }
