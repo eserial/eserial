@@ -5,6 +5,12 @@ package hu.elte.eserial.exception;
  */
 public class EserialMapperMismatchException extends EserialException {
 
+    /**
+     * Instantiates a new EserialMapperMismatchException with the given message.
+     *
+     * @param expected name of the expected type
+     * @param actual name of the actual type
+     */
     public EserialMapperMismatchException(String expected, String actual) {
         super(String.format("Expected %s got %s", expected, actual));
     }
