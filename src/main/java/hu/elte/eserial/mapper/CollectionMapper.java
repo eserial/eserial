@@ -1,9 +1,9 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
+import hu.elte.eserial.recursion.RecursionChecker;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -16,10 +16,12 @@ public class CollectionMapper implements ObjectMapper {
      * Returns the mapped representation of the Collection {@code that}.
      *
      * @param {@code that} a collection
+     * @param recursionChecker {@inheritDoc}
      * @return mapped representation of {@code that}
      */
     @Override
-    public Object map(Object that) {
+    @SuppressWarnings("unchecked")
+    public Object map(Object that, RecursionChecker recursionChecker) {
         if (!TypeUtils.isCollection(that.getClass())) {
             throw new EserialMapperMismatchException(Collection.class.getSimpleName(), that.getClass().getSimpleName());
         }
@@ -28,7 +30,7 @@ public class CollectionMapper implements ObjectMapper {
 
         return collection
                 .stream()
-                .map(element -> MapperFactory.create(element.getClass()).map(element))
+                .map(element -> MapperFactory.create(element.getClass()).map(element, recursionChecker))
                 .collect(Collectors.toList());
     }
 }

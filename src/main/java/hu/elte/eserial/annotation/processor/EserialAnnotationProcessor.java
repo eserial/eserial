@@ -6,10 +6,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import hu.elte.eserial.annotation.EserialAnnotation;
-import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.annotation.inclusionrule.AbstractInclusionRule;
 import hu.elte.eserial.annotation.inclusionrule.InclusionRuleFactory;
 import hu.elte.eserial.recursion.model.EserialElement;
@@ -28,12 +26,11 @@ public class EserialAnnotationProcessor {
      * field (if exists), getter and containing class.<br>
      * The annotations are ordered by their priorities.
      * @param element an element containing the getter or setter to be checked and the value of the field
-     * @param objectMap the built map of the object until now
      * @return {@code true} if the {@code element} should be included
      *
      * @see EserialAnnotation#priority()
      */
-    public boolean shouldIncludeElement(EserialElement element, Map<String, Object> objectMap) {
+    public boolean shouldIncludeElement(EserialElement element) {
 
         Class clazz = element.getAccessor().getDeclaringClass();
 
@@ -51,7 +48,7 @@ public class EserialAnnotationProcessor {
         for (Annotation annotation : annotations) {
 
             AbstractInclusionRule inclusionRule = InclusionRuleFactory.get(annotation);
-            boolean result = inclusionRule.evaluate(element, objectMap);
+            boolean result = inclusionRule.evaluate(element);
             if (result && inclusionRule.isInclusionRule()) {
                 return true;
             }

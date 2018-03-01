@@ -1,10 +1,8 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
+import hu.elte.eserial.recursion.RecursionChecker;
 import hu.elte.eserial.util.TypeUtils;
-
-import java.lang.reflect.Array;
-import java.util.Map;
 
 /**
  * Maps Enum-like objects.
@@ -15,10 +13,11 @@ public class EnumMapper implements ObjectMapper {
      * Returns the mapped representation of the enum {@code that}.
      *
      * @param {@code that} an enum
+     * @param recursionChecker {@inheritDoc}
      * @return mapped representation of {@code that}
      */
     @Override
-    public Object map(Object that) {
+    public Object map(Object that, RecursionChecker recursionChecker) {
         if (!TypeUtils.isEnum(that.getClass())) {
             throw new EserialMapperMismatchException(Enum.class.getSimpleName(), that.getClass().getSimpleName());
         }

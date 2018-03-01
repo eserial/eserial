@@ -3,7 +3,6 @@ package hu.elte.eserial.annotation.inclusionrule;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 
 import static hu.elte.eserial.testutil.util.EserialElementCreator.withNamedGetter;
 import static org.junit.Assert.assertFalse;
@@ -28,13 +27,13 @@ public class IncludeElementsInclusionRuleTest {
     @Test
     public void testShouldInclude_GivenName_ReturnsTrue() {
         IncludeElementsInclusionRule inclusionRule = dummyIncludeFieldsInclusionRule();
-        assertTrue(inclusionRule.evaluate(withNamedGetter("getName", null), new HashMap<>()));
+        assertTrue(inclusionRule.evaluate(withNamedGetter("getName", null)));
     }
 
     @Test
     public void testShouldInclude_GivenAge_ReturnsFalse() {
         IncludeElementsInclusionRule inclusionRule = dummyIncludeFieldsInclusionRule();
-        assertFalse(inclusionRule.evaluate(withNamedGetter("getAge", null), new HashMap<>()));
+        assertFalse(inclusionRule.evaluate(withNamedGetter("getAge", null)));
     }
 
 

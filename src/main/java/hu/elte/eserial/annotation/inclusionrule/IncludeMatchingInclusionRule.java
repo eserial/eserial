@@ -6,8 +6,6 @@ import hu.elte.eserial.annotation.includematcherevaluator.AbstractIncludeMatcher
 import hu.elte.eserial.annotation.includematcherevaluator.IncludeMatcherEvaluatorFactory;
 import hu.elte.eserial.recursion.model.EserialElement;
 
-import java.util.Map;
-
 /**
  * Evaluates {@link IncludeMatching} annotations.
  * @see AbstractInclusionRule
@@ -21,11 +19,10 @@ public class IncludeMatchingInclusionRule extends AbstractInclusionRule<IncludeM
     /**
      * Every {@link IncludeMatcher} will be evaluated on the given value.
      * @param element {@inheritDoc}
-     * @param objectMap {@inheritDoc}
      * @return {@code true} if <b>all</b> {@link IncludeMatcher}s enable the element to be included
      */
     @Override
-    public boolean evaluate(EserialElement element, Map<String, Object> objectMap) {
+    public boolean evaluate(EserialElement element) {
         boolean shouldInclude = true;
         for (IncludeMatcher includeMatcher : annotation.value()) {
             AbstractIncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(includeMatcher);

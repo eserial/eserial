@@ -42,7 +42,6 @@ public class FieldUtils {
             return clazz.getDeclaredField(fieldName);
         }
         catch (NoSuchFieldException e) {
-            e.printStackTrace();
             return null;
         }
     }

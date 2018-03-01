@@ -4,7 +4,6 @@ import hu.elte.eserial.annotation.ExcludeThis;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 
 import static hu.elte.eserial.testutil.util.EserialElementCreator.withDummyGetter;
 import static org.junit.Assert.assertFalse;
@@ -23,7 +22,7 @@ public class ExcludeThisInclusionRuleTest {
     @Test
     public void testShouldInclude_GivenAnything_ReturnsFalse() {
         ExcludeThisInclusionRule inclusionRule = dummyExcludeThisInclusionRule();
-        assertFalse(inclusionRule.evaluate(withDummyGetter(null), new HashMap<>()));
+        assertFalse(inclusionRule.evaluate(withDummyGetter(null)));
     }
 
     @Test

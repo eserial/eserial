@@ -48,10 +48,19 @@ public class EserialElement {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         EserialElement that = (EserialElement) obj;
-        return this.accessor.getName().equals(that.accessor.getName())
+
+        if (this.accessor == null && that.accessor == null) {
+            return this.value == that.value;
+        }
+        else if (this.accessor == null || that.accessor == null) {
+            return false;
+        }
+        else {
+            return this.accessor.getName().equals(that.accessor.getName())
                 && this.accessor.getReturnType() == that.accessor.getReturnType()
                 && this.accessor.getDeclaringClass() == that.accessor.getDeclaringClass()
                 && this.value == that.value;
+        }
     }
 
     @Override

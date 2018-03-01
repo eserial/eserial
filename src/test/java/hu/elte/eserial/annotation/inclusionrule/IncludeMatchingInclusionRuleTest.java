@@ -5,7 +5,6 @@ import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
-import java.util.HashMap;
 
 import static hu.elte.eserial.testutil.util.EserialElementCreator.withNamedGetter;
 import static org.junit.Assert.assertFalse;
@@ -30,19 +29,19 @@ public class IncludeMatchingInclusionRuleTest {
     @Test
     public void testShouldInclude_GivenA_ReturnsTrue() {
         IncludeMatchingInclusionRule inclusionRule = withNotNullAndNotEmptyIncludeMatcher();
-        assertTrue(inclusionRule.evaluate(withNamedGetter("getName", "a"), new HashMap<>()));
+        assertTrue(inclusionRule.evaluate(withNamedGetter("getName", "a")));
     }
 
     @Test
     public void testShouldInclude_GivenEmptyString_ReturnsFalse() {
         IncludeMatchingInclusionRule inclusionRule = withNotNullAndNotEmptyIncludeMatcher();
-        assertFalse(inclusionRule.evaluate(withNamedGetter("getName", ""), new HashMap<>()));
+        assertFalse(inclusionRule.evaluate(withNamedGetter("getName", "")));
     }
 
     @Test
     public void testShouldInclude_GivenNull_ReturnsFalse() {
         IncludeMatchingInclusionRule inclusionRule = withNotNullAndNotEmptyIncludeMatcher();
-        assertFalse(inclusionRule.evaluate(withNamedGetter("getName", null), new HashMap<>()));
+        assertFalse(inclusionRule.evaluate(withNamedGetter("getName", null)));
     }
 
 

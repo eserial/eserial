@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +35,7 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.excludeThisDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertFalse(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertFalse(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -47,7 +46,7 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.excludeThisDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertFalse(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertFalse(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -57,7 +56,7 @@ public class EserialAnnotationProcessorTest {
         Object value = "valueToSet";
         EserialElement element = new EserialElement(setter, value);
 
-        assertFalse(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertFalse(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -68,7 +67,7 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.excludeThisDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertTrue(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertTrue(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -78,7 +77,7 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.includeFieldsAndMatchingDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertTrue(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertTrue(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -88,7 +87,7 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.includeFieldsAndMatchingDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertTrue(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertTrue(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -98,7 +97,7 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.includeFieldsAndMatchingDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertFalse(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertFalse(this.annotationProcessor.shouldIncludeElement(element));
     }
 
     @Test
@@ -108,6 +107,6 @@ public class EserialAnnotationProcessorTest {
         Object value = getter.invoke(this.includeFieldsAndMatchingDummy);
         EserialElement element = new EserialElement(getter, value);
 
-        assertTrue(this.annotationProcessor.shouldIncludeElement(element, new HashMap<>()));
+        assertTrue(this.annotationProcessor.shouldIncludeElement(element));
     }
 }

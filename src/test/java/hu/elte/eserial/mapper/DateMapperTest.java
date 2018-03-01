@@ -23,12 +23,12 @@ public class DateMapperTest {
 
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null);
+        mapper.map(null, null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0);
+        mapper.map(0, null);
     }
 
     @Test
@@ -37,6 +37,6 @@ public class DateMapperTest {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = sdf.parse("01/01/2018");
 
-        assertEquals(1514764800000L, mapper.map(date));
+        assertEquals(1514764800000L, mapper.map(date, null));
     }
 }

@@ -20,19 +20,19 @@ public class ArrayMapperTest {
 
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null);
+        mapper.map(null, null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0);
+        mapper.map(0, null);
     }
 
     @Test
     public void map_GivenAnEmptyArray_ReturnsEmptyList() {
         Integer[] array = {};
 
-        Object rootValue = mapper.map(array);
+        Object rootValue = mapper.map(array, null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -43,7 +43,7 @@ public class ArrayMapperTest {
     public void map_GivenSomeElements_ReturnsListContainingTheseElements() {
         Integer[] array = { 10, 20, 30 };
 
-        Object rootValue = mapper.map(array);
+        Object rootValue = mapper.map(array, null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;

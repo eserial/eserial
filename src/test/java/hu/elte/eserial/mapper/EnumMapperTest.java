@@ -17,12 +17,12 @@ public class EnumMapperTest {
 
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null);
+        mapper.map(null, null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0);
+        mapper.map(0, null);
     }
 
     enum TestEnum {
@@ -31,8 +31,8 @@ public class EnumMapperTest {
 
     @Test
     public void map_GivenAnEnum_ReturnsItsOrdinalValue() {
-        assertEquals(0, mapper.map(TestEnum.A));
-        assertEquals(1, mapper.map(TestEnum.B));
-        assertEquals(2, mapper.map(TestEnum.C));
+        assertEquals(0, mapper.map(TestEnum.A, null));
+        assertEquals(1, mapper.map(TestEnum.B, null));
+        assertEquals(2, mapper.map(TestEnum.C, null));
     }
 }

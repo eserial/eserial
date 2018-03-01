@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  * to be included in the serialization/deserialization process.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@EserialAnnotation(priority = 1000, type = EserialAnnotationType.Inclusion)
+@EserialAnnotation(priority = 10, type = EserialAnnotationType.Inclusion)
 public @interface IncludeMatching {
     IncludeMatcher[] value();
 }

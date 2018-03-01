@@ -23,19 +23,19 @@ public class CollectionMapperTest {
 
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null);
+        mapper.map(null, null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0);
+        mapper.map(0, null);
     }
 
     @Test
     public void map_GivenAnEmptyArray_ReturnsEmptyList() {
         Set<Integer> set = new HashSet<Integer>();
 
-        Object rootValue = mapper.map(set);
+        Object rootValue = mapper.map(set, null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -49,7 +49,7 @@ public class CollectionMapperTest {
         set.add(20);
         set.add(30);
 
-        Object rootValue = mapper.map(set);
+        Object rootValue = mapper.map(set, null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -67,7 +67,7 @@ public class CollectionMapperTest {
         list.add(20);
         list.add(30);
 
-        Object rootValue = mapper.map(list);
+        Object rootValue = mapper.map(list, null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
