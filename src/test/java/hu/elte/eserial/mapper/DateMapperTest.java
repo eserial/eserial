@@ -8,6 +8,7 @@ import java.text.ParseException;
 import java.util.Date;
 
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,8 +34,9 @@ public class DateMapperTest {
     @Test
     public void map_GivenADate_ReturnsItsTimestampInMs() throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = sdf.parse("01/01/2018");
 
-        assertEquals(1514761200000L, mapper.map(date));
+        assertEquals(1514764800000L, mapper.map(date));
     }
 }
