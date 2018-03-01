@@ -9,22 +9,29 @@ import java.util.Date;
 /**
  * Maps Date objects.
  */
-public class DateMapper implements ObjectMapper {
+public class DateMapper extends AbstractMapper {
 
     /**
-     * Returns the mapped representation of the date {@code that}.
+     * Constructs a {@link DateMapper} and sets the {@code object} in it.
      *
-     * @param {@code that} a date
+     * @param object the {@link Date} to be used in the {@link AbstractMapper#map} method
+     */
+    DateMapper(Object object) {
+        super(object);
+    }
+
+    /**
      * @param recursionChecker {@inheritDoc}
-     * @return mapped representation of {@code that}
+     * @return mapped representation of the contained {@link Date}
      */
     @Override
-    public Object map(Object that, RecursionChecker recursionChecker) {
-        if (!TypeUtils.isDate(that.getClass())) {
-            throw new EserialMapperMismatchException(Date.class.getSimpleName(), that.getClass().getSimpleName());
+    public Object map(RecursionChecker recursionChecker) {
+        if (!TypeUtils.isDate(this.object.getClass())) {
+            throw new EserialMapperMismatchException(Date.class.getSimpleName(),
+                    this.object.getClass().getSimpleName());
         }
 
-        Date date = (Date) that;
+        Date date = (Date) this.object;
         return date.getTime();
     }
 }

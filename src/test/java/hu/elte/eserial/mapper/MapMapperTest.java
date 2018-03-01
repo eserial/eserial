@@ -16,28 +16,21 @@ import static org.junit.Assert.assertTrue;
 
 public class MapMapperTest {
 
-    private MapMapper mapper;
-
-    @Before
-    public void setUp() {
-        mapper = new MapMapper();
-    }
-
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null, null);
+        new MapMapper(null).map(null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0, null);
+        new MapMapper(0).map(null);
     }
 
     @Test
     public void map_GivenAnEmptyMap_ReturnsAnEmptyList() {
         Map<String, Integer> map = new HashMap<>();
 
-        Object rootValue = mapper.map(map, null);
+        Object rootValue = new MapMapper(map).map(null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -50,7 +43,7 @@ public class MapMapperTest {
         map.put("firstId", 1);
         map.put("secondId", 2);
 
-        Object rootValue = mapper.map(map, null);
+        Object rootValue = new MapMapper(map).map(null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -67,7 +60,7 @@ public class MapMapperTest {
         user.put("token", token);
         token.put("user", user);
 
-        Object rootValue = mapper.map(user, new RecursionChecker(user));
+        Object rootValue = new MapMapper(user).map(new RecursionChecker(user));
         assertTrue(rootValue instanceof List);
 
         List root = (List) rootValue;
@@ -85,7 +78,7 @@ public class MapMapperTest {
         second.put("next", last);
         last.put("next", first);
 
-        Object rootValue = mapper.map(first, new RecursionChecker(first));
+        Object rootValue = new MapMapper(first).map(new RecursionChecker(first));
         assertTrue(rootValue instanceof List);
 
         List firstRoot = (List) rootValue;
@@ -114,7 +107,7 @@ public class MapMapperTest {
         node2.put("edges2", node2edges2);
 
         //Would throw a StackOverflowError on infinite recursion.
-        mapper.map(edge12, new RecursionChecker(edge12));
+        new MapMapper(edge12).map(new RecursionChecker(edge12));
     }
 
     @Test
@@ -136,7 +129,7 @@ public class MapMapperTest {
         node2.put("edges2", node2edges2);
 
         //Would throw a StackOverflowError on infinite recursion.
-        mapper.map(edge12, new RecursionChecker(node1));
+        new MapMapper(node1).map(new RecursionChecker(node1));
     }
 
     private Object getByKey(List list, Object key) {

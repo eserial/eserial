@@ -8,21 +8,14 @@ import static org.junit.Assert.assertEquals;
 
 public class EnumMapperTest {
 
-    private EnumMapper mapper;
-
-    @Before
-    public void setUp() throws Exception {
-        mapper = new EnumMapper();
-    }
-
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null, null);
+        new EnumMapper(null).map(null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0, null);
+        new EnumMapper(0).map(null);
     }
 
     enum TestEnum {
@@ -31,8 +24,8 @@ public class EnumMapperTest {
 
     @Test
     public void map_GivenAnEnum_ReturnsItsOrdinalValue() {
-        assertEquals(0, mapper.map(TestEnum.A, null));
-        assertEquals(1, mapper.map(TestEnum.B, null));
-        assertEquals(2, mapper.map(TestEnum.C, null));
+        assertEquals(0, new EnumMapper(TestEnum.A).map(null));
+        assertEquals(1, new EnumMapper(TestEnum.B).map(null));
+        assertEquals(2, new EnumMapper(TestEnum.C).map(null));
     }
 }

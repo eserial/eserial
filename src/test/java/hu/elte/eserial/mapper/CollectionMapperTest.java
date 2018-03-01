@@ -14,28 +14,21 @@ import static org.junit.Assert.assertTrue;
 
 public class CollectionMapperTest {
 
-    private CollectionMapper mapper;
-
-    @Before
-    public void setUp() throws Exception {
-        mapper = new CollectionMapper();
-    }
-
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null, null);
+        new CollectionMapper(null).map(null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0, null);
+        new CollectionMapper(0).map(null);
     }
 
     @Test
     public void map_GivenAnEmptyArray_ReturnsEmptyList() {
         Set<Integer> set = new HashSet<Integer>();
 
-        Object rootValue = mapper.map(set, null);
+        Object rootValue = new CollectionMapper(set).map(null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -49,7 +42,7 @@ public class CollectionMapperTest {
         set.add(20);
         set.add(30);
 
-        Object rootValue = mapper.map(set, null);
+        Object rootValue = new CollectionMapper(set).map(null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -67,7 +60,7 @@ public class CollectionMapperTest {
         list.add(20);
         list.add(30);
 
-        Object rootValue = mapper.map(list, null);
+        Object rootValue = new CollectionMapper(list).map(null);
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;

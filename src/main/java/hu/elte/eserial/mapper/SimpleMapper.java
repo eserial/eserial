@@ -7,21 +7,27 @@ import hu.elte.eserial.util.TypeUtils;
 /**
  * Maps simple non-array objects (e.g null, int, Integer).
  */
-class SimpleMapper implements ObjectMapper {
+class SimpleMapper extends AbstractMapper {
 
     /**
-     * Returns the mapped representation of the simple type {@code that}.
+     * Constructs an {@link EnumMapper} and sets the {@code object} in it.
      *
-     * @param {@code that} a simple type
+     * @param object the simple object to be used in the {@link AbstractMapper#map} method
+     */
+    SimpleMapper(Object object) {
+        super(object);
+    }
+
+    /**
      * @param recursionChecker {@inheritDoc}
-     * @return mapped representation of {@code that}
+     * @return mapped representation of the contained simple object
      */
     @Override
-    public Object map(Object that, RecursionChecker recursionChecker) {
-        if (that != null && TypeUtils.isCompound(that.getClass())) {
-            throw new EserialMapperMismatchException("Simple", that.getClass().getSimpleName());
+    public Object map(RecursionChecker recursionChecker) {
+        if (this.object != null && TypeUtils.isCompound(this.object.getClass())) {
+            throw new EserialMapperMismatchException("Simple", this.object.getClass().getSimpleName());
         }
 
-        return that;
+        return this.object;
     }
 }

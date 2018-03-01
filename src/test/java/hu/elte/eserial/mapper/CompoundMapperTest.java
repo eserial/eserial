@@ -1,11 +1,7 @@
 package hu.elte.eserial.mapper;
 
-import hu.elte.eserial.annotation.IncludeElements;
-import hu.elte.eserial.annotation.IncludeMatching;
-import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import hu.elte.eserial.exception.EserialMapperMismatchException;
 import hu.elte.eserial.recursion.RecursionChecker;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -18,21 +14,14 @@ import static org.junit.Assert.assertTrue;
 
 public class CompoundMapperTest {
 
-    private CompoundMapper mapper;
-
-    @Before
-    public void setUp() throws Exception {
-        mapper = new CompoundMapper();
-    }
-
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null, null);
+        new CompoundMapper(null).map(null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0, null);
+        new CompoundMapper(0).map(null);
     }
 
     public class SimpleGetter {
@@ -43,7 +32,7 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenSimpleGetter_ReturnsListOfTheirValues() {
-        Object rootValue = mapper.map(new SimpleGetter(), null);
+        Object rootValue = new CompoundMapper(new SimpleGetter()).map(null);
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -53,7 +42,7 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenAnIgnoredMethod_DoesNotReturnItsValue() {
-        Object rootValue = mapper.map(new SimpleGetter(), null);
+        Object rootValue = new CompoundMapper(new SimpleGetter()).map(null);
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -76,7 +65,7 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenMultipleSimpleGetters_ReturnsListOfTheirValues() {
-        Object rootValue = mapper.map(new MultipleSimpleGetters(), null);
+        Object rootValue = new CompoundMapper(new MultipleSimpleGetters()).map(null);
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -94,7 +83,7 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenCompoundGetter_ReturnsListOfTheirValues() {
-        Object rootValue = mapper.map(new CompoundGetter(), null);
+        Object rootValue = new CompoundMapper(new CompoundGetter()).map(null);
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -113,7 +102,7 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenAnInvalidGetter_DoesNotReturnItsValue() {
-        Object rootValue = mapper.map(new NotAGetter(), null);
+        Object rootValue = new CompoundMapper(new NotAGetter()).map(null);
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -137,7 +126,7 @@ public class CompoundMapperTest {
         user.token = token;
         token.user = user;
 
-        Object rootValue = mapper.map(user, new RecursionChecker(user));
+        Object rootValue = new CompoundMapper(user).map(new RecursionChecker(user));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -160,7 +149,7 @@ public class CompoundMapperTest {
         second.next = last;
         last.next = first;
 
-        Object rootValue = mapper.map(first, new RecursionChecker(first));
+        Object rootValue = new CompoundMapper(first).map(new RecursionChecker(first));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> firstRoot = (Map) rootValue;
@@ -205,7 +194,7 @@ public class CompoundMapperTest {
         node2.edges2.add(edge12);
 
         //Would throw a StackOverflowError on infinite recursion.
-        mapper.map(edge12, new RecursionChecker(edge12));
+        new CompoundMapper(edge12).map(new RecursionChecker(edge12));
     }
 
     @Test
@@ -223,6 +212,6 @@ public class CompoundMapperTest {
         node2.edges2.add(edge12);
 
         //Would throw a StackOverflowError on infinite recursion.
-        mapper.map(edge12, new RecursionChecker(node1));
+        new CompoundMapper(edge12).map(new RecursionChecker(node1));
     }
 }

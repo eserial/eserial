@@ -18,23 +18,25 @@ public class MapperFactory {
      * @param {@code type} an arbitrary class
      * @return an object mapper for {@code type}
      */
-    public static ObjectMapper create(Class<?> type) {
-        if (TypeUtils.isCompound(type)) {
+    public static AbstractMapper create(Object object) {
+        if (object == null || !TypeUtils.isCompound(object.getClass())) {
+            return new SimpleMapper(object);
+        }
+        else {
+            Class type = object.getClass();
             if (TypeUtils.isCollection(type)) {
-                return new CollectionMapper();
+                return new CollectionMapper(object);
             } else if (TypeUtils.isMap(type)) {
-                return new MapMapper();
+                return new MapMapper(object);
             } else if (TypeUtils.isEnum(type)) {
-                return new EnumMapper();
+                return new EnumMapper(object);
             } else if (TypeUtils.isArray(type)) {
-                return new ArrayMapper();
+                return new ArrayMapper(object);
             } else if (TypeUtils.isDate(type)) {
-                return new DateMapper();
+                return new DateMapper(object);
             } else {
-                return new CompoundMapper();
+                return new CompoundMapper(object);
             }
-        } else {
-            return new SimpleMapper();
         }
     }
 }

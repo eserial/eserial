@@ -9,30 +9,35 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Maps Map-like objects (e.g Map, HashMap).
  */
-public class MapMapper implements ObjectMapper {
+public class MapMapper extends AbstractMapper {
 
     /**
-     * Returns the mapped representation of the map {@code that}.
+     * Constructs an {@link MapMapper} and sets the {@code object} in it.
      *
-     * @param {@code that} a map
+     * @param object the {@link Map} to be used in the {@link AbstractMapper#map} method
+     */
+    MapMapper(Object object) {
+        super(object);
+    }
+
+    /**
      * @param recursionChecker {@inheritDoc}
-     * @return mapped representation of {@code that}
+     * @return mapped representation of the contained {@link Enum}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Object map(Object that, RecursionChecker recursionChecker) {
-        if (!TypeUtils.isMap(that.getClass())) {
-            throw new EserialMapperMismatchException(Map.class.getSimpleName(), that.getClass().getSimpleName());
+    public Object map(RecursionChecker recursionChecker) {
+        if (!TypeUtils.isMap(this.object.getClass())) {
+            throw new EserialMapperMismatchException(Map.class.getSimpleName(), this.object.getClass().getSimpleName());
         }
 
-        Map map = (Map) that;
+        Map map = (Map) this.object;
         if (recursionChecker == null) {
-            recursionChecker = new RecursionChecker(that);
+            recursionChecker = new RecursionChecker(this.object);
         }
 
         List<Map<String, Object>> mappedEntries = new ArrayList<>();
@@ -48,14 +53,14 @@ public class MapMapper implements ObjectMapper {
           EserialElement keyElement = new EserialElement(null, key);
           if (recursionChecker.canVisit(keyElement)) {
             recursionChecker.beforeVisit(keyElement);
-            mappedKey = MapperFactory.create(key.getClass()).map(key, recursionChecker);
+            mappedKey = MapperFactory.create(key).map(recursionChecker);
             recursionChecker.afterVisit(keyElement);
           }
 
           EserialElement valueElement = new EserialElement(null, value);
           if (recursionChecker.canVisit(valueElement)) {
               recursionChecker.beforeVisit(valueElement);
-              mappedValue = MapperFactory.create(value.getClass()).map(value, recursionChecker);
+              mappedValue = MapperFactory.create(value).map(recursionChecker);
               recursionChecker.afterVisit(valueElement);
           }
 
