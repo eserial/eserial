@@ -11,39 +11,30 @@ import static org.junit.Assert.assertTrue;
 
 public class IncludeElementsInclusionRuleTest {
 
+    @IncludeElements("name")
     public class IncludeElementsName {
         public String getName() { return null; }
         public Integer getAge() { return null; }
     }
 
-    private IncludeElementsInclusionRule includeElementsInclusionRule = new IncludeElementsInclusionRule(
-            new IncludeElements() {
-                @Override
-                public String[] value() {
-            return new String[] {"name"};
-        }
-
-                @Override
-                public Class<? extends Annotation> annotationType() {
-                    return hu.elte.eserial.annotation.IncludeElements.class;
-                }
-            });
+    private IncludeElementsInclusionRule inclusionRule =
+            new IncludeElementsInclusionRule(IncludeElementsName.class.getDeclaredAnnotation(IncludeElements.class));
 
     @Test
     public void shouldInclude_GivenName_ReturnsTrue() throws NoSuchMethodException {
-        assertTrue(includeElementsInclusionRule.evaluate(
+        assertTrue(inclusionRule.evaluate(
                 new EserialElement(IncludeElementsName.class.getDeclaredMethod("getName"), null)));
     }
 
     @Test
     public void shouldInclude_GivenAge_ReturnsFalse() throws NoSuchMethodException {
-        assertFalse(includeElementsInclusionRule.evaluate(
+        assertFalse(inclusionRule.evaluate(
                 new EserialElement(IncludeElementsName.class.getDeclaredMethod("getAge"), null)));
     }
 
 
     @Test
     public void isPositiveRule_ReturnsTrue() {
-        assertTrue(includeElementsInclusionRule.isInclusionRule());
+        assertTrue(inclusionRule.isInclusionRule());
     }
 }
