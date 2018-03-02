@@ -10,6 +10,7 @@ import java.util.List;
 import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.inclusionrule.AbstractInclusionRule;
 import hu.elte.eserial.annotation.inclusionrule.InclusionRuleFactory;
+import hu.elte.eserial.model.Getter;
 import hu.elte.eserial.recursion.model.EserialElement;
 import hu.elte.eserial.util.AnnotationUtils;
 import hu.elte.eserial.util.FieldUtils;
@@ -38,7 +39,7 @@ public class EserialAnnotationProcessor {
 
         annotations.addAll(AnnotationUtils.getEserialAnnotations(clazz, Inclusion));
         annotations.addAll(AnnotationUtils.getEserialAnnotations(element.getAccessor(), Inclusion));
-        String fieldName = FieldUtils.getFieldName(element.getAccessor());
+        String fieldName = new Getter(null, element.getAccessor()).getElementName();
         Field field = FieldUtils.getField(clazz, fieldName);
         if (field != null) {
             annotations.addAll(AnnotationUtils.getEserialAnnotations(field, Inclusion));

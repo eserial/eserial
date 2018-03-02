@@ -1,44 +1,49 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
+import hu.elte.eserial.annotation.IncludeElements;
+import hu.elte.eserial.recursion.model.EserialElement;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
 
-import static hu.elte.eserial.testutil.util.EserialElementCreator.withNamedGetter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class IncludeElementsInclusionRuleTest {
 
-    private static IncludeElementsInclusionRule dummyIncludeFieldsInclusionRule() {
-        return new IncludeElementsInclusionRule(new hu.elte.eserial.annotation.IncludeElements() {
-            @Override
-            public String[] value() {
-                return new String[] {"name"};
-            }
+    public class IncludeElementsName {
+        public String getName() { return null; }
+        public Integer getAge() { return null; }
+    }
 
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return hu.elte.eserial.annotation.IncludeElements.class;
-            }
-        });
+    private IncludeElementsInclusionRule includeElementsInclusionRule = new IncludeElementsInclusionRule(
+            new IncludeElements() {
+                @Override
+                public String[] value() {
+            return new String[] {"name"};
+        }
+
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return hu.elte.eserial.annotation.IncludeElements.class;
+                }
+            });
+
+    @Test
+    public void shouldInclude_GivenName_ReturnsTrue() throws NoSuchMethodException {
+        assertTrue(includeElementsInclusionRule.evaluate(
+                new EserialElement(IncludeElementsName.class.getDeclaredMethod("getName"), null)));
     }
 
     @Test
-    public void testShouldInclude_GivenName_ReturnsTrue() {
-        IncludeElementsInclusionRule inclusionRule = dummyIncludeFieldsInclusionRule();
-        assertTrue(inclusionRule.evaluate(withNamedGetter("getName", null)));
-    }
-
-    @Test
-    public void testShouldInclude_GivenAge_ReturnsFalse() {
-        IncludeElementsInclusionRule inclusionRule = dummyIncludeFieldsInclusionRule();
-        assertFalse(inclusionRule.evaluate(withNamedGetter("getAge", null)));
+    public void shouldInclude_GivenAge_ReturnsFalse() throws NoSuchMethodException {
+        assertFalse(includeElementsInclusionRule.evaluate(
+                new EserialElement(IncludeElementsName.class.getDeclaredMethod("getAge"), null)));
     }
 
 
     @Test
-    public void  testIsPositiveRule_ReturnsTrue() {
-        assertTrue(dummyIncludeFieldsInclusionRule().isInclusionRule());
+    public void isPositiveRule_ReturnsTrue() {
+        assertTrue(includeElementsInclusionRule.isInclusionRule());
     }
 }

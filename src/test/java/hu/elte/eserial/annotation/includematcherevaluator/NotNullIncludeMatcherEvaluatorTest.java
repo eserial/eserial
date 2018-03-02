@@ -8,13 +8,13 @@ import static org.junit.Assert.assertTrue;
 public class NotNullIncludeMatcherEvaluatorTest {
 
     @Test
-    public void testEvaluate_GivenNull_ReturnsFalse() {
+    public void evaluate_GivenNull_ReturnsFalse() {
         NotNullIncludeMatcherEvaluator evaluator = new NotNullIncludeMatcherEvaluator();
         assertFalse(evaluator.evaluate(null));
     }
 
     @Test
-    public void testEvaluate_GivenNotNull_ReturnsTrue() {
+    public void evaluate_GivenNotNull_ReturnsTrue() {
         NotNullIncludeMatcherEvaluator evaluator = new NotNullIncludeMatcherEvaluator();
         assertTrue(evaluator.evaluate(new Object()));
     }

@@ -1,23 +1,116 @@
 package hu.elte.eserial.recursion;
 
 import hu.elte.eserial.recursion.model.EserialElement;
-import hu.elte.eserial.testutil.dummy.SingleEdge;
-import hu.elte.eserial.testutil.dummy.SingleNode;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static hu.elte.eserial.testutil.util.EserialElementCreator.fromInstance;
-import static hu.elte.eserial.testutil.util.EserialElementCreator.withDummyGetter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RecursionCheckerTest {
+
+    public class SingleEdge {
+
+        private Integer edgeId;
+        private String edgeName;
+        private SingleNode node1;
+        private SingleNode node2;
+
+        public SingleEdge(Integer edgeId, String edgeName, SingleNode node1, SingleNode node2) {
+            this.edgeId = edgeId;
+            this.edgeName = edgeName;
+            this.node1 = node1;
+            this.node2 = node2;
+        }
+
+        public String getEdgeName() {
+            return edgeName;
+        }
+
+        public void setEdgeName(String edgeName) {
+            this.edgeName = edgeName;
+        }
+
+        public Integer getEdgeId() {
+            return edgeId;
+        }
+
+        public void setEdgeId(Integer edgeId) {
+            this.edgeId = edgeId;
+        }
+
+        public SingleNode getNode1() {
+            return node1;
+        }
+
+        public void setNode1(SingleNode node1) {
+            this.node1 = node1;
+        }
+
+        public SingleNode getNode2() {
+            return node2;
+        }
+
+        public void setNode2(SingleNode node2) {
+            this.node2 = node2;
+        }
+    }
+
+    public class SingleNode {
+
+        private Integer nodeId;
+        private String nodeName;
+        private SingleEdge edge;
+
+        public SingleNode(Integer nodeId, String nodeName) {
+            this.nodeId = nodeId;
+            this.nodeName = nodeName;
+        }
+
+        public Integer getNodeId() {
+            return nodeId;
+        }
+
+        public void setNodeId(Integer nodeId) {
+            this.nodeId = nodeId;
+        }
+
+        public String getNodeName() {
+            return nodeName;
+        }
+
+        public void setNodeName(String nodeName) {
+            this.nodeName = nodeName;
+        }
+
+        public SingleEdge getEdge() {
+            return edge;
+        }
+
+        public void setEdge(SingleEdge edge) {
+            this.edge = edge;
+        }
+    }
+
+    private EserialElement eserialElementFromInstance(Object instance, String getterName) {
+        try {
+            Method getter = instance.getClass().getDeclaredMethod(getterName);
+            Object value = getter.invoke(instance);
+            return new EserialElement(getter, value);
+
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     private SingleNode node1;
     private SingleNode node2;
@@ -61,22 +154,22 @@ public class RecursionCheckerTest {
     }
 
     @Test
-    public void testBeforeVisit_GivenAnything_PutsIntoElementsList() {
+    public void beforeVisit_GivenAnything_PutsIntoElementsList() {
 
-        EserialElement element = withDummyGetter(null);
+        EserialElement element = new EserialElement(null, null);
         this.recursionChecker.beforeVisit(element);
 
         assertEquals(1, this.getElements().size());
     }
 
     @Test
-    public void testAfterVisit_GivenPreviousElement_RemovesItAndProceedingElements() {
+    public void afterVisit_GivenPreviousElement_RemovesItAndProceedingElements() {
 
-        EserialElement nodeIdElement = fromInstance(this.node1, "getNodeId");
-        EserialElement nodeNameElement = fromInstance(this.node1, "getNodeName");
-        EserialElement edgeElement = fromInstance(this.node1, "getEdge");
-        EserialElement edgeIdElement = fromInstance(this.node1.getEdge(), "getEdgeId");
-        EserialElement edgeNameElement = fromInstance(this.node1.getEdge(), "getEdgeName");
+        EserialElement nodeIdElement = eserialElementFromInstance(this.node1, "getNodeId");
+        EserialElement nodeNameElement = eserialElementFromInstance(this.node1, "getNodeName");
+        EserialElement edgeElement = eserialElementFromInstance(this.node1, "getEdge");
+        EserialElement edgeIdElement = eserialElementFromInstance(this.node1.getEdge(), "getEdgeId");
+        EserialElement edgeNameElement = eserialElementFromInstance(this.node1.getEdge(), "getEdgeName");
 
         setElements(nodeIdElement, nodeNameElement, edgeElement, edgeIdElement, edgeNameElement);
 
@@ -85,40 +178,40 @@ public class RecursionCheckerTest {
     }
 
     @Test
-    public void testCanVisit_GivenNonRecursiveElement_ReturnsTrue() {
-        EserialElement nodeIdElement = fromInstance(this.node1, "getNodeId");
-        EserialElement nodeNameElement = fromInstance(this.node1, "getNodeName");
+    public void canVisit_GivenNonRecursiveElement_ReturnsTrue() {
+        EserialElement nodeIdElement = eserialElementFromInstance(this.node1, "getNodeId");
+        EserialElement nodeNameElement = eserialElementFromInstance(this.node1, "getNodeName");
 
         setElements(nodeIdElement, nodeNameElement);
 
-        EserialElement edgeElement = fromInstance(this.node1, "getEdge");
+        EserialElement edgeElement = eserialElementFromInstance(this.node1, "getEdge");
         assertTrue(this.recursionChecker.canVisit(edgeElement));
     }
 
     @Test
-    public void testCanVisit_GivenRootRecursiveElement_ReturnsFalse() {
-        EserialElement nodeIdElement = fromInstance(this.node1, "getNodeId");
-        EserialElement nodeNameElement = fromInstance(this.node1, "getNodeName");
-        EserialElement edgeElement = fromInstance(this.node1, "getEdge");
+    public void canVisit_GivenRootRecursiveElement_ReturnsFalse() {
+        EserialElement nodeIdElement = eserialElementFromInstance(this.node1, "getNodeId");
+        EserialElement nodeNameElement = eserialElementFromInstance(this.node1, "getNodeName");
+        EserialElement edgeElement = eserialElementFromInstance(this.node1, "getEdge");
 
         setElements(nodeIdElement, nodeNameElement, edgeElement);
 
-        EserialElement node1Element = fromInstance(this.node1.getEdge(), "getNode1");
+        EserialElement node1Element = eserialElementFromInstance(this.node1.getEdge(), "getNode1");
         assertFalse(this.recursionChecker.canVisit(node1Element));
     }
 
     @Test
-    public void testCanVisit_GivenIntermediateRecursiveElement_ReturnsFalse() {
+    public void canVisit_GivenIntermediateRecursiveElement_ReturnsFalse() {
 
-        EserialElement node1IdElement = fromInstance(this.node1, "getNodeId");
-        EserialElement node1NameElement = fromInstance(this.node1, "getNodeName");
-        EserialElement edgeInNode1Element = fromInstance(this.node1, "getEdge");
-        EserialElement node2IdElement = fromInstance(this.node2, "getNodeId");
-        EserialElement node2NameElement = fromInstance(this.node2, "getNodeName");
+        EserialElement node1IdElement = eserialElementFromInstance(this.node1, "getNodeId");
+        EserialElement node1NameElement = eserialElementFromInstance(this.node1, "getNodeName");
+        EserialElement edgeInNode1Element = eserialElementFromInstance(this.node1, "getEdge");
+        EserialElement node2IdElement = eserialElementFromInstance(this.node2, "getNodeId");
+        EserialElement node2NameElement = eserialElementFromInstance(this.node2, "getNodeName");
 
         setElements(node1IdElement, node1NameElement, edgeInNode1Element, node2IdElement, node2NameElement);
 
-        EserialElement edgeInNode2Element = fromInstance(this.node2, "getEdge");
+        EserialElement edgeInNode2Element = eserialElementFromInstance(this.node2, "getEdge");
         assertFalse(this.recursionChecker.canVisit(edgeInNode2Element));
     }
 }

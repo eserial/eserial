@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class InclusionRuleFactoryTest {
 
     @Test
-    public void testGet_GivenIgnoreThis_ReturnsAnIgnoreThisInclusionRule() {
+    public void get_GivenIgnoreThis_ReturnsAnIgnoreThisInclusionRule() {
         AbstractInclusionRule rule = InclusionRuleFactory.get(new ExcludeThis(){
             @Override
             public Class<? extends Annotation> annotationType() {
@@ -24,7 +24,7 @@ public class InclusionRuleFactoryTest {
     }
 
     @Test
-    public void testGet_GivenIncludeFields_ReturnsAnIncludeFieldsInclusionRule() {
+    public void get_GivenIncludeFields_ReturnsAnIncludeFieldsInclusionRule() {
         AbstractInclusionRule rule = InclusionRuleFactory.get(new IncludeElements(){
             @Override
             public String[] value() {
@@ -40,7 +40,7 @@ public class InclusionRuleFactoryTest {
     }
 
     @Test
-    public void testGet_GivenMatching_ReturnsAnIncludeMatchingInclusionRule() {
+    public void get_GivenMatching_ReturnsAnIncludeMatchingInclusionRule() {
         AbstractInclusionRule rule = InclusionRuleFactory.get(new IncludeMatching(){
             @Override
             public IncludeMatcher[] value() {
@@ -56,7 +56,7 @@ public class InclusionRuleFactoryTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testGet_GivenNull_ThrowsIllegalArgumentException() {
+    public void get_GivenNull_ThrowsIllegalArgumentException() {
         InclusionRuleFactory.get(null);
     }
 }

@@ -3,6 +3,7 @@ package hu.elte.eserial.annotation.inclusionrule;
 import java.util.Arrays;
 
 import hu.elte.eserial.annotation.IncludeElements;
+import hu.elte.eserial.model.Getter;
 import hu.elte.eserial.recursion.model.EserialElement;
 import hu.elte.eserial.util.FieldUtils;
 
@@ -24,7 +25,7 @@ public class IncludeElementsInclusionRule extends AbstractInclusionRule<IncludeE
      */
     @Override
     public boolean evaluate(EserialElement element) {
-        String fieldName = FieldUtils.getFieldName(element.getAccessor());
+        String fieldName = new Getter(null, element.getAccessor()).getElementName();
         return Arrays.asList(this.annotation.value()).contains(fieldName);
     }
 

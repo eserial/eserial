@@ -2,51 +2,46 @@ package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
+import hu.elte.eserial.recursion.model.EserialElement;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
 
-import static hu.elte.eserial.testutil.util.EserialElementCreator.withNamedGetter;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class IncludeMatchingInclusionRuleTest {
 
-    private static IncludeMatchingInclusionRule withNotNullAndNotEmptyIncludeMatcher() {
-        return new IncludeMatchingInclusionRule(new IncludeMatching() {
-            @Override
-            public IncludeMatcher[] value() {
-                return new IncludeMatcher[] {IncludeMatcher.NotNull, IncludeMatcher.NotEmpty};
-            }
+    private IncludeMatchingInclusionRule notNullAndNotEmptyIncludeMatcher =
+            new IncludeMatchingInclusionRule(new IncludeMatching() {
+                @Override
+                public IncludeMatcher[] value() {
+                    return new IncludeMatcher[] {IncludeMatcher.NotNull, IncludeMatcher.NotEmpty};
+                }
 
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return IncludeMatching.class;
-            }
-        });
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return IncludeMatching.class;
+                }
+            });
+
+    @Test
+    public void shouldInclude_GivenA_ReturnsTrue() {
+        assertTrue(notNullAndNotEmptyIncludeMatcher.evaluate(new EserialElement(null, "a")));
     }
 
     @Test
-    public void testShouldInclude_GivenA_ReturnsTrue() {
-        IncludeMatchingInclusionRule inclusionRule = withNotNullAndNotEmptyIncludeMatcher();
-        assertTrue(inclusionRule.evaluate(withNamedGetter("getName", "a")));
+    public void shouldInclude_GivenEmptyString_ReturnsFalse() {
+        assertFalse(notNullAndNotEmptyIncludeMatcher.evaluate(new EserialElement(null, "")));
     }
 
     @Test
-    public void testShouldInclude_GivenEmptyString_ReturnsFalse() {
-        IncludeMatchingInclusionRule inclusionRule = withNotNullAndNotEmptyIncludeMatcher();
-        assertFalse(inclusionRule.evaluate(withNamedGetter("getName", "")));
+    public void shouldInclude_GivenNull_ReturnsFalse() {
+        assertFalse(notNullAndNotEmptyIncludeMatcher.evaluate(new EserialElement(null, null)));
     }
 
     @Test
-    public void testShouldInclude_GivenNull_ReturnsFalse() {
-        IncludeMatchingInclusionRule inclusionRule = withNotNullAndNotEmptyIncludeMatcher();
-        assertFalse(inclusionRule.evaluate(withNamedGetter("getName", null)));
-    }
-
-
-    @Test
-    public void  testIsPositiveRule_ReturnsFalse() {
-        assertFalse(withNotNullAndNotEmptyIncludeMatcher().isInclusionRule());
+    public void isPositiveRule_ReturnsFalse() {
+        assertFalse(notNullAndNotEmptyIncludeMatcher.isInclusionRule());
     }
 }

@@ -9,6 +9,11 @@ import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 public class IncludeMatcherEvaluatorFactory {
 
     /**
+     * Prevents accidental instantiation.
+     */
+    private IncludeMatcherEvaluatorFactory() {}
+
+    /**
      * Constructs an {@link AbstractIncludeMatcherEvaluator} descendant.
      *
      * @param includeMatcher an {@link IncludeMatcher} in an {@link IncludeMatching} annotation

@@ -10,31 +10,31 @@ import static org.junit.Assert.assertTrue;
 public class NotEmptyIncludeMatcherEvaluatorTest {
 
     @Test
-    public void testEvaluate_GivenEmptyString_ReturnsFalse() {
+    public void evaluate_GivenEmptyString_ReturnsFalse() {
         NotEmptyIncludeMatcherEvaluator evaluator = new NotEmptyIncludeMatcherEvaluator();
         assertFalse(evaluator.evaluate(""));
     }
 
     @Test
-    public void testEvaluate_GivenNotEmptyString_ReturnsTrue() {
+    public void evaluate_GivenNotEmptyString_ReturnsTrue() {
         NotEmptyIncludeMatcherEvaluator evaluator = new NotEmptyIncludeMatcherEvaluator();
         assertTrue(evaluator.evaluate("a"));
     }
 
     @Test
-    public void testEvaluate_GivenEmptyCollection_ReturnsFalse() {
+    public void evaluate_GivenEmptyCollection_ReturnsFalse() {
         NotEmptyIncludeMatcherEvaluator evaluator = new NotEmptyIncludeMatcherEvaluator();
         assertFalse(evaluator.evaluate(Collections.emptyList()));
     }
 
     @Test
-    public void testEvaluate_GivenNotEmptyCollection_ReturnsTrue() {
+    public void evaluate_GivenNotEmptyCollection_ReturnsTrue() {
         NotEmptyIncludeMatcherEvaluator evaluator = new NotEmptyIncludeMatcherEvaluator();
         assertTrue(evaluator.evaluate(Collections.singletonList(new Object())));
     }
 
     @Test()
-    public void testEvaluate_GivenNull_ReturnsFalse() {
+    public void evaluate_GivenNull_ReturnsFalse() {
         NotEmptyIncludeMatcherEvaluator evaluator = new NotEmptyIncludeMatcherEvaluator();
         assertFalse(evaluator.evaluate(null));
     }

@@ -7,7 +7,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertTrue;
 
-public class AbstractMapperFactoryTest {
+public class MapperFactoryTest {
 
     @Test
     public void create_GivenSimpleType_ReturnsSimpleMapper() {
