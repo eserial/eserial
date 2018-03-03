@@ -1,4 +1,11 @@
 language: java
-
 jdk:
   - oraclejdk8
+env:
+  global:
+  - secure: Pxqeif258krW/7m2ncPZXjwdL2tENIueaAiwMWuJ8XJD56ZVtiEykU8w4u8+5vlgmdLRDTs7z3L9eE3/mnzeKH5NUOpAL/1rWx4DhvEonDPOrJfuhDej1rTFYmA+tBjWWYHwYvV59aN19G70Lxv2Z8n56IwkgBThP1h/XNEl4heLnZyO1O7jGOgHqr/+Ldds5tfsxQrygYAHMxdkdEnM6oXaQ1P9FEJ8WBiURUmF3nEMnXOtRzpYHL3hHVXev31bQ7VvpGrKqCGlyJaHvk+u3PWuhsjO6+8SbnF/UWuiwwnQsPn/nj0GI0WZ38rrrl6LCnNmYd4PyxJBZo/A9NLFqvMeTfkoZlkwZwejGLaEr19eF48veyg2Cy1UMn8wcM3xs9xfeMq2fs3w3eXbBOrdg0JSY3WhFbPPfn3gPwM2hKBALJ3j5GN6bWzmt0glXis6XO7zH7C64Z7obONqjl7rY+2U9eJ9EUtqhXxjhb+6oHn6ga9JfGhg8NEiLn6tfrn4qFuNq67ADctteooUP/vtsRIB3yeihs0FSKcI4mWuOBD/Os2Ug5PenAMeNQUANOCgM2JjPD5y2tL/dVBXAYqwy6tNzntSdkhRamlxSKqXj7+2v/XS64vFSZq8hn8hLKLbgjgSvTBsP3ofIzfZ5pB6QZ0/rdMaFX4Ru+aTWwwLvCE=
+before_install:
+  - chmod +x ./script/push-javadoc-to-gh-pages.sh  
+after_success:
+  - gradle javadoc
+  - ./script/push-javadoc-to-gh-pages.sh 
