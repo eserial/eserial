@@ -1,13 +1,14 @@
 package hu.elte.eserial.util;
 
+import hu.elte.eserial.annotation.EserialAnnotation;
+import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
+import hu.elte.eserial.exception.EserialNotEserialAnnotationException;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import hu.elte.eserial.annotation.EserialAnnotation;
-import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 
 /**
  * Utility class for {@link EserialAnnotation}s.
@@ -81,15 +82,15 @@ public class AnnotationUtils {
      *     a value less than {@code 0} if {@code lhs.priority() > rhs.priority()} and<br>
      *     a value greater than {@code 0} if {@code lhs.priority() < rhs.priority()}
      *
-     * @exception IllegalArgumentException if {@code lhs} or {@code rhs} is not an {@link EserialAnnotation}
+     * @exception EserialNotEserialAnnotationException if {@code lhs} or {@code rhs} is not an {@link EserialAnnotation}
      * @see Integer#compare
      */
     public static int compare(Annotation lhs, Annotation rhs) {
         if (!isEserialAnnotation(lhs)) {
-            throw new IllegalArgumentException("Not an EserialAnnotation: " + lhs.annotationType().getName());
+            throw new EserialNotEserialAnnotationException(lhs.annotationType().getSimpleName());
         }
         if (!isEserialAnnotation(rhs)) {
-            throw new IllegalArgumentException("Not an EserialAnnotation: " + rhs.annotationType().getName());
+            throw new EserialNotEserialAnnotationException(rhs.annotationType().getSimpleName());
         }
 
         int lhsPriority = lhs.annotationType().getDeclaredAnnotation(EserialAnnotation.class).priority();

@@ -4,6 +4,7 @@ import hu.elte.eserial.annotation.ExcludeThis;
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
+import hu.elte.eserial.exception.EserialMissingInclusionRuleException;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
@@ -55,8 +56,8 @@ public class InclusionRuleFactoryTest {
         assertTrue(rule instanceof IncludeMatchingInclusionRule);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void get_GivenNull_ThrowsIllegalArgumentException() {
+    @Test(expected = EserialMissingInclusionRuleException.class)
+    public void get_GivenNull_ThrowsEserialMissingInclusionRuleException() {
         InclusionRuleFactory.get(null);
     }
 }

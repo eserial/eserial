@@ -16,7 +16,7 @@ import java.util.Map;
 public class MapMapper extends AbstractMapper {
 
     /**
-     * Constructs an {@link MapMapper} and sets the {@code object} in it.
+     * Constructs a {@link MapMapper} and sets the {@code object} in it.
      *
      * @param object the {@link Map} to be used in the {@link AbstractMapper#map} method
      */

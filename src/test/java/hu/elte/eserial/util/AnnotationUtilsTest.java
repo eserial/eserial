@@ -3,8 +3,8 @@ package hu.elte.eserial.util;
 import hu.elte.eserial.annotation.ExcludeThis;
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
-import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
+import hu.elte.eserial.exception.EserialNotEserialAnnotationException;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
@@ -78,13 +78,13 @@ public class AnnotationUtilsTest {
         assertTrue(includeElementsIndex < includeMatchingIndex);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void compare_GivenLhsNonEserialAnnotation_ThrowsIllegalArgumentException() {
+    @Test(expected = EserialNotEserialAnnotationException.class)
+    public void compare_GivenLhsNonEserialAnnotation_EserialNotEserialAnnotationException() {
         AnnotationUtils.compare(test, excludeThis);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void compare_GivenRhsNonEserialAnnotation_ThrowsIllegalArgumentException() {
+    @Test(expected = EserialNotEserialAnnotationException.class)
+    public void compare_GivenRhsNonEserialAnnotation_EserialNotEserialAnnotationException() {
         AnnotationUtils.compare(excludeThis, test);
     }
 

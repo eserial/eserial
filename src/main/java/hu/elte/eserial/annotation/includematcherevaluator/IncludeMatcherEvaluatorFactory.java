@@ -2,6 +2,7 @@ package hu.elte.eserial.annotation.includematcherevaluator;
 
 import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
+import hu.elte.eserial.exception.EserialMissingIncludeMatcherEvaluatorException;
 
 /**
  * A simple factory for constructing {@link AbstractIncludeMatcherEvaluator} descendants.
@@ -19,8 +20,8 @@ public class IncludeMatcherEvaluatorFactory {
      * @param includeMatcher an {@link IncludeMatcher} in an {@link IncludeMatching} annotation
      * @return an {@link AbstractIncludeMatcherEvaluator} for the given {@code includeMatcher}
      *
-     * @exception IllegalArgumentException if the given {@code includeMatcher} is {@code null} or
-     *              no {@link AbstractIncludeMatcherEvaluator} exists for that {@link IncludeMatcher}
+     * @exception EserialMissingIncludeMatcherEvaluatorException if the given {@code includeMatcher}
+     * is {@code null} or no {@link AbstractIncludeMatcherEvaluator} exists for that {@link IncludeMatcher}
      */
     public static AbstractIncludeMatcherEvaluator get(IncludeMatcher includeMatcher) {
         if (IncludeMatcher.NotNull.equals(includeMatcher)) {
@@ -30,10 +31,10 @@ public class IncludeMatcherEvaluatorFactory {
             return new NotEmptyIncludeMatcherEvaluator();
         }
         else if (includeMatcher == null) {
-            throw new IllegalArgumentException("No IncludeMatcher for null.");
+            throw new EserialMissingIncludeMatcherEvaluatorException(null);
         }
         else {
-            throw new IllegalArgumentException("No IncludeMatcher for: " + includeMatcher.name());
+            throw new EserialMissingIncludeMatcherEvaluatorException(includeMatcher.name());
         }
     }
 }

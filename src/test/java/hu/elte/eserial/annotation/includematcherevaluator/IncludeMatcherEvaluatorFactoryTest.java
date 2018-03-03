@@ -1,6 +1,7 @@
 package hu.elte.eserial.annotation.includematcherevaluator;
 
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
+import hu.elte.eserial.exception.EserialMissingIncludeMatcherEvaluatorException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
@@ -19,8 +20,8 @@ public class IncludeMatcherEvaluatorFactoryTest {
         assertTrue(evaluator instanceof NotEmptyIncludeMatcherEvaluator);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void get_GivenNull_ThrowsIllegalArgumentException() {
+    @Test(expected = EserialMissingIncludeMatcherEvaluatorException.class)
+    public void get_GivenNull_ThrowsEserialMissingIncludeMatcherEvaluatorException() {
         IncludeMatcherEvaluatorFactory.get(null);
     }
 }

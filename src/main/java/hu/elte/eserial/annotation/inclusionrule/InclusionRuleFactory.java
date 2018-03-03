@@ -4,6 +4,7 @@ import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.ExcludeThis;
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
+import hu.elte.eserial.exception.EserialMissingInclusionRuleException;
 
 import java.lang.annotation.Annotation;
 
@@ -18,7 +19,7 @@ public class InclusionRuleFactory {
      * @param annotation an {@link EserialAnnotation} annotation
      * @return an {@link AbstractInclusionRule} for the given {@code annotation}
      *
-     * @exception IllegalArgumentException if the given {@code annotation} is null or
+     * @exception EserialMissingInclusionRuleException if the given {@code annotation} is null or
      *              no {@link AbstractInclusionRule} exists for that {@link EserialAnnotation}
      */
     public static AbstractInclusionRule get(Annotation annotation) {
@@ -33,10 +34,10 @@ public class InclusionRuleFactory {
             return new IncludeMatchingInclusionRule((IncludeMatching)annotation);
         }
         else if (annotation == null) {
-            throw new IllegalArgumentException("No InclusionRule for null.");
+            throw new EserialMissingInclusionRuleException(null);
         }
         else {
-            throw new IllegalArgumentException("No InclusionRule for " + annotation.getClass().getSimpleName());
+            throw new EserialMissingInclusionRuleException(annotation.annotationType().getSimpleName());
         }
     }
 }
