@@ -1,10 +1,11 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.EserialAnnotation;
+import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.recursion.model.EserialElement;
 
 /**
- * An abstract class for evaluating {@link EserialAnnotation} constraints
+ * An abstract class for evaluating {@link EserialAnnotation} {@link EserialAnnotationType#Inclusion} constraints.
  * @param <A> the type of annotation this rule applies to
  */
 public abstract class AbstractInclusionRule<A> {
