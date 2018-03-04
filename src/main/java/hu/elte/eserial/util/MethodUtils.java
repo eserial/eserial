@@ -37,6 +37,28 @@ public final class MethodUtils {
     }
 
     /**
+     * Determines if the method is a setter.
+     *
+     * A method is a setter if and only if:
+     * <ul>
+     *     <li>it does have one parameter only</li>
+     *     <li>its name starts with "set"</li>
+     *     <li>its return type is void</li>
+     * </ul>
+     * @param method an arbitrary method
+     * @return {@code true} if {@code method} is a setter
+     */
+    public static boolean isSetter(Method method) {
+        if (method.getParameterCount() != 1) {
+            return false;
+        }
+
+        String name = method.getName();
+
+        return (name.matches("set[A-Z].*") && method.getReturnType() == void.class);
+    }
+
+    /**
      * For practical reasons (e.g preventing stack overflow while serializing recursively) we have to
      * ignore some of the built-in getters.
      *
