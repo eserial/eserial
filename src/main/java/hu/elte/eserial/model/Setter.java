@@ -64,7 +64,7 @@ public class Setter {
      *
      * @return class of {@code method} parameter
      */
-    public Class<?> getParameterType() {
+    public Class getParameterType() {
         return this.method.getParameterTypes()[0];
     }
 }
