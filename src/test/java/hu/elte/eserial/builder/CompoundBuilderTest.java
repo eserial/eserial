@@ -1,50 +1,104 @@
 package hu.elte.eserial.builder;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentNavigableMap;
 
 import static org.junit.Assert.assertEquals;
 
-public class ObjectBuilderTest {
-    private ObjectBuilder builder;
+public class CompoundBuilderTest {
+    private CompoundBuilder builder;
 
     @Before
     public void setUp() throws Exception {
-        builder = new ObjectBuilder();
+        builder = new CompoundBuilder();
     }
 
-    public static class Point {
-        private int x;
-        private int y;
-        private Person person;
+    public static class ClassWithPrimitiveDataMembers {
+        private int intDataMember;
+        private float floatDataMember;
+        private short shortDataMember;
+        private double doubleDataMember;
+        private long longDataMember;
+        private boolean booleanDataMember;
+        private byte byteDataMember;
+        private char charDataMember;
+        private Color color;
 
-        public int getX() {
-            return this.x;
+        public int getIntDataMember() {
+            return intDataMember;
         }
 
-        public int getY() {
-            return this.y;
+        public void setIntDataMember(int intDataMember) {
+            this.intDataMember = intDataMember;
         }
 
-        public void setX(int x) {
-            this.x = x;
+        public float getFloatDataMember() {
+            return floatDataMember;
         }
 
-        public void setY(int y) {
-            this.y = y;
+        public void setFloatDataMember(float floatDataMember) {
+            this.floatDataMember = floatDataMember;
         }
 
-        public Person getPerson() {
-            return person;
+        public short getShortDataMember() {
+            return shortDataMember;
         }
 
-        public void setPerson(Person person) {
-            this.person = person;
+        public void setShortDataMember(short shortDataMember) {
+            this.shortDataMember = shortDataMember;
+        }
+
+        public double getDoubleDataMember() {
+            return doubleDataMember;
+        }
+
+        public void setDoubleDataMember(double doubleDataMember) {
+            this.doubleDataMember = doubleDataMember;
+        }
+
+        public long getLongDataMember() {
+            return longDataMember;
+        }
+
+        public void setLongDataMember(long longDataMember) {
+            this.longDataMember = longDataMember;
+        }
+
+        public boolean isBooleanDataMember() {
+            return booleanDataMember;
+        }
+
+        public void setBooleanDataMember(boolean booleanDataMember) {
+            this.booleanDataMember = booleanDataMember;
+        }
+
+        public byte getByteDataMember() {
+            return byteDataMember;
+        }
+
+        public void setByteDataMember(byte byteDataMember) {
+            this.byteDataMember = byteDataMember;
+        }
+
+        public char getCharDataMember() {
+            return charDataMember;
+        }
+
+        public void setCharDataMember(char charDataMember) {
+            this.charDataMember = charDataMember;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
         }
     }
 
@@ -60,24 +114,35 @@ public class ObjectBuilderTest {
         }
     }
 
+    public static enum Color {
+        RED, GREEN, BLUE
+    }
+
     @Test
-    public void test() {
+    public void build_GivenClassWithPrimiteDataMembers_ReturnsObjectWithValues() {
         Map<String, Object> map = new HashMap<>();
-        map.put("x", 4);
-        map.put("y", 5);
+        map.put("intDataMember", 1L);
+        map.put("floatDataMember", 5.3d);
+        map.put("shortDataMember", 2L);
+        map.put("doubleDataMember", 4.2d);
+        map.put("charDataMember", 'c');
+        map.put("longDataMember", 10L);
+        map.put("booleanDataMember", true);
+        map.put("byteDataMember", 3L);
+        map.put("color", 2L);
 
-        Map<String, Object> pointMap = new HashMap<>();
+        ClassWithPrimitiveDataMembers cwpdm = new ClassWithPrimitiveDataMembers();
 
-        pointMap.put("name", "Bela");
+        builder.build(map, cwpdm);
 
-        map.put("person", pointMap);
-
-        Point point = new Point();
-
-        builder.build(map, point);
-
-        assertEquals(4, point.getX());
-        assertEquals(5, point.getY());
-        assertEquals("Bela", point.getPerson().getName());
+        assertEquals(1, cwpdm.getIntDataMember());
+        assertEquals(5.3f, cwpdm.getFloatDataMember(), 0.001);
+        assertEquals(2, cwpdm.getShortDataMember());
+        assertEquals(4.2d, cwpdm.getDoubleDataMember(), 0.001);
+        assertEquals(10, cwpdm.getLongDataMember());
+        assertEquals(true, cwpdm.isBooleanDataMember());
+        assertEquals('c', cwpdm.getCharDataMember());
+        assertEquals(3, cwpdm.getByteDataMember());
+        assertEquals(2, cwpdm.getColor().ordinal());
     }
 }
