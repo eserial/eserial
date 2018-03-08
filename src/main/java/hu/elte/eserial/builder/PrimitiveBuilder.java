@@ -16,7 +16,6 @@ public class PrimitiveBuilder {
         if (Number.class.isInstance(value)) {
             Method method;
             String lowercaseTypeName = StringUtils.lowercaseFirstLetter(type.getSimpleName());
-            System.out.println(lowercaseTypeName);
             if (Double.class.isInstance(value)) {
                 method = Double.class.getDeclaredMethod(lowercaseTypeName + "Value");
                 return method.invoke(value);

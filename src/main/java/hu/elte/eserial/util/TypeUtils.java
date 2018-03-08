@@ -1,9 +1,9 @@
 package hu.elte.eserial.util;
 
-import java.util.Date;
-import java.util.Collection;
+import java.util.*;
+import java.util.concurrent.ConcurrentMap;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.ConcurrentNavigableMap;
 
 /**
  * Contains helper methods for built-in types.
@@ -116,6 +116,30 @@ public class TypeUtils {
      */
     public static Boolean isDate(Class<?> type) {
         return type == Date.class;
+    }
+
+    public static Boolean isSortedSet(Class<?> type) {
+        return SortedSet.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isSet(Class<?> type) {
+        return Set.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isQueue(Class<?> type) {
+        return Queue.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isConcurrentNavigableMap(Class<?> type) {
+        return ConcurrentNavigableMap.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isConcurrentMap(Class<?> type) {
+        return ConcurrentMap.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isSortedMap(Class<?> type) {
+        return SortedMap.class.isAssignableFrom(type);
     }
 
     /**
