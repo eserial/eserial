@@ -1,29 +1,37 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
+import hu.elte.eserial.recursion.RecursionChecker;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.Array;
-import java.util.Map;
+import java.util.Date;
 
 /**
  * Maps Enum-like objects.
  */
-public class EnumMapper implements ObjectMapper {
+public class EnumMapper extends AbstractMapper {
 
     /**
-     * Returns the mapped representation of the enum {@code that}.
+     * Constructs an {@link EnumMapper} and sets the {@code object} in it.
      *
-     * @param {@code that} an enum
-     * @return mapped representation of {@code that}
+     * @param object the {@link Enum} to be used in the {@link AbstractMapper#map} method
+     */
+    EnumMapper(Object object) {
+        super(object);
+    }
+
+    /**
+     * @param recursionChecker {@inheritDoc}
+     * @return mapped representation of the contained {@link Enum}
      */
     @Override
-    public Object map(Object that) {
-        if (!TypeUtils.isEnum(that.getClass())) {
-            throw new EserialMapperMismatchException(Enum.class.getSimpleName(), that.getClass().getSimpleName());
+    public Object map(RecursionChecker recursionChecker) {
+        if (!TypeUtils.isEnum(this.object.getClass())) {
+            throw new EserialMapperMismatchException(Enum.class.getSimpleName(),
+                    this.object.getClass().getSimpleName());
         }
 
-        Enum enumValue = (Enum) that;
+        Enum enumValue = (Enum) this.object;
         return enumValue.ordinal();
     }
 }

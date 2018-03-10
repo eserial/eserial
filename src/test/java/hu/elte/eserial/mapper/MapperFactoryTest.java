@@ -1,10 +1,9 @@
 package hu.elte.eserial.mapper;
 
+import hu.elte.eserial.recursion.model.EserialElement;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertTrue;
 
@@ -12,38 +11,40 @@ public class MapperFactoryTest {
 
     @Test
     public void create_GivenSimpleType_ReturnsSimpleMapper() {
-        assertTrue(MapperFactory.create(Integer.class) instanceof SimpleMapper);
+        assertTrue(MapperFactory.create(0) instanceof SimpleMapper);
     }
 
     @Test
     public void create_GivenCompoundType_ReturnsCompoundMapper() {
-        assertTrue(MapperFactory.create(MapperFactory.class) instanceof CompoundMapper);
+        assertTrue(MapperFactory.create(new EserialElement(null, null)) instanceof CompoundMapper);
     }
 
     @Test
     public void create_GivenCollectionType_ReturnsCollectionMapper() {
-        assertTrue(MapperFactory.create(List.class) instanceof CollectionMapper);
+        assertTrue(MapperFactory.create(Collections.emptyList()) instanceof CollectionMapper);
     }
 
     @Test
     public void create_GivenMapType_ReturnsMapMapper() {
-        assertTrue(MapperFactory.create(Map.class) instanceof MapMapper);
+        assertTrue(MapperFactory.create(new HashMap<>()) instanceof MapMapper);
     }
 
     @Test
     public void create_GivenArrayType_ReturnsArrayMapper() {
-        assertTrue(MapperFactory.create(Integer[].class) instanceof ArrayMapper);
+        assertTrue(MapperFactory.create(new Integer[0]) instanceof ArrayMapper);
     }
 
-    private enum TestEnum {}
+    private enum TestEnum {
+        Test
+    }
 
     @Test
     public void create_GivenEnumType_ReturnsEnumMapper() {
-        assertTrue(MapperFactory.create(TestEnum.class) instanceof EnumMapper);
+        assertTrue(MapperFactory.create(TestEnum.Test) instanceof EnumMapper);
     }
 
     @Test
     public void create_GivenDateType_ReturnsDateMapper() {
-        assertTrue(MapperFactory.create(Date.class) instanceof DateMapper);
+        assertTrue(MapperFactory.create(Calendar.getInstance().getTime()) instanceof DateMapper);
     }
 }

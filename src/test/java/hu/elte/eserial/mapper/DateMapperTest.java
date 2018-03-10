@@ -14,21 +14,14 @@ import static org.junit.Assert.assertEquals;
 
 public class DateMapperTest {
 
-    private DateMapper mapper;
-
-    @Before
-    public void setUp() throws Exception {
-        mapper = new DateMapper();
-    }
-
     @Test(expected = NullPointerException.class)
     public void map_GivenNull_ThrowsNullPointerException() {
-        mapper.map(null);
+        new DateMapper(null).map(null);
     }
 
     @Test(expected = EserialMapperMismatchException.class)
     public void map_GivenInvalidType_ThrowsEserialMapperMismatchException() {
-        mapper.map(0);
+        new DateMapper(0).map(null);
     }
 
     @Test
@@ -37,6 +30,6 @@ public class DateMapperTest {
         sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = sdf.parse("01/01/2018");
 
-        assertEquals(1514764800000L, mapper.map(date));
+        assertEquals(1514764800000L, new DateMapper(date).map(null));
     }
 }
