@@ -29,4 +29,57 @@ public class StringUtils {
 
         return new String(characters);
     }
+
+    /**
+     * Escapes a string.
+     *
+     * @param str the string to be escaped
+     * @return the escaped version of {@code str}
+     */
+    public static String escape(String str) {
+        if (str == null) {
+            return null;
+        }
+
+        if (str.isEmpty()) {
+            return str;
+        }
+
+        StringBuilder builder = new StringBuilder();
+
+        char[] characters = str.toCharArray();
+
+        for (Character character : characters) {
+            switch (character) {
+                case '"':
+                    builder.append("\\\"");
+                    break;
+                case '\\':
+                    builder.append("\\\\");
+                    break;
+                case '/':
+                    builder.append("\\/");
+                    break;
+                case '\b':
+                    builder.append("\\b");
+                    break;
+                case '\f':
+                    builder.append("\\f");
+                    break;
+                case '\n':
+                    builder.append("\\n");
+                    break;
+                case '\r':
+                    builder.append("\\r");
+                    break;
+                case '\t':
+                    builder.append("\\t");
+                    break;
+                default:
+                    builder.append(character);
+            }
+        }
+
+        return builder.toString();
+    }
 }
