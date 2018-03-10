@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@EserialAnnotation(priority = 100, type = EserialAnnotationType.Inclusion)
+@EserialAnnotation(priority = 2000, type = EserialAnnotationType.Inclusion)
 public @interface IncludeElements {
     String[] value();
 }

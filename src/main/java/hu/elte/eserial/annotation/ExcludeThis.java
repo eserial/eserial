@@ -12,5 +12,5 @@ import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.METHOD})
-@EserialAnnotation(priority = Integer.MAX_VALUE, type = EserialAnnotationType.Inclusion)
+@EserialAnnotation(priority = 3000, type = EserialAnnotationType.Inclusion)
 public @interface ExcludeThis { }
