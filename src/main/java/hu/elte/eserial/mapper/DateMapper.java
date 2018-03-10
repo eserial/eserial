@@ -1,7 +1,7 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import hu.elte.eserial.recursion.RecursionChecker;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.util.Date;
@@ -21,11 +21,11 @@ public class DateMapper extends AbstractMapper {
     }
 
     /**
-     * @param recursionChecker {@inheritDoc}
+     * @param context {@inheritDoc}
      * @return mapped representation of the contained {@link Date}
      */
     @Override
-    public Object map(RecursionChecker recursionChecker) {
+    public Object map(EserialContext context) {
         if (!TypeUtils.isDate(this.object.getClass())) {
             throw new EserialMapperMismatchException(Date.class.getSimpleName(),
                     this.object.getClass().getSimpleName());

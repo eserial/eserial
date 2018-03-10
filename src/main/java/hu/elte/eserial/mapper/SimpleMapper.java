@@ -1,7 +1,7 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import hu.elte.eserial.recursion.RecursionChecker;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.TypeUtils;
 
 /**
@@ -19,11 +19,11 @@ class SimpleMapper extends AbstractMapper {
     }
 
     /**
-     * @param recursionChecker {@inheritDoc}
+     * @param context {@inheritDoc}
      * @return mapped representation of the contained simple object
      */
     @Override
-    public Object map(RecursionChecker recursionChecker) {
+    public Object map(EserialContext context) {
         if (this.object != null && TypeUtils.isCompound(this.object.getClass())) {
             throw new EserialMapperMismatchException("Simple", this.object.getClass().getSimpleName());
         }

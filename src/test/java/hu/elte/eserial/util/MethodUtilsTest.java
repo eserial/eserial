@@ -4,7 +4,11 @@ import org.junit.Test;
 
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class MethodUtilsTest {
 
@@ -135,5 +139,29 @@ public class MethodUtilsTest {
         } catch (NoSuchMethodException e) {
             fail(e.getMessage());
         }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void getField_GivenNullClass_ThrowsNullPointerException() {
+        FieldUtils.getField(null, "");
+    }
+
+    public abstract class ClassWithMethod {
+        public abstract String aMethod();
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void getField_GivenNullMethodName_ThrowsNullPointerException() {
+        assertNull(MethodUtils.getMethod(ClassWithMethod.class, null));
+    }
+
+    @Test
+    public void getField_GivenInvalidMethodName_ReturnsNull() {
+        assertNull(MethodUtils.getMethod(ClassWithMethod.class, "invalidMethod"));
+    }
+
+    @Test
+    public void getField_GivenValidMethodName_ReturnsNonNull() {
+        assertNotNull(MethodUtils.getMethod(ClassWithMethod.class, "aMethod"));
     }
 }

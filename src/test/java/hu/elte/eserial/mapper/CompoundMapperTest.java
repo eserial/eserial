@@ -1,7 +1,8 @@
 package hu.elte.eserial.mapper;
 
+import hu.elte.eserial.annotation.UseToString;
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import hu.elte.eserial.recursion.RecursionChecker;
+import hu.elte.eserial.model.EserialContext;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -32,7 +33,8 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenSimpleGetter_ReturnsListOfTheirValues() {
-        Object rootValue = new CompoundMapper(new SimpleGetter()).map(null);
+        SimpleGetter simpleGetter = new SimpleGetter();
+        Object rootValue = new CompoundMapper(simpleGetter).map(EserialContext.forRoot(simpleGetter));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -42,7 +44,8 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenAnIgnoredMethod_DoesNotReturnItsValue() {
-        Object rootValue = new CompoundMapper(new SimpleGetter()).map(null);
+        SimpleGetter simpleGetter = new SimpleGetter();
+        Object rootValue = new CompoundMapper(simpleGetter).map(EserialContext.forRoot(simpleGetter));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -65,7 +68,8 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenMultipleSimpleGetters_ReturnsListOfTheirValues() {
-        Object rootValue = new CompoundMapper(new MultipleSimpleGetters()).map(null);
+        MultipleSimpleGetters multipleSimpleGetters = new MultipleSimpleGetters();
+        Object rootValue = new CompoundMapper(multipleSimpleGetters).map(EserialContext.forRoot(multipleSimpleGetters));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -83,7 +87,8 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenCompoundGetter_ReturnsListOfTheirValues() {
-        Object rootValue = new CompoundMapper(new CompoundGetter()).map(null);
+        CompoundGetter compoundGetter = new CompoundGetter();
+        Object rootValue = new CompoundMapper(compoundGetter).map(EserialContext.forRoot(compoundGetter));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -102,7 +107,8 @@ public class CompoundMapperTest {
 
     @Test
     public void map_GivenAnInvalidGetter_DoesNotReturnItsValue() {
-        Object rootValue = new CompoundMapper(new NotAGetter()).map(null);
+        NotAGetter notAGetter = new NotAGetter();
+        Object rootValue = new CompoundMapper(notAGetter).map(EserialContext.forRoot(notAGetter));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -119,6 +125,25 @@ public class CompoundMapperTest {
         public UserWithToken getUser() { return user; }
     }
 
+    @UseToString
+    public class WithToString {
+        public Integer getId() { return 2; }
+
+        @Override
+        public String toString() {
+            return "toString representation";
+        }
+    }
+
+    @Test
+    public void map_GivenClassWithUseToString_ReturnsTheToStringRepresentation() {
+        WithToString withToString = new WithToString();
+        Object rootValue = new CompoundMapper(withToString).map(EserialContext.forRoot(withToString));
+        assertTrue(rootValue instanceof String);
+        assertEquals(rootValue, "toString representation");
+    }
+
+
     @Test
     public void map_GivenDirectlyRecursiveObjects_StopsRecursion() {
         UserWithToken user = new UserWithToken();
@@ -126,7 +151,7 @@ public class CompoundMapperTest {
         user.token = token;
         token.user = user;
 
-        Object rootValue = new CompoundMapper(user).map(new RecursionChecker(user));
+        Object rootValue = new CompoundMapper(user).map(EserialContext.forRoot(user));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
@@ -149,7 +174,7 @@ public class CompoundMapperTest {
         second.next = last;
         last.next = first;
 
-        Object rootValue = new CompoundMapper(first).map(new RecursionChecker(first));
+        Object rootValue = new CompoundMapper(first).map(EserialContext.forRoot(first));
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> firstRoot = (Map) rootValue;
@@ -194,7 +219,7 @@ public class CompoundMapperTest {
         node2.edges2.add(edge12);
 
         //Would throw a StackOverflowError on infinite recursion.
-        new CompoundMapper(edge12).map(new RecursionChecker(edge12));
+        new CompoundMapper(edge12).map(EserialContext.forRoot(edge12));
     }
 
     @Test
@@ -212,6 +237,6 @@ public class CompoundMapperTest {
         node2.edges2.add(edge12);
 
         //Would throw a StackOverflowError on infinite recursion.
-        new CompoundMapper(edge12).map(new RecursionChecker(node1));
+        new CompoundMapper(node1).map(EserialContext.forRoot(node1));
     }
 }

@@ -4,8 +4,6 @@ import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.recursion.model.EserialElement;
 import org.junit.Test;
 
-import java.lang.annotation.Annotation;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -31,7 +29,6 @@ public class IncludeElementsInclusionRuleTest {
         assertFalse(inclusionRule.evaluate(
                 new EserialElement(IncludeElementsName.class.getDeclaredMethod("getAge"), null)));
     }
-
 
     @Test
     public void isPositiveRule_ReturnsTrue() {

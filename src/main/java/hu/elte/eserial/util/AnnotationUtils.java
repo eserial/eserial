@@ -3,6 +3,7 @@ package hu.elte.eserial.util;
 import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
 import hu.elte.eserial.exception.EserialNotEserialAnnotationException;
+import hu.elte.eserial.model.EserialContext;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
@@ -97,5 +98,35 @@ public class AnnotationUtils {
         int rhsPriority = rhs.annotationType().getDeclaredAnnotation(EserialAnnotation.class).priority();
 
         return -Integer.compare(lhsPriority, rhsPriority);
+    }
+
+    /**
+     * @param context the context of an element in which annotations are searched
+     * @param annotationClass the class of annotation to find
+     * @param <T> the type of the annotation
+     * @return {@true} if there is an annotation with the given type for the element
+     */
+    public static <T extends Annotation> boolean hasAnnotation(EserialContext context, Class<T> annotationClass) {
+        return getAnnotation(context, annotationClass) != null;
+    }
+
+    /**
+     * @param context the context of an element in which annotations are searched
+     * @param annotationClass the class of annotation to find
+     * @param <T> the type of the annotation for convenient casting of return value
+     * @return the annotation on the element with the given type or {@null} if none was found
+     */
+    public static <T extends Annotation> T getAnnotation(EserialContext context, Class<T> annotationClass) {
+        Annotation annotation = null;
+        if (context.getField() != null) {
+            annotation = context.getField().getDeclaredAnnotation(annotationClass);
+        }
+        if (annotation == null && context.getGetter() != null) {
+            annotation = context.getGetter().getMethod().getDeclaredAnnotation(annotationClass);
+        }
+        if (annotation == null && context.getContainingClass() != null) {
+            annotation = context.getContainingClass().getDeclaredAnnotation(annotationClass);
+        }
+        return (T) annotation;
     }
 }
