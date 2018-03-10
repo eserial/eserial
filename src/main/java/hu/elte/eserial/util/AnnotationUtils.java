@@ -104,7 +104,7 @@ public class AnnotationUtils {
      * @param context the context of an element in which annotations are searched
      * @param annotationClass the class of annotation to find
      * @param <T> the type of the annotation
-     * @return {@true} if there is an annotation with the given type for the element
+     * @return {@code true} if there is an annotation with the given type for the element
      */
     public static <T extends Annotation> boolean hasAnnotation(EserialContext context, Class<T> annotationClass) {
         return getAnnotation(context, annotationClass) != null;
@@ -114,7 +114,7 @@ public class AnnotationUtils {
      * @param context the context of an element in which annotations are searched
      * @param annotationClass the class of annotation to find
      * @param <T> the type of the annotation for convenient casting of return value
-     * @return the annotation on the element with the given type or {@null} if none was found
+     * @return the annotation on the element with the given type or {@code null} if none was found
      */
     public static <T extends Annotation> T getAnnotation(EserialContext context, Class<T> annotationClass) {
         Annotation annotation = null;
