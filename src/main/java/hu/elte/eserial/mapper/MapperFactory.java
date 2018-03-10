@@ -15,7 +15,7 @@ public class MapperFactory {
     /**
      * Creates a type-specific object mapper instance.
      *
-     * @param {@code type} an arbitrary class
+     * @param object an arbitrary object
      * @return an object mapper for {@code type}
      */
     public static AbstractMapper create(Object object) {
