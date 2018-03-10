@@ -1,10 +1,11 @@
 package hu.elte.eserial.mapper;
 
+import hu.elte.eserial.annotation.Enumerated;
+import hu.elte.eserial.annotation.enumeration.EnumeratedFormat;
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import hu.elte.eserial.recursion.RecursionChecker;
+import hu.elte.eserial.model.EserialContext;
+import hu.elte.eserial.util.AnnotationUtils;
 import hu.elte.eserial.util.TypeUtils;
-
-import java.util.Date;
 
 /**
  * Maps Enum-like objects.
@@ -21,17 +22,23 @@ public class EnumMapper extends AbstractMapper {
     }
 
     /**
-     * @param recursionChecker {@inheritDoc}
+     * @param context {@inheritDoc}
      * @return mapped representation of the contained {@link Enum}
      */
     @Override
-    public Object map(RecursionChecker recursionChecker) {
+    public Object map(EserialContext context) {
         if (!TypeUtils.isEnum(this.object.getClass())) {
             throw new EserialMapperMismatchException(Enum.class.getSimpleName(),
                     this.object.getClass().getSimpleName());
         }
 
         Enum enumValue = (Enum) this.object;
-        return enumValue.ordinal();
+        Enumerated enumerated = AnnotationUtils.getAnnotation(context, Enumerated.class);
+        if (enumerated != null && enumerated.value().equals(EnumeratedFormat.Name)) {
+            return enumValue.name();
+        }
+        else {
+            return enumValue.ordinal();
+        }
     }
 }

@@ -1,8 +1,7 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import hu.elte.eserial.recursion.RecursionChecker;
-import org.junit.Before;
+import hu.elte.eserial.model.EserialContext;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ public class MapMapperTest {
     public void map_GivenAnEmptyMap_ReturnsAnEmptyList() {
         Map<String, Integer> map = new HashMap<>();
 
-        Object rootValue = new MapMapper(map).map(null);
+        Object rootValue = new MapMapper(map).map(EserialContext.forRoot(map));
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -43,7 +42,7 @@ public class MapMapperTest {
         map.put("firstId", 1);
         map.put("secondId", 2);
 
-        Object rootValue = new MapMapper(map).map(null);
+        Object rootValue = new MapMapper(map).map(EserialContext.forRoot(map));
         assertTrue(rootValue instanceof List);
 
         List<Object> root = (List) rootValue;
@@ -60,7 +59,7 @@ public class MapMapperTest {
         user.put("token", token);
         token.put("user", user);
 
-        Object rootValue = new MapMapper(user).map(new RecursionChecker(user));
+        Object rootValue = new MapMapper(user).map(EserialContext.forRoot(user));
         assertTrue(rootValue instanceof List);
 
         List root = (List) rootValue;
@@ -78,7 +77,7 @@ public class MapMapperTest {
         second.put("next", last);
         last.put("next", first);
 
-        Object rootValue = new MapMapper(first).map(new RecursionChecker(first));
+        Object rootValue = new MapMapper(first).map(EserialContext.forRoot(first));
         assertTrue(rootValue instanceof List);
 
         List firstRoot = (List) rootValue;
@@ -107,7 +106,7 @@ public class MapMapperTest {
         node2.put("edges2", node2edges2);
 
         //Would throw a StackOverflowError on infinite recursion.
-        new MapMapper(edge12).map(new RecursionChecker(edge12));
+        new MapMapper(edge12).map(EserialContext.forRoot(edge12));
     }
 
     @Test
@@ -129,7 +128,7 @@ public class MapMapperTest {
         node2.put("edges2", node2edges2);
 
         //Would throw a StackOverflowError on infinite recursion.
-        new MapMapper(node1).map(new RecursionChecker(node1));
+        new MapMapper(node1).map(EserialContext.forRoot(node1));
     }
 
     private Object getByKey(List list, Object key) {

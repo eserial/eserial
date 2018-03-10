@@ -58,4 +58,8 @@ public class Getter {
             throw new EserialInvalidMethodException("Could not evaluate getter", e);
         }
     }
+
+    public Method getMethod() {
+        return this.method;
+    }
 }

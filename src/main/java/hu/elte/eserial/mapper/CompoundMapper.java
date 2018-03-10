@@ -1,10 +1,13 @@
 package hu.elte.eserial.mapper;
 
+import hu.elte.eserial.annotation.UseToString;
 import hu.elte.eserial.annotation.processor.EserialAnnotationProcessor;
-import hu.elte.eserial.model.Getter;
 import hu.elte.eserial.exception.EserialMapperMismatchException;
+import hu.elte.eserial.model.EserialContext;
+import hu.elte.eserial.model.Getter;
 import hu.elte.eserial.recursion.RecursionChecker;
 import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.util.AnnotationUtils;
 import hu.elte.eserial.util.MethodUtils;
 import hu.elte.eserial.util.TypeUtils;
 
@@ -27,19 +30,21 @@ class CompoundMapper extends AbstractMapper {
     }
 
     /**
-     * @param recursionChecker {@inheritDoc}
+     * @param context {@inheritDoc}
      * @return mapped representation of the contained compound object
      */
     @Override
-    public Object map(RecursionChecker recursionChecker) {
+    public Object map(EserialContext context) {
         if (!TypeUtils.isCompound(this.object.getClass())) {
             throw new EserialMapperMismatchException("Compound", this.object.getClass().getSimpleName());
         }
 
-        EserialAnnotationProcessor annotationProcessor = new EserialAnnotationProcessor();
-        if (recursionChecker == null) {
-            recursionChecker = new RecursionChecker(this.object);
+        if (AnnotationUtils.hasAnnotation(context, UseToString.class)) {
+            return MapperFactory.create(this.object.toString()).map(null);
         }
+
+        EserialAnnotationProcessor annotationProcessor = new EserialAnnotationProcessor();
+        RecursionChecker recursionChecker = context.getRecursionChecker();
 
         Map<String, Object> values = new HashMap<>();
 
@@ -49,12 +54,13 @@ class CompoundMapper extends AbstractMapper {
             }
 
             Getter getter = new Getter(this.object, method);
-            EserialElement element = new EserialElement(method, getter.evaluate());
+            Object value = getter.evaluate();
+            EserialElement element = new EserialElement(method, value);
 
             if (annotationProcessor.shouldIncludeElement(element) && recursionChecker.canVisit(element)) {
                 recursionChecker.beforeVisit(element);
-                values.put(getter.getElementName(),
-                    MapperFactory.create(getter.evaluate()).map(recursionChecker));
+                values.put(getter.getElementName(), MapperFactory.create(value)
+                        .map(EserialContext.forElement(this.object, method.getName(), recursionChecker)));
                 recursionChecker.afterVisit(element);
             }
         }

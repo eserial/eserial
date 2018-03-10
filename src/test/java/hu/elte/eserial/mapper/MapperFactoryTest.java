@@ -3,7 +3,9 @@ package hu.elte.eserial.mapper;
 import hu.elte.eserial.recursion.model.EserialElement;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 
 import static org.junit.Assert.assertTrue;
 

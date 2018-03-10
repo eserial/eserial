@@ -1,7 +1,7 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import hu.elte.eserial.recursion.RecursionChecker;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Array;
@@ -24,11 +24,11 @@ public class ArrayMapper extends AbstractMapper {
     }
 
     /**
-     * @param recursionChecker {@inheritDoc}
+     * @param context {@inheritDoc}
      * @return mapped representation of the contained array
      */
     @Override
-    public Object map(RecursionChecker recursionChecker) {
+    public Object map(EserialContext context) {
         if (!TypeUtils.isArray(this.object.getClass())) {
             throw new EserialMapperMismatchException(Array.class.getSimpleName(),
                     this.object.getClass().getSimpleName());
@@ -39,7 +39,7 @@ public class ArrayMapper extends AbstractMapper {
 
         return list
                 .stream()
-                .map(element -> MapperFactory.create(element).map(recursionChecker))
+                .map(element -> MapperFactory.create(element).map(context))
                 .collect(Collectors.toList());
     }
 }

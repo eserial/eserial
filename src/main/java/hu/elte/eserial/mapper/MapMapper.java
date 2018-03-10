@@ -1,6 +1,7 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.recursion.RecursionChecker;
 import hu.elte.eserial.recursion.model.EserialElement;
 import hu.elte.eserial.util.TypeUtils;
@@ -25,20 +26,18 @@ public class MapMapper extends AbstractMapper {
     }
 
     /**
-     * @param recursionChecker {@inheritDoc}
+     * @param context {@inheritDoc}
      * @return mapped representation of the contained {@link Enum}
      */
     @Override
     @SuppressWarnings("unchecked")
-    public Object map(RecursionChecker recursionChecker) {
+    public Object map(EserialContext context) {
         if (!TypeUtils.isMap(this.object.getClass())) {
             throw new EserialMapperMismatchException(Map.class.getSimpleName(), this.object.getClass().getSimpleName());
         }
 
         Map map = (Map) this.object;
-        if (recursionChecker == null) {
-            recursionChecker = new RecursionChecker(this.object);
-        }
+        RecursionChecker recursionChecker = context.getRecursionChecker();
 
         List<Map<String, Object>> mappedEntries = new ArrayList<>();
         for (Object entryObject: map.entrySet()) {
@@ -53,14 +52,14 @@ public class MapMapper extends AbstractMapper {
           EserialElement keyElement = new EserialElement(null, key);
           if (recursionChecker.canVisit(keyElement)) {
             recursionChecker.beforeVisit(keyElement);
-            mappedKey = MapperFactory.create(key).map(recursionChecker);
+            mappedKey = MapperFactory.create(key).map(context);
             recursionChecker.afterVisit(keyElement);
           }
 
           EserialElement valueElement = new EserialElement(null, value);
           if (recursionChecker.canVisit(valueElement)) {
               recursionChecker.beforeVisit(valueElement);
-              mappedValue = MapperFactory.create(value).map(recursionChecker);
+              mappedValue = MapperFactory.create(value).map(context);
               recursionChecker.afterVisit(valueElement);
           }
 

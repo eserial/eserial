@@ -1,6 +1,6 @@
 package hu.elte.eserial.mapper;
 
-import hu.elte.eserial.recursion.RecursionChecker;
+import hu.elte.eserial.model.EserialContext;
 
 /**
  * Abstract class for the different object mappers.
@@ -20,9 +20,8 @@ abstract class AbstractMapper {
     /**
      * Creates a mapped representation of the contained object depending on its type.
      *
-     * @param recursionChecker a recursion checker instance or {@code null} if this element is considered
-     *                         the root of a compound object
+     * @param context an {@link EserialContext} containing information about the context of the element to be mapped
      * @return mapped representation of the contained object
      */
-    abstract Object map(RecursionChecker recursionChecker);
+    abstract Object map(EserialContext context);
 }

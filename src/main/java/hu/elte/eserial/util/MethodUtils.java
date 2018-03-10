@@ -46,4 +46,19 @@ public final class MethodUtils {
     public static Boolean isIgnored(Method method) {
         return method.getName().equals("getClass");
     }
+
+    /**
+     * @param clazz the class to find the method in
+     * @param methodName the name of the method
+     * @return a method from the class {@code clazz} with the name {@code methodName} or
+     * {@code null} if no such method exists
+     */
+    public static Method getMethod(Class clazz, String methodName) {
+        try {
+            return clazz.getDeclaredMethod(methodName);
+        }
+        catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
 }
