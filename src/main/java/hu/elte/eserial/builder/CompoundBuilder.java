@@ -22,7 +22,6 @@ public class CompoundBuilder {
                 String fieldName = setter.getElementName();
                 Object fieldValue = map.get(fieldName);
                 Class<?> type = setter.getParameterType();
-               // System.out.println(type);
 
                 if (TypeUtils.isCompound(type)) {
                     if (TypeUtils.isCollection(type)) {
