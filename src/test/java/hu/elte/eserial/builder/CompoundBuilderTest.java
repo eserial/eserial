@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.beans.beancontext.BeanContext;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -207,6 +208,72 @@ public class CompoundBuilderTest {
         }
     }
 
+    public static class ClassWithMapDataMembers {
+        private Map map;
+        private SortedMap sortedMap;
+        private NavigableMap navigableMap;
+        private ConcurrentNavigableMap concurrentNavigableMap;
+        private TreeMap treeMap;
+        private HashMap hashMap;
+        private ConcurrentSkipListMap concurrentSkipListMap;
+
+        public SortedMap getSortedMap() {
+            return sortedMap;
+        }
+
+        public void setSortedMap(SortedMap sortedMap) {
+            this.sortedMap = sortedMap;
+        }
+
+        public NavigableMap getNavigableMap() {
+            return navigableMap;
+        }
+
+        public void setNavigableMap(NavigableMap navigableMap) {
+            this.navigableMap = navigableMap;
+        }
+
+        public ConcurrentNavigableMap getConcurrentNavigableMap() {
+            return concurrentNavigableMap;
+        }
+
+        public void setConcurrentNavigableMap(ConcurrentNavigableMap concurrentNavigableMap) {
+            this.concurrentNavigableMap = concurrentNavigableMap;
+        }
+
+        public TreeMap getTreeMap() {
+            return treeMap;
+        }
+
+        public void setTreeMap(TreeMap treeMap) {
+            this.treeMap = treeMap;
+        }
+
+        public HashMap getHashMap() {
+            return hashMap;
+        }
+
+        public void setHashMap(HashMap hashMap) {
+            this.hashMap = hashMap;
+        }
+
+        public ConcurrentSkipListMap getConcurrentSkipListMap() {
+            return concurrentSkipListMap;
+        }
+
+        public void setConcurrentSkipListMap(ConcurrentSkipListMap concurrentSkipListMap) {
+            this.concurrentSkipListMap = concurrentSkipListMap;
+        }
+
+        public Map getMap() {
+            return map;
+        }
+
+        public void setMap(Map map) {
+            this.map = map;
+        }
+    }
+
     public enum Color {
         RED, GREEN, BLUE
     }
@@ -250,7 +317,7 @@ public class CompoundBuilderTest {
     }
 
     @Test
-    public void build_GivenClassWithCollectionDataMembers_ReturnObjectWithValues() throws Exception {
+    public void build_GivenClassWithCollectionDataMembers_ReturnsObjectWithValues() throws Exception {
 
         List<Long> list = new ArrayList<>();
         list.add(1L);
@@ -286,5 +353,35 @@ public class CompoundBuilderTest {
         assertEquals(3, cwcdm.getNavigableSetDataMember().size());
         assertEquals(3, cwcdm.getDequeDataMember().size());
         assertEquals(3, cwcdm.getTransferQueueDataMember().size());
+    }
+
+    @Test
+    public void build_GivenClassWithMapDataMember_ReturnsObjectWithValues() throws Exception {
+        Map<String, Object> map = new HashMap<>();
+
+        Map<Object, Object> hashMap = new HashMap<>();
+        hashMap.put("1", 1);
+        hashMap.put("2", 2);
+        hashMap.put("3", 3);
+
+        map.put("map", hashMap);
+        map.put("sortedMap", hashMap);
+        map.put("navigableMap", hashMap);
+        map.put("concurrentNavigableMap", hashMap);
+        map.put("concurrentSkipListMap", hashMap);
+        map.put("hashMap", hashMap);
+        map.put("treeMap", hashMap);
+
+        ClassWithMapDataMembers cwmdm = new ClassWithMapDataMembers();
+
+        builder.build(map, cwmdm);
+
+        assertEquals(3, cwmdm.getMap().size());
+        assertEquals(3, cwmdm.concurrentNavigableMap.size());
+        assertEquals(3, cwmdm.getConcurrentSkipListMap().size());
+        assertEquals(3, cwmdm.getHashMap().size());
+        assertEquals(3, cwmdm.getTreeMap().size());
+        assertEquals(3, cwmdm.getNavigableMap().size());
+        assertEquals(3, cwmdm.getSortedMap().size());
     }
 }

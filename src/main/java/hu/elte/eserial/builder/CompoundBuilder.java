@@ -5,6 +5,7 @@ import hu.elte.eserial.util.MethodUtils;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 
@@ -33,6 +34,9 @@ public class CompoundBuilder {
                     } else if (TypeUtils.isEnum(type)) {
                             Object enumValue = EnumBuilder.build(fieldValue, type);
                             setter.evaluate(enumValue);
+                    } else if (TypeUtils.isDate(type)) {
+                            Object dateValue = DateBuilder.build(fieldValue, type);
+                            setter.evaluate(dateValue);
                     } else {
                         Object compoundObject = type.newInstance();
                         Map<String, Object> compoundMap = (Map<String, Object>) fieldValue;

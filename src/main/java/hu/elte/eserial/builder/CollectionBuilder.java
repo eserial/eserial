@@ -36,7 +36,7 @@ public class CollectionBuilder {
         }
 
         Collection collectionObject = (Collection) type.newInstance();
-        collectionObject.addAll((Collection) value);
+        collectionObject.addAll(list);
 
         return collectionObject;
     }
