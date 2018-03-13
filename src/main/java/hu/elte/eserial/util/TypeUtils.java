@@ -1,9 +1,7 @@
 package hu.elte.eserial.util;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentMap;
-import java.util.List;
-import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.*;
 
 /**
  * Contains helper methods for built-in types.
@@ -140,6 +138,18 @@ public class TypeUtils {
 
     public static Boolean isSortedMap(Class<?> type) {
         return SortedMap.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isBlockingQueue(Class<?> type) {
+        return BlockingQueue.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isBlockingDeque(Class<?> type) {
+        return BlockingDeque.class.isAssignableFrom(type);
+    }
+
+    public static Boolean isTransferQueue(Class<?> type) {
+        return TransferQueue.class.isAssignableFrom(type);
     }
 
     /**

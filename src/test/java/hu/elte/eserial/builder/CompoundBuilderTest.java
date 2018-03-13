@@ -1,12 +1,11 @@
 package hu.elte.eserial.builder;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.beans.beancontext.BeanContext;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -27,7 +26,6 @@ public class CompoundBuilderTest {
         private boolean booleanDataMember;
         private byte byteDataMember;
         private char charDataMember;
-        private Color color;
 
         public int getIntDataMember() {
             return intDataMember;
@@ -92,34 +90,129 @@ public class CompoundBuilderTest {
         public void setCharDataMember(char charDataMember) {
             this.charDataMember = charDataMember;
         }
+    }
 
-        public Color getColor() {
-            return color;
+    public static class ClassWithEnumDataMember {
+        private Color colorDataMember;
+
+        public Color getColorDataMember() {
+            return colorDataMember;
         }
 
-        public void setColor(Color color) {
-            this.color = color;
+        public void setColorDataMember(Color colorDataMember) {
+            this.colorDataMember = colorDataMember;
         }
     }
 
-    public static class Person {
-        private String name;
+    public static class ClassWithCollectionDataMember {
+        private SortedSet sortedSetDataMember;
+        private Set setDataMember;
+        private Queue queueDataMember;
+        private List listDataMember;
+        private LinkedList linkedListDataMember;
+        private Vector vectorDataMember;
+        private BlockingQueue blockingQueueDataMember;
+        private BlockingDeque blockingDequeDataMember;
+        private NavigableSet navigableSetDataMember;
+        private Deque dequeDataMember;
+        private TransferQueue transferQueueDataMember;
 
-        public String getName() {
-            return name;
+        public TransferQueue getTransferQueueDataMember() {
+            return transferQueueDataMember;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setTransferQueueDataMember(TransferQueue transferQueueDataMember) {
+            this.transferQueueDataMember = transferQueueDataMember;
+        }
+
+        public Deque getDequeDataMember() {
+            return dequeDataMember;
+        }
+
+        public void setDequeDataMember(Deque dequeDataMember) {
+            this.dequeDataMember = dequeDataMember;
+        }
+
+        public NavigableSet getNavigableSetDataMember() {
+            return navigableSetDataMember;
+        }
+
+        public void setNavigableSetDataMember(NavigableSet navigableSetDataMember) {
+            this.navigableSetDataMember = navigableSetDataMember;
+        }
+
+        public BlockingDeque getBlockingDequeDataMember() {
+            return blockingDequeDataMember;
+        }
+
+        public void setBlockingDequeDataMember(BlockingDeque blockingDequeDataMember) {
+            this.blockingDequeDataMember = blockingDequeDataMember;
+        }
+
+        public BlockingQueue getBlockingQueueDataMember() {
+            return blockingQueueDataMember;
+        }
+
+        public void setBlockingQueueDataMember(BlockingQueue blockingQueueDataMember) {
+            this.blockingQueueDataMember = blockingQueueDataMember;
+        }
+
+        public Vector getVectorDataMember() {
+            return vectorDataMember;
+        }
+
+        public void setVectorDataMember(Vector vectorDataMember) {
+            this.vectorDataMember = vectorDataMember;
+        }
+
+
+        public LinkedList getLinkedListDataMember() {
+            return linkedListDataMember;
+        }
+
+        public void setLinkedListDataMember(LinkedList linkedListDataMember) {
+            this.linkedListDataMember = linkedListDataMember;
+        }
+
+        public SortedSet getSortedSetDataMember() {
+            return sortedSetDataMember;
+        }
+
+        public void setSortedSetDataMember(SortedSet sortedSetDataMember) {
+            this.sortedSetDataMember = sortedSetDataMember;
+        }
+
+        public Set getSetDataMember() {
+            return setDataMember;
+        }
+
+        public void setSetDataMember(Set setDataMember) {
+            this.setDataMember = setDataMember;
+        }
+
+        public Queue getQueueDataMember() {
+            return queueDataMember;
+        }
+
+        public void setQueueDataMember(Queue queueDataMember) {
+            this.queueDataMember = queueDataMember;
+        }
+
+        public List getListDataMember() {
+            return listDataMember;
+        }
+
+        public void setListDataMember(List listDataMember) {
+            this.listDataMember = listDataMember;
         }
     }
 
-    public static enum Color {
+    public enum Color {
         RED, GREEN, BLUE
     }
 
     @Test
-    public void build_GivenClassWithPrimiteDataMembers_ReturnsObjectWithValues() {
+    public void build_GivenClassWithPrimitiveDataMembers_ReturnsObjectWithValues() {
         Map<String, Object> map = new HashMap<>();
         map.put("intDataMember", 1L);
         map.put("floatDataMember", 5.3d);
@@ -129,7 +222,6 @@ public class CompoundBuilderTest {
         map.put("longDataMember", 10L);
         map.put("booleanDataMember", true);
         map.put("byteDataMember", 3L);
-        map.put("color", 2L);
 
         ClassWithPrimitiveDataMembers cwpdm = new ClassWithPrimitiveDataMembers();
 
@@ -143,6 +235,56 @@ public class CompoundBuilderTest {
         assertEquals(true, cwpdm.isBooleanDataMember());
         assertEquals('c', cwpdm.getCharDataMember());
         assertEquals(3, cwpdm.getByteDataMember());
-        assertEquals(2, cwpdm.getColor().ordinal());
+    }
+
+    @Test
+    public void build_GivenClassWithEnumDataMember_ReturnsObjectWithValue() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("colorDataMember", 2L);
+
+        ClassWithEnumDataMember cwedm = new ClassWithEnumDataMember();
+
+        builder.build(map, cwedm);
+
+        assertEquals(2, cwedm.getColorDataMember().ordinal());
+    }
+
+    @Test
+    public void build_GivenClassWithCollectionDataMembers_ReturnObjectWithValues() throws Exception {
+
+        List<Long> list = new ArrayList<>();
+        list.add(1L);
+        list.add(2L);
+        list.add(3L);
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("sortedSetDataMember", list);
+        map.put("setDataMember", list);
+        map.put("queueDataMember", list);
+        map.put("listDataMember", list);
+        map.put("linkedListDataMember", list);
+        map.put("vectorDataMember", list);
+        map.put("blockingQueueDataMember", list);
+        map.put("blockingDequeDataMember", list);
+        map.put("navigableSetDataMember", list);
+        map.put("dequeDataMember", list);
+        map.put("transferQueueDataMember", list);
+
+        ClassWithCollectionDataMember cwcdm = new ClassWithCollectionDataMember();
+
+        builder.build(map, cwcdm);
+
+        assertEquals(3, cwcdm.getSortedSetDataMember().size());
+        assertEquals(3, cwcdm.getSetDataMember().size());
+        assertEquals(3, cwcdm.getQueueDataMember().size());
+        assertEquals(3, cwcdm.getListDataMember().size());
+        assertEquals(3, cwcdm.getLinkedListDataMember().size());
+        assertEquals(3, cwcdm.getVectorDataMember().size());
+        assertEquals(3, cwcdm.getBlockingQueueDataMember().size());
+        assertEquals(3, cwcdm.getBlockingDequeDataMember().size());
+        assertEquals(3, cwcdm.getNavigableSetDataMember().size());
+        assertEquals(3, cwcdm.getDequeDataMember().size());
+        assertEquals(3, cwcdm.getTransferQueueDataMember().size());
     }
 }
