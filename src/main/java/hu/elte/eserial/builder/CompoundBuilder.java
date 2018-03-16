@@ -1,57 +1,47 @@
 package hu.elte.eserial.builder;
 
+import hu.elte.eserial.exception.EserialInstantiationException;
+import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.model.Setter;
 import hu.elte.eserial.util.MethodUtils;
-import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.Map;
 
-public class CompoundBuilder {
+public class CompoundBuilder extends AbstractBuilder {
 
-    public Object build(Map<String, Object> map, Object that) {
+    CompoundBuilder(Class type) {
+        super(type);
+    }
+
+    @Override
+    public <T> T build(Object value) {
+
         try {
-            for (Method method: that.getClass().getMethods()) {
+            Object that = type.newInstance();
+
+            for (Method method : type.getMethods()) {
                 if (MethodUtils.isIgnored(method) || !MethodUtils.isSetter(method)) {
                     continue;
                 }
+
+                Map<String, Object> map = (Map) value;
 
                 Setter setter = new Setter(that, method);
 
                 String fieldName = setter.getElementName();
                 Object fieldValue = map.get(fieldName);
-                Class<?> type = setter.getParameterType();
+                Class<?> paramType = setter.getParameterType();
 
-                if (TypeUtils.isCompound(type)) {
-                    if (TypeUtils.isCollection(type)) {
-                        Collection collectionObject = CollectionBuilder.build(fieldValue, type);
-                        setter.evaluate(collectionObject);
-                    } else if (TypeUtils.isMap(type)) {
-                        Map<Object, Object> mapObject = MapBuilder.build(fieldValue, type);
-                        setter.evaluate(mapObject);
-                    } else if (TypeUtils.isEnum(type)) {
-                            Object enumValue = EnumBuilder.build(fieldValue, type);
-                            setter.evaluate(enumValue);
-                    } else if (TypeUtils.isDate(type)) {
-                            Object dateValue = DateBuilder.build(fieldValue, type);
-                            setter.evaluate(dateValue);
-                    } else {
-                        Object compoundObject = type.newInstance();
-                        Map<String, Object> compoundMap = (Map<String, Object>) fieldValue;
-                        build(compoundMap, compoundObject);
-
-                        setter.evaluate(type.cast(compoundObject));
-                    }
-                } else if (TypeUtils.isPrimitive(type) || TypeUtils.isWrapper(type)){
-                    Object primitiveValue = PrimitiveBuilder.build(fieldValue, type);
-                    setter.evaluate(primitiveValue);
-                }
+                AbstractBuilder abstractBuilder = BuilderFactory.create(paramType);
+                setter.evaluate(abstractBuilder.build(fieldValue));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+
+            return (T) that;
+        } catch (IllegalAccessException e) {
+            throw new EserialInvalidMethodException(e.getMessage());
+        } catch (InstantiationException e) {
+            throw new EserialInstantiationException(e.getMessage());
         }
-        return that;
     }
 }

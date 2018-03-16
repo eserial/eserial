@@ -120,7 +120,7 @@ public class TypeUtils {
      * Determines if the given type is aSortedSet.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a SortedSet
+     * @return {@code true} if {@code type} is a sortedset
      */
     public static Boolean isSortedSet(Class<?> type) {
         return SortedSet.class.isAssignableFrom(type);
@@ -130,7 +130,7 @@ public class TypeUtils {
      * Determines if the given type is a Set.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a Set
+     * @return {@code true} if {@code type} is a set
      */
     public static Boolean isSet(Class<?> type) {
         return Set.class.isAssignableFrom(type);
@@ -140,7 +140,7 @@ public class TypeUtils {
      * Determines if the given type is a Queue.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a Queue
+     * @return {@code true} if {@code type} is a queue
      */
     public static Boolean isQueue(Class<?> type) {
         return Queue.class.isAssignableFrom(type);
@@ -150,7 +150,7 @@ public class TypeUtils {
      * Determines if the given type is a ConcurrentNavigableMap.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a ConcurrentNavigableMap
+     * @return {@code true} if {@code type} is a concurrentnavigablemap
      */
     public static Boolean isConcurrentNavigableMap(Class<?> type) {
         return ConcurrentNavigableMap.class.isAssignableFrom(type);
@@ -160,7 +160,7 @@ public class TypeUtils {
      * Determines if the given type is a ConcurrentMap.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a ConcurrentMap
+     * @return {@code true} if {@code type} is a concurrentmap
      */
     public static Boolean isConcurrentMap(Class<?> type) {
         return ConcurrentMap.class.isAssignableFrom(type);
@@ -170,7 +170,7 @@ public class TypeUtils {
      * Determines if the given type is a SortedMap.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a SortedMap
+     * @return {@code true} if {@code type} is a sortedmap
      */
     public static Boolean isSortedMap(Class<?> type) {
         return SortedMap.class.isAssignableFrom(type);
@@ -180,7 +180,7 @@ public class TypeUtils {
      * Determines if the given type is a BlockingQueue.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a BlockingQueue
+     * @return {@code true} if {@code type} is a blockingqueue
      */
     public static Boolean isBlockingQueue(Class<?> type) {
         return BlockingQueue.class.isAssignableFrom(type);
@@ -190,7 +190,7 @@ public class TypeUtils {
      * Determines if the given type is a BlockingDeque.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a BlockingDeque
+     * @return {@code true} if {@code type} is a blockingdeque
      */
     public static Boolean isBlockingDeque(Class<?> type) {
         return BlockingDeque.class.isAssignableFrom(type);
@@ -200,7 +200,7 @@ public class TypeUtils {
      * Determines if the given type is a TransferQueue.
      *
      * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a TransferQueue
+     * @return {@code true} if {@code type} is a transferqueue
      */
     public static Boolean isTransferQueue(Class<?> type) {
         return TransferQueue.class.isAssignableFrom(type);

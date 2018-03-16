@@ -1,39 +1,52 @@
 package hu.elte.eserial.builder;
 
+import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialException;
+import hu.elte.eserial.exception.EserialInstantiationException;
+import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-public class MapBuilder {
+public class MapBuilder extends AbstractBuilder{
 
-    public static Map<Object, Object> build(Object value, Class type) throws Exception{
+    MapBuilder(Class type) {
+        super(type);
+    }
+
+    @Override
+    public <T> T build(Object value) {
         if (!TypeUtils.isMap(type) || !TypeUtils.isMap(value.getClass())) {
-            throw new EserialException("Type mismatch");
+            throw new EserialBuilderMismatchException(Map.class.getSimpleName(), type.getName());
         }
 
-        Map<Object, Object> map = (Map<Object, Object>) value;
+        try {
+            Map<Object, Object> map = (Map<Object, Object>) value;
 
-        if(type.isInterface()) {
-            if (TypeUtils.isConcurrentNavigableMap(type)) {
-                return new ConcurrentSkipListMap(map);
-            } else if (TypeUtils.isConcurrentMap(type)) {
-                return new ConcurrentHashMap(map);
-            } else if (TypeUtils.isSortedMap(type)) {
-                return new TreeMap(map);
-            } else {
-                return new HashMap(map);
+            if (type.isInterface()) {
+                if (TypeUtils.isConcurrentNavigableMap(type)) {
+                    return (T) new ConcurrentSkipListMap(map);
+                } else if (TypeUtils.isConcurrentMap(type)) {
+                    return (T) new ConcurrentHashMap(map);
+                } else if (TypeUtils.isSortedMap(type)) {
+                    return (T) new TreeMap(map);
+                } else {
+                    return (T) new HashMap(map);
+                }
             }
+
+            Map mapObject = (Map) type.newInstance();
+            mapObject.putAll(map);
+
+            return (T) mapObject;
+        } catch (IllegalAccessException e) {
+            throw new EserialInvalidMethodException(e.getMessage());
+        } catch (InstantiationException e) {
+            throw new EserialInstantiationException(e.getMessage());
         }
-
-        Map mapObject = (Map) type.newInstance();
-        mapObject.putAll(map);
-
-        return mapObject;
     }
 }

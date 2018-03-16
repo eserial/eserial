@@ -1,24 +1,15 @@
 package hu.elte.eserial.builder;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import java.beans.beancontext.BeanContext;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
 
 import static org.junit.Assert.assertEquals;
 
 public class CompoundBuilderTest {
-    private CompoundBuilder builder;
 
-    @Before
-    public void setUp() throws Exception {
-        builder = new CompoundBuilder();
-    }
-
-    public static class ClassWithPrimitiveDataMembers {
+    public static class PrimitiveDataMembers {
         private int intDataMember;
         private float floatDataMember;
         private short shortDataMember;
@@ -93,7 +84,7 @@ public class CompoundBuilderTest {
         }
     }
 
-    public static class ClassWithEnumDataMember {
+    public static class EnumDataMember {
         private Color colorDataMember;
 
         public Color getColorDataMember() {
@@ -105,7 +96,7 @@ public class CompoundBuilderTest {
         }
     }
 
-    public static class ClassWithCollectionDataMember {
+    public static class CollectionDataMember {
         private SortedSet sortedSetDataMember;
         private Set setDataMember;
         private Queue queueDataMember;
@@ -208,7 +199,7 @@ public class CompoundBuilderTest {
         }
     }
 
-    public static class ClassWithMapDataMembers {
+    public static class MapDataMembers {
         private Map map;
         private SortedMap sortedMap;
         private NavigableMap navigableMap;
@@ -278,8 +269,59 @@ public class CompoundBuilderTest {
         RED, GREEN, BLUE
     }
 
+    public static class Person {
+        private String name;
+        private int age;
+        private Lesson lesson;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public Lesson getLesson() {
+            return lesson;
+        }
+
+        public void setLesson(Lesson lesson) {
+            this.lesson = lesson;
+        }
+    }
+
+    public static class Lesson {
+        private String name;
+        private int id;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+    }
+
     @Test
-    public void build_GivenClassWithPrimitiveDataMembers_ReturnsObjectWithValues() {
+    public void build_GivenPrimitiveDataMembers_ReturnsObjectWithValues() throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("intDataMember", 1L);
         map.put("floatDataMember", 5.3d);
@@ -290,34 +332,34 @@ public class CompoundBuilderTest {
         map.put("booleanDataMember", true);
         map.put("byteDataMember", 3L);
 
-        ClassWithPrimitiveDataMembers cwpdm = new ClassWithPrimitiveDataMembers();
+        CompoundBuilder builder = new CompoundBuilder(PrimitiveDataMembers.class);
 
-        builder.build(map, cwpdm);
+        PrimitiveDataMembers pdm = builder.build(map);
 
-        assertEquals(1, cwpdm.getIntDataMember());
-        assertEquals(5.3f, cwpdm.getFloatDataMember(), 0.001);
-        assertEquals(2, cwpdm.getShortDataMember());
-        assertEquals(4.2d, cwpdm.getDoubleDataMember(), 0.001);
-        assertEquals(10, cwpdm.getLongDataMember());
-        assertEquals(true, cwpdm.isBooleanDataMember());
-        assertEquals('c', cwpdm.getCharDataMember());
-        assertEquals(3, cwpdm.getByteDataMember());
+        assertEquals(1, pdm.getIntDataMember());
+        assertEquals(5.3f, pdm.getFloatDataMember(), 0.001);
+        assertEquals(2, pdm.getShortDataMember());
+        assertEquals(4.2d, pdm.getDoubleDataMember(), 0.001);
+        assertEquals(10, pdm.getLongDataMember());
+        assertEquals(true, pdm.isBooleanDataMember());
+        assertEquals('c', pdm.getCharDataMember());
+        assertEquals(3, pdm.getByteDataMember());
     }
 
     @Test
-    public void build_GivenClassWithEnumDataMember_ReturnsObjectWithValue() {
+    public void build_GivenEnumDataMember_ReturnsObjectWithValue() throws Exception {
         Map<String, Object> map = new HashMap<>();
         map.put("colorDataMember", 2L);
 
-        ClassWithEnumDataMember cwedm = new ClassWithEnumDataMember();
+       CompoundBuilder builder = new CompoundBuilder(EnumDataMember.class);
 
-        builder.build(map, cwedm);
+        EnumDataMember edm = builder.build(map);
 
-        assertEquals(2, cwedm.getColorDataMember().ordinal());
+        assertEquals(2, edm.getColorDataMember().ordinal());
     }
 
     @Test
-    public void build_GivenClassWithCollectionDataMembers_ReturnsObjectWithValues() throws Exception {
+    public void build_GivenCollectionDataMembers_ReturnsObjectWithValues() throws Exception {
 
         List<Long> list = new ArrayList<>();
         list.add(1L);
@@ -338,25 +380,25 @@ public class CompoundBuilderTest {
         map.put("dequeDataMember", list);
         map.put("transferQueueDataMember", list);
 
-        ClassWithCollectionDataMember cwcdm = new ClassWithCollectionDataMember();
+         CompoundBuilder builder = new CompoundBuilder(CollectionDataMember.class);
 
-        builder.build(map, cwcdm);
+        CollectionDataMember cdm = builder.build(map);
 
-        assertEquals(3, cwcdm.getSortedSetDataMember().size());
-        assertEquals(3, cwcdm.getSetDataMember().size());
-        assertEquals(3, cwcdm.getQueueDataMember().size());
-        assertEquals(3, cwcdm.getListDataMember().size());
-        assertEquals(3, cwcdm.getLinkedListDataMember().size());
-        assertEquals(3, cwcdm.getVectorDataMember().size());
-        assertEquals(3, cwcdm.getBlockingQueueDataMember().size());
-        assertEquals(3, cwcdm.getBlockingDequeDataMember().size());
-        assertEquals(3, cwcdm.getNavigableSetDataMember().size());
-        assertEquals(3, cwcdm.getDequeDataMember().size());
-        assertEquals(3, cwcdm.getTransferQueueDataMember().size());
+        assertEquals(3, cdm.getSortedSetDataMember().size());
+        assertEquals(3, cdm.getSetDataMember().size());
+        assertEquals(3, cdm.getQueueDataMember().size());
+        assertEquals(3, cdm.getListDataMember().size());
+        assertEquals(3, cdm.getLinkedListDataMember().size());
+        assertEquals(3, cdm.getVectorDataMember().size());
+        assertEquals(3, cdm.getBlockingQueueDataMember().size());
+        assertEquals(3, cdm.getBlockingDequeDataMember().size());
+        assertEquals(3, cdm.getNavigableSetDataMember().size());
+        assertEquals(3, cdm.getDequeDataMember().size());
+        assertEquals(3, cdm.getTransferQueueDataMember().size());
     }
 
     @Test
-    public void build_GivenClassWithMapDataMember_ReturnsObjectWithValues() throws Exception {
+    public void build_GivenMapDataMember_ReturnsObjectWithValues() throws Exception {
         Map<String, Object> map = new HashMap<>();
 
         Map<Object, Object> hashMap = new HashMap<>();
@@ -372,16 +414,38 @@ public class CompoundBuilderTest {
         map.put("hashMap", hashMap);
         map.put("treeMap", hashMap);
 
-        ClassWithMapDataMembers cwmdm = new ClassWithMapDataMembers();
+        CompoundBuilder builder = new CompoundBuilder(MapDataMembers.class);
 
-        builder.build(map, cwmdm);
+        MapDataMembers mdm =  builder.build(map);
 
-        assertEquals(3, cwmdm.getMap().size());
-        assertEquals(3, cwmdm.concurrentNavigableMap.size());
-        assertEquals(3, cwmdm.getConcurrentSkipListMap().size());
-        assertEquals(3, cwmdm.getHashMap().size());
-        assertEquals(3, cwmdm.getTreeMap().size());
-        assertEquals(3, cwmdm.getNavigableMap().size());
-        assertEquals(3, cwmdm.getSortedMap().size());
+        assertEquals(3, mdm.getMap().size());
+        assertEquals(3, mdm.getConcurrentNavigableMap().size());
+        assertEquals(3, mdm.getConcurrentSkipListMap().size());
+        assertEquals(3, mdm.getHashMap().size());
+        assertEquals(3, mdm.getTreeMap().size());
+        assertEquals(3, mdm.getNavigableMap().size());
+        assertEquals(3, mdm.getSortedMap().size());
+    }
+
+    @Test
+    public void build_GivenSimpleAndCompoundDataMembers_ReturnObjectWithValues() throws Exception {
+
+        Map<String, Object> lessonMap = new HashMap<>();
+        lessonMap.put("id", 2L);
+        lessonMap.put("name", "Anal");
+
+        Map<Object, Object> basicMap = new HashMap<>();
+        basicMap.put("name", "Janos");
+        basicMap.put("age", 22L);
+        basicMap.put("lesson", lessonMap);
+
+        CompoundBuilder builder = new CompoundBuilder(Person.class);
+
+        Person person = builder.build(basicMap);
+
+        assertEquals("Janos", person.getName());
+        assertEquals(22, person.getAge());
+        assertEquals("Anal", person.getLesson().getName());
+        assertEquals(2, person.getLesson().getId());
     }
 }
