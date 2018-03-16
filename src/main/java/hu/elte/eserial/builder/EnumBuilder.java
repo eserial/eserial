@@ -1,15 +1,21 @@
 package hu.elte.eserial.builder;
 
+import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialException;
 import hu.elte.eserial.util.TypeUtils;
 
-public class EnumBuilder {
+public class EnumBuilder extends AbstractBuilder {
 
-    public static Object build(Object value, Class<?> type) throws Exception {
+    EnumBuilder(Class type) {
+        super(type);
+    }
+
+    @Override
+    public <T> T build(Object value) {
         if (!TypeUtils.isEnum(type) || !Long.class.isInstance(value)) {
-            throw new EserialException("Type mismatch");
+            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), type.getName());
         }
 
-        return type.getEnumConstants()[((Long) value).intValue()];
+        return (T) type.getEnumConstants()[((Long) value).intValue()];
     }
 }
