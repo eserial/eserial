@@ -2,10 +2,22 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.util.TypeUtils;
 
+/**
+ * Provides an adequate builder implementation for a given type.
+ */
 public class BuilderFactory {
 
+    /**
+     * Prevents the accidental instantiation of this factory class.
+     */
     private BuilderFactory() {}
 
+    /**
+     * Creates a type-specific object builder instance.
+     *
+     * @param type an arbitrary class
+     * @return an object builder for {@code type}
+     */
     public static AbstractBuilder create(Class type) {
         if (!TypeUtils.isCompound(type)) {
             return new SimpleBuilder(type);

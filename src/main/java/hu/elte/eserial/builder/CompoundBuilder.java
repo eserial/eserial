@@ -8,12 +8,25 @@ import hu.elte.eserial.util.MethodUtils;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+/**
+ * Builds Compound objects.
+ */
 public class CompoundBuilder extends AbstractBuilder {
 
+    /**
+     * Constructs an {@link CompoundBuilder} and sets the {@code type} in it.
+     *
+     * @param type the class to be used in the {@link AbstractBuilder#build} method
+     */
     CompoundBuilder(Class type) {
         super(type);
     }
 
+    /**
+     * @param value {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return a compuund object of the given class and initialized with the map parameter
+     */
     @Override
     public <T> T build(Object value) {
 

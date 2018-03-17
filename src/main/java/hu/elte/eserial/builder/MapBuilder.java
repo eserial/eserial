@@ -12,12 +12,25 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+/**
+ * Build Map objects.
+ */
 public class MapBuilder extends AbstractBuilder{
 
+    /**
+     * Constructs an {@link MapBuilder} and sets the {@code type} in it.
+     *
+     * @param type {@link Map} class to be used in the {@link AbstractBuilder#build} method
+     */
     MapBuilder(Class type) {
         super(type);
     }
 
+    /**
+     * @param value {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return a map of the given class and initialized with the map parameter
+     */
     @Override
     public <T> T build(Object value) {
         if (!TypeUtils.isMap(type) || !TypeUtils.isMap(value.getClass())) {

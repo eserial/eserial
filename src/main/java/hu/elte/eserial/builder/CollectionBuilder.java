@@ -10,12 +10,25 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedTransferQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 
+/**
+ * Builds Collection objects (e.g List).
+ */
 public class CollectionBuilder extends AbstractBuilder {
 
+    /**
+     * Constructs an {@link CollectionBuilder} and sets the {@code type} in it.
+     *
+     * @param type the {@link Collection} to be used in the {@link AbstractBuilder#build} method
+     */
     CollectionBuilder(Class type) {
         super(type);
     }
 
+    /**
+     * @param value {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return a collection of the given class and initialized with the list parameter
+     */
     @Override
     public <T> T build(Object value) {
         if (!TypeUtils.isCollection(type) || !TypeUtils.isList(value.getClass())) {
