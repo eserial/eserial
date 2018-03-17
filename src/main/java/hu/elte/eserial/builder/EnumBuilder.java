@@ -4,12 +4,26 @@ import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialException;
 import hu.elte.eserial.util.TypeUtils;
 
+/**
+ * Builds Enum-Like objects.
+ */
 public class EnumBuilder extends AbstractBuilder {
 
+    /**
+     * Constructs an {@link EnumBuilder} and sets the {@code type} in it.
+     *
+     * @param type {@link Enum} class to be used in the {@link AbstractBuilder#build} method
+     */
     EnumBuilder(Class type) {
         super(type);
     }
 
+    /**
+     *
+     * @param value {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return an Enum object initialized with the given ordinal value
+     */
     @Override
     public <T> T build(Object value) {
         if (!TypeUtils.isEnum(type) || !Long.class.isInstance(value)) {

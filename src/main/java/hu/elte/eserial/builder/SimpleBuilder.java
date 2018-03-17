@@ -12,12 +12,25 @@ import java.lang.reflect.Method;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
+/**
+ * Builds simple non-array objects (e.g int, short, Integer, Short).
+ */
 public class SimpleBuilder extends AbstractBuilder {
 
+    /**
+     * Constructs an {@link SimpleBuilder} and sets the {@code type} in it.
+     *
+     * @param type the simple object to be used in the {@link AbstractBuilder#build} method
+     */
     SimpleBuilder(Class type) {
         super(type);
     }
 
+    /**
+     * @param value {@inheritDoc}
+     * @param <T> {@inheritDoc}
+     * @return a simple object of the given class and initialized with the primitive or Wrapper parameter
+     */
     @Override
     public <T> T build(Object value) {
         if ((!TypeUtils.isPrimitive(type) && !TypeUtils.isWrapper(type)) && !TypeUtils.isString(type)
