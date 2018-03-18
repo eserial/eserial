@@ -380,7 +380,7 @@ public class CompoundBuilderTest {
         map.put("dequeDataMember", list);
         map.put("transferQueueDataMember", list);
 
-         CompoundBuilder builder = new CompoundBuilder(CollectionDataMember.class);
+        CompoundBuilder builder = new CompoundBuilder(CollectionDataMember.class);
 
         CollectionDataMember cdm = builder.build(map);
 
