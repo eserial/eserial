@@ -33,6 +33,10 @@ public class MapBuilder extends AbstractBuilder{
      */
     @Override
     public <T> T build(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (!TypeUtils.isMap(type) || !TypeUtils.isMap(value.getClass())) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(), type.getName());
         }

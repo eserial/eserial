@@ -29,6 +29,9 @@ public class CompoundBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
+        if (value == null) {
+            return null;
+        }
 
         try {
             Object that = type.newInstance();
