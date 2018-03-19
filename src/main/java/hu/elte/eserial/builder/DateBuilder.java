@@ -28,6 +28,10 @@ public class DateBuilder extends AbstractBuilder{
      */
     @Override
     public <T> T build(Object value) {
+        if (value == null) {
+            return null;
+        }
+
         if (!TypeUtils.isDate(type) || !TypeUtils.isNumber(value.getClass())) {
             throw new EserialBuilderMismatchException(Date.class.getSimpleName(), type.getName());
         }

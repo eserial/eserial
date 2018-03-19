@@ -3,6 +3,7 @@ package hu.elte.eserial.builder;
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
+import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
 import hu.elte.eserial.util.StringUtils;
 import hu.elte.eserial.util.TypeUtils;
 
@@ -33,6 +34,12 @@ public class SimpleBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
+        if (value == null && TypeUtils.isString(type)) {
+            return null;
+        } else if (value == null) {
+            throw new EserialPrimitiveCanNotBeNullException(type.getSimpleName());
+        }
+
         if ((!TypeUtils.isPrimitive(type) && !TypeUtils.isWrapper(type)) && !TypeUtils.isString(type)
                 || (!TypeUtils.isPrimitive(value.getClass())
                     && !TypeUtils.isWrapper(value.getClass())

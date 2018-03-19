@@ -235,4 +235,14 @@ public class TypeUtils {
     public static Boolean isCharacter(Class<?> type) {
         return type == Character.class || type == char.class;
     }
+
+    /**
+     * Determines if the gives type is a long.
+     *
+     * @param type an arbitrary class
+     * @return {@code true} if {@code type} is a long
+     */
+    public static Boolean isLong(Class<?> type) {
+        return Long.class.isAssignableFrom(type);
+    }
 }

@@ -31,7 +31,11 @@ public class CollectionBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
-        if (!TypeUtils.isCollection(type) || !TypeUtils.isList(value.getClass())) {
+        if (value == null) {
+            return null;
+        }
+
+        if (!TypeUtils.isCollection(type) || (!TypeUtils.isList(value.getClass()))) {
             throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), type.getName());
         }
 

@@ -26,7 +26,11 @@ public class EnumBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
-        if (!TypeUtils.isEnum(type) || !Long.class.isInstance(value)) {
+        if (value == null) {
+            return null;
+        }
+
+        if (!TypeUtils.isEnum(type) || !TypeUtils.isLong(value.getClass())) {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), type.getName());
         }
 
