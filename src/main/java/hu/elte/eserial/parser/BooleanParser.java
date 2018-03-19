@@ -3,6 +3,9 @@ package hu.elte.eserial.parser;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parses booleans.
+ */
 public class BooleanParser {
 
     public Map<String, Object> parser(String json) {
