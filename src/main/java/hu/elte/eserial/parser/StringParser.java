@@ -3,6 +3,9 @@ package hu.elte.eserial.parser;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Parses strings.
+ */
 public class StringParser {
 
     public Map<String, Object> parser(String json) {
