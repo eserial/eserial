@@ -15,12 +15,18 @@ public class MapBuilderTest {
 
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidType_ThrowsEserialBuilderMismatchException() {
-        new MapBuilder(Boolean.class).build(new HashMap<>().put("key", "value"));
+        HashMap<String, String> map = new HashMap<>();
+        map.put("key", "value");
+
+        new MapBuilder(Boolean.class).build(map);
     }
 
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
-        new MapBuilder(Map.class).build(new ArrayList<>().add("key"));
+        ArrayList<String> list = new ArrayList<>();
+        list.add("key");
+
+        new MapBuilder(Map.class).build(list);
     }
 
     @Test
