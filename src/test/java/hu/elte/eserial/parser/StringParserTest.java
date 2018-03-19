@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class StringParserTest {
     @Test
-    public void parser_GiveASimpleString() {
+    public void parser_GivenASimpleJsonString_ReturnAMap() {
        Map<String, Object> testMap = new StringParser().parser("{\"car\":\"Audi\"}");
 
        Assert.assertTrue(testMap.containsKey("car"));
