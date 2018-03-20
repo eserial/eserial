@@ -1,18 +1,20 @@
 package hu.elte.eserial.builder;
 
+import java.lang.reflect.Type;
+
 /**
  * Abstract class for the different object builders.
  */
 abstract class AbstractBuilder {
 
-    protected Class type;
+    protected Type type;
 
     /**
      * Constructs an {@link AbstractBuilder} descendant and sets the {@code type} in it.
      *
      * @param type the class to be used in the {@link AbstractBuilder#build} method
      */
-    AbstractBuilder(Class type) {
+    AbstractBuilder(Type type) {
         this.type = type;
     }
 

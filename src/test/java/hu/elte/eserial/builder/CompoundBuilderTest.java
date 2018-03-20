@@ -100,7 +100,7 @@ public class CompoundBuilderTest {
         private SortedSet sortedSetDataMember;
         private Set setDataMember;
         private Queue queueDataMember;
-        private List listDataMember;
+        private List<Integer> listDataMember;
         private LinkedList linkedListDataMember;
         private Vector vectorDataMember;
         private BlockingQueue blockingQueueDataMember;
@@ -190,11 +190,11 @@ public class CompoundBuilderTest {
             this.queueDataMember = queueDataMember;
         }
 
-        public List getListDataMember() {
+        public List<Integer> getListDataMember() {
             return listDataMember;
         }
 
-        public void setListDataMember(List listDataMember) {
+        public void setListDataMember(List<Integer> listDataMember) {
             this.listDataMember = listDataMember;
         }
     }
@@ -204,7 +204,7 @@ public class CompoundBuilderTest {
         private SortedMap sortedMap;
         private NavigableMap navigableMap;
         private ConcurrentNavigableMap concurrentNavigableMap;
-        private TreeMap treeMap;
+        private TreeMap<String, Integer> treeMap;
         private HashMap hashMap;
         private ConcurrentSkipListMap concurrentSkipListMap;
 
@@ -232,11 +232,11 @@ public class CompoundBuilderTest {
             this.concurrentNavigableMap = concurrentNavigableMap;
         }
 
-        public TreeMap getTreeMap() {
+        public TreeMap<String, Integer> getTreeMap() {
             return treeMap;
         }
 
-        public void setTreeMap(TreeMap treeMap) {
+        public void setTreeMap(TreeMap<String, Integer> treeMap) {
             this.treeMap = treeMap;
         }
 
@@ -272,7 +272,7 @@ public class CompoundBuilderTest {
     public static class Person {
         private String name;
         private int age;
-        private Lesson lesson;
+        private ArrayList<Lesson> lessons;
 
         public String getName() {
             return name;
@@ -290,18 +290,28 @@ public class CompoundBuilderTest {
             this.age = age;
         }
 
-        public Lesson getLesson() {
-            return lesson;
+        public ArrayList<Lesson> getLessons() {
+            return lessons;
         }
 
-        public void setLesson(Lesson lesson) {
-            this.lesson = lesson;
+        public void setLessons(ArrayList<Lesson> lessons) {
+            this.lessons = lessons;
         }
     }
 
     public static class Lesson {
         private String name;
         private int id;
+        List<Teacher> teachers;
+        Map<String, Teacher> teacherMap;
+
+        public Map<String, Teacher> getTeacherMap() {
+            return teacherMap;
+        }
+
+        public void setTeacherMap(Map<String, Teacher> teacherMap) {
+            this.teacherMap = teacherMap;
+        }
 
         public String getName() {
             return name;
@@ -309,6 +319,44 @@ public class CompoundBuilderTest {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public List<Teacher> getTeachers() {
+            return teachers;
+        }
+
+        public void setTeachers(List<Teacher> teachers) {
+            this.teachers = teachers;
+        }
+    }
+
+    public static class Teacher {
+        private String name;
+        private int id;
+        private List<Integer> valami;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public List<Integer> getValami() {
+            return valami;
+        }
+
+        public void setValami(List<Integer> valami) {
+            this.valami = valami;
         }
 
         public int getId() {
@@ -429,15 +477,49 @@ public class CompoundBuilderTest {
 
     @Test
     public void build_GivenSimpleAndCompoundDataMembers_ReturnObjectWithValues() throws Exception {
+        ArrayList<Object> teacherList = new ArrayList<>();
+        ArrayList<Integer> valamiList = new ArrayList<>();
+        Map<String, Object> teacherMapMap = new HashMap<>();
+
+        valamiList.add(2);
+        valamiList.add(3);
+
+        Map<String, Object> teacherMap1 = new HashMap<>();
+        teacherMap1.put("name", "Jolineni");
+        teacherMap1.put("id", 22L);
+        teacherMap1.put("valami", valamiList);
+
+        Map<String, Object> teacherMap2 = new HashMap<>();
+        teacherMap2.put("name", "Gaborba");
+        teacherMap2.put("id", 33L);
+        teacherMap2.put("valami", valamiList);
+
+        teacherList.add(teacherMap1);
+        teacherList.add(teacherMap2);
+
+        teacherMapMap.put("Joli", teacherMap1);
+        teacherMapMap.put("Gabi", teacherMap2);
 
         Map<String, Object> lessonMap = new HashMap<>();
         lessonMap.put("id", 2L);
         lessonMap.put("name", "Anal");
+        lessonMap.put("teachers", teacherList);
+        lessonMap.put("teacherMap", teacherMapMap);
+
+        Map<String, Object> lessonMap2 = new HashMap<>();
+        lessonMap2.put("id", 3L);
+        lessonMap2.put("name", "Anal2");
+        lessonMap2.put("teacher", teacherList);
+        lessonMap.put("teacherMap", teacherMapMap);
+
+        ArrayList<Object> list = new ArrayList<>();
+        list.add(lessonMap);
+        list.add(lessonMap2);
 
         Map<Object, Object> basicMap = new HashMap<>();
         basicMap.put("name", "Janos");
         basicMap.put("age", 22L);
-        basicMap.put("lesson", lessonMap);
+        basicMap.put("lessons", list);
 
         CompoundBuilder builder = new CompoundBuilder(Person.class);
 
@@ -445,7 +527,6 @@ public class CompoundBuilderTest {
 
         assertEquals("Janos", person.getName());
         assertEquals(22, person.getAge());
-        assertEquals("Anal", person.getLesson().getName());
-        assertEquals(2, person.getLesson().getId());
+        assertEquals(2, person.getLessons().size());
     }
 }

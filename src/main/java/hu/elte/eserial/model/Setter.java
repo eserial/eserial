@@ -6,6 +6,7 @@ import hu.elte.eserial.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,5 +67,9 @@ public class Setter {
      */
     public Class getParameterType() {
         return this.method.getParameterTypes()[0];
+    }
+
+    public Type getTypeParameter() {
+        return this.method.getGenericParameterTypes()[0];
     }
 }
