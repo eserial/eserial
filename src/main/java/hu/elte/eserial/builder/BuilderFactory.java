@@ -2,6 +2,9 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.util.TypeUtils;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+
 /**
  * Provides an adequate builder implementation for a given type.
  */
@@ -18,17 +21,26 @@ public class BuilderFactory {
      * @param type an arbitrary class
      * @return an object builder for {@code type}
      */
-    public static AbstractBuilder create(Class type) {
-        if (!TypeUtils.isCompound(type)) {
+    public static AbstractBuilder create(Type type) {
+        Class clazz;
+
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType)type;
+            clazz = (Class) pType.getRawType();
+        } else {
+            clazz = (Class) type;
+        }
+
+        if (!TypeUtils.isCompound(clazz)) {
             return new SimpleBuilder(type);
         } else {
-            if (TypeUtils.isCollection(type)) {
+            if (TypeUtils.isCollection(clazz)) {
                 return new CollectionBuilder(type);
-            } else if (TypeUtils.isMap(type)) {
+            } else if (TypeUtils.isMap(clazz)) {
                 return new MapBuilder(type);
-            } else if (TypeUtils.isEnum(type)) {
+            } else if (TypeUtils.isEnum(clazz)) {
                 return new EnumBuilder(type);
-            } else if (TypeUtils.isDate(type)) {
+            } else if (TypeUtils.isDate(clazz)) {
                 return new DateBuilder(type);
             } else {
                 return new CompoundBuilder(type);

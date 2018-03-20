@@ -6,6 +6,8 @@ import hu.elte.eserial.model.Setter;
 import hu.elte.eserial.util.MethodUtils;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -18,7 +20,7 @@ public class CompoundBuilder extends AbstractBuilder {
      *
      * @param type the class to be used in the {@link AbstractBuilder#build} method
      */
-    CompoundBuilder(Class type) {
+    CompoundBuilder(Type type) {
         super(type);
     }
 
@@ -34,9 +36,18 @@ public class CompoundBuilder extends AbstractBuilder {
         }
 
         try {
-            Object that = type.newInstance();
+            Class clazz;
 
-            for (Method method : type.getMethods()) {
+            if (type instanceof ParameterizedType) {
+                ParameterizedType pType = (ParameterizedType)type;
+                clazz = (Class) pType.getRawType();
+            } else {
+                clazz = (Class) type;
+            }
+
+            Object that = clazz.newInstance();
+
+            for (Method method : clazz.getMethods()) {
                 if (MethodUtils.isIgnored(method) || !MethodUtils.isSetter(method)) {
                     continue;
                 }
@@ -47,7 +58,14 @@ public class CompoundBuilder extends AbstractBuilder {
 
                 String fieldName = setter.getElementName();
                 Object fieldValue = map.get(fieldName);
-                Class<?> paramType = setter.getParameterType();
+                //Class<?> paramType = setter.getParameterType();
+
+                Type paramType = setter.getTypeParameter();
+               // System.out.println(paramType.getTypeName());
+                if (paramType instanceof ParameterizedType) {
+                    ParameterizedType parameterizedType = (ParameterizedType) paramType;
+                 //   System.out.println(parameterizedType.getActualTypeArguments()[0]);
+                }
 
                 AbstractBuilder abstractBuilder = BuilderFactory.create(paramType);
                 setter.evaluate(abstractBuilder.build(fieldValue));

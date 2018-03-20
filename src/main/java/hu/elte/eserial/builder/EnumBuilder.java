@@ -1,8 +1,10 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
-import hu.elte.eserial.exception.EserialException;
 import hu.elte.eserial.util.TypeUtils;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Builds Enum-Like objects.
@@ -14,7 +16,7 @@ public class EnumBuilder extends AbstractBuilder {
      *
      * @param type {@link Enum} class to be used in the {@link AbstractBuilder#build} method
      */
-    EnumBuilder(Class type) {
+    EnumBuilder(Type type) {
         super(type);
     }
 
@@ -30,10 +32,20 @@ public class EnumBuilder extends AbstractBuilder {
             return null;
         }
 
-        if (!TypeUtils.isEnum(type) || !TypeUtils.isLong(value.getClass())) {
-            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), type.getName());
+        Class clazz;
+
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType)type;
+            clazz = (Class) pType.getRawType();
+            throw new EserialBuilderMismatchException (Enum.class.getSimpleName(), clazz.getName());
+        } else {
+            clazz = (Class) type;
         }
 
-        return (T) type.getEnumConstants()[((Long) value).intValue()];
+        if (!TypeUtils.isEnum(clazz) || !TypeUtils.isLong(value.getClass())) {
+            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), clazz.getName());
+        }
+
+        return (T) clazz.getEnumConstants()[((Long) value).intValue()];
     }
 }

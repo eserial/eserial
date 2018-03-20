@@ -1,7 +1,6 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
-import hu.elte.eserial.exception.EserialException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
 import hu.elte.eserial.util.StringUtils;
@@ -10,8 +9,8 @@ import hu.elte.eserial.util.TypeUtils;
 import javax.lang.model.type.PrimitiveType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.text.NumberFormat;
-import java.text.ParseException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 
 /**
  * Builds simple non-array objects (e.g int, short, Integer, Short).
@@ -23,7 +22,7 @@ public class SimpleBuilder extends AbstractBuilder {
      *
      * @param type the simple object to be used in the {@link AbstractBuilder#build} method
      */
-    SimpleBuilder(Class type) {
+    SimpleBuilder(Type type) {
         super(type);
     }
 
@@ -34,28 +33,45 @@ public class SimpleBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
-        if (value == null && TypeUtils.isString(type)) {
-            return null;
-        } else if (value == null) {
-            throw new EserialPrimitiveCanNotBeNullException(type.getSimpleName());
+        Class clazz;
+
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType)type;
+            clazz = (Class) pType.getRawType();
+            throw new EserialBuilderMismatchException (PrimitiveType.class.getSimpleName(), clazz.getName());
+        } else {
+            clazz = (Class) type;
         }
 
-        if ((!TypeUtils.isPrimitive(type) && !TypeUtils.isWrapper(type)) && !TypeUtils.isString(type)
+        if (value == null && TypeUtils.isString(clazz)) {
+            return null;
+        } else if (value == null) {
+            throw new EserialPrimitiveCanNotBeNullException(clazz.getSimpleName());
+        }
+
+        if ((!TypeUtils.isPrimitive(clazz) && !TypeUtils.isWrapper(clazz)) && !TypeUtils.isString(clazz)
                 || (!TypeUtils.isPrimitive(value.getClass())
                     && !TypeUtils.isWrapper(value.getClass())
                     && !TypeUtils.isString(value.getClass()))) {
-            throw new EserialBuilderMismatchException(String.format("%s, %s, %s"
-                    , "Primitive", "Wrapper", String.class.getSimpleName()), type.getName());
+            throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), clazz.getName());
         }
 
         try {
-            if (TypeUtils.isNumber(type)) {
+            if (TypeUtils.isNumber(clazz)) {
                 Method method;
-                String lowercaseTypeName = StringUtils.lowercaseFirstLetter(type.getSimpleName());
-                if (Double.class.isInstance(value)) {
+                String lowercaseTypeName = StringUtils.lowercaseFirstLetter(clazz.getSimpleName());
+                if (TypeUtils.isDecimal(clazz)) {
+                    if(TypeUtils.isString(value.getClass())) {
+                        value = Double.parseDouble((String) value);
+                    }
+
                     method = Double.class.getDeclaredMethod(lowercaseTypeName + "Value");
                     return (T) method.invoke(value);
                 } else {
+                    if(TypeUtils.isString(value.getClass())) {
+                        value = Long.parseLong((String) value);
+                    }
+
                     if (lowercaseTypeName.equals("integer")) {
                         lowercaseTypeName = "int";
                     }

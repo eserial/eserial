@@ -245,4 +245,14 @@ public class TypeUtils {
     public static Boolean isLong(Class<?> type) {
         return Long.class.isAssignableFrom(type);
     }
+
+    /**
+     * Determines if the given type is a decimal number.
+     *
+     * @param type an arbitrary class
+     * @return {@code true} if {@code type} is a long
+     */
+    public static Boolean isDecimal(Class<?> type) {
+        return type == double.class || type == Double.class || type == float.class || type == Float.class;
+    }
 }

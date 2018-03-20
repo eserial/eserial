@@ -1,9 +1,10 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
-import hu.elte.eserial.exception.EserialException;
 import hu.elte.eserial.util.TypeUtils;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Date;
 
 /**
@@ -16,7 +17,7 @@ public class DateBuilder extends AbstractBuilder{
      *
      * @param type {@link Date} class to be used in the {@link AbstractBuilder#build} method
      */
-    DateBuilder(Class type) {
+    DateBuilder(Type type) {
         super(type);
     }
 
@@ -32,8 +33,18 @@ public class DateBuilder extends AbstractBuilder{
             return null;
         }
 
-        if (!TypeUtils.isDate(type) || !TypeUtils.isNumber(value.getClass())) {
-            throw new EserialBuilderMismatchException(Date.class.getSimpleName(), type.getName());
+        Class clazz;
+
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType)type;
+            clazz = (Class) pType.getRawType();
+            throw new EserialBuilderMismatchException (Date.class.getSimpleName(), clazz.getName());
+        } else {
+            clazz = (Class) type;
+        }
+
+        if (!TypeUtils.isDate(clazz) || !TypeUtils.isNumber(value.getClass())) {
+            throw new EserialBuilderMismatchException(Date.class.getSimpleName(), clazz.getName());
         }
 
         return (T) new Date((Long) value);
