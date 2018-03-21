@@ -265,111 +265,114 @@ public class CompoundBuilderTest {
         }
     }
 
+    public static class DateDataMember {
+       private Date date;
+
+        public Date getDate() {
+            return date;
+        }
+
+        public void setDate(Date date) {
+            this.date = date;
+        }
+    }
+
+    public static class CompoundDataMember {
+        CompoundTestClassOne compoundTestClassOne;
+
+        public CompoundTestClassOne getCompoundTestClassOne() {
+            return compoundTestClassOne;
+        }
+
+        public void setCompoundTestClassOne(CompoundTestClassOne compoundTestClassOne) {
+            this.compoundTestClassOne = compoundTestClassOne;
+        }
+    }
+
+    public static class CompoundTestClassOne {
+        private CompoundTestClassTwo compoundTestClassTwo;
+        private List<CompoundTestClassTwo> compoundTestClassTwoList;
+        private List<List<CompoundTestClassTwo>> compundTestClassTwoListList;
+        private Map<String, CompoundTestClassTwo> compoundTestClassTwoMap;
+        private Map<CompoundTestClassTwo, CompoundTestClassTwo> compoundTestClassTwoMap2;
+
+        public CompoundTestClassTwo getCompoundTestClassTwo() {
+            return compoundTestClassTwo;
+        }
+
+        public void setCompoundTestClassTwo(CompoundTestClassTwo compoundTestClassTwo) {
+            this.compoundTestClassTwo = compoundTestClassTwo;
+        }
+
+        public List<CompoundTestClassTwo> getCompoundTestClassTwoList() {
+            return compoundTestClassTwoList;
+        }
+
+        public void setCompoundTestClassTwoList(List<CompoundTestClassTwo> compoundTestClassTwoList) {
+            this.compoundTestClassTwoList = compoundTestClassTwoList;
+        }
+
+        public List<List<CompoundTestClassTwo>> getCompundTestClassTwoListList() {
+            return compundTestClassTwoListList;
+        }
+
+        public void setCompundTestClassTwoListList(List<List<CompoundTestClassTwo>> compundTestClassTwoListList) {
+            this.compundTestClassTwoListList = compundTestClassTwoListList;
+        }
+
+        public Map<String, CompoundTestClassTwo> getCompoundTestClassTwoMap() {
+            return compoundTestClassTwoMap;
+        }
+
+        public void setCompoundTestClassTwoMap(Map<String, CompoundTestClassTwo> compoundTestClassTwoMap) {
+            this.compoundTestClassTwoMap = compoundTestClassTwoMap;
+        }
+
+        public Map<CompoundTestClassTwo, CompoundTestClassTwo> getCompoundTestClassTwoMap2() {
+            return compoundTestClassTwoMap2;
+        }
+
+        public void setCompoundTestClassTwoMap2(Map<CompoundTestClassTwo, CompoundTestClassTwo> compoundTestClassTwoMap2) {
+            this.compoundTestClassTwoMap2 = compoundTestClassTwoMap2;
+        }
+    }
+
+    public static class CompoundTestClassTwo {
+        private String string;
+        private List<Integer> list;
+        private List<List<Integer>> listList;
+
+        public String getString() {
+            return string;
+        }
+
+        public void setString(String string) {
+            this.string = string;
+        }
+
+        public List<Integer> getList() {
+            return list;
+        }
+
+        public void setList(List<Integer> list) {
+            this.list = list;
+        }
+
+        public List<List<Integer>> getListList() {
+            return listList;
+        }
+
+        public void setListList(List<List<Integer>> listList) {
+            this.listList = listList;
+        }
+    }
+
     public enum Color {
         RED, GREEN, BLUE
     }
 
-    public static class Person {
-        private String name;
-        private int age;
-        private ArrayList<Lesson> lessons;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getAge() {
-            return age;
-        }
-
-        public void setAge(int age) {
-            this.age = age;
-        }
-
-        public ArrayList<Lesson> getLessons() {
-            return lessons;
-        }
-
-        public void setLessons(ArrayList<Lesson> lessons) {
-            this.lessons = lessons;
-        }
-    }
-
-    public static class Lesson {
-        private String name;
-        private int id;
-        List<Teacher> teachers;
-        Map<String, Teacher> teacherMap;
-
-        public Map<String, Teacher> getTeacherMap() {
-            return teacherMap;
-        }
-
-        public void setTeacherMap(Map<String, Teacher> teacherMap) {
-            this.teacherMap = teacherMap;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public List<Teacher> getTeachers() {
-            return teachers;
-        }
-
-        public void setTeachers(List<Teacher> teachers) {
-            this.teachers = teachers;
-        }
-    }
-
-    public static class Teacher {
-        private String name;
-        private int id;
-        private List<Integer> valami;
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public List<Integer> getValami() {
-            return valami;
-        }
-
-        public void setValami(List<Integer> valami) {
-            this.valami = valami;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-    }
-
     @Test
-    public void build_GivenPrimitiveDataMembers_ReturnsObjectWithValues() throws Exception {
+    public void build_GivenPrimitiveDataMembers_ReturnsObjectWithValues() {
         Map<String, Object> map = new HashMap<>();
         map.put("intDataMember", 1L);
         map.put("floatDataMember", 5.3d);
@@ -395,11 +398,11 @@ public class CompoundBuilderTest {
     }
 
     @Test
-    public void build_GivenEnumDataMember_ReturnsObjectWithValue() throws Exception {
+    public void build_GivenEnumDataMember_ReturnsObjectWithValue() {
         Map<String, Object> map = new HashMap<>();
         map.put("colorDataMember", 2L);
 
-       CompoundBuilder builder = new CompoundBuilder(EnumDataMember.class);
+        CompoundBuilder builder = new CompoundBuilder(EnumDataMember.class);
 
         EnumDataMember edm = builder.build(map);
 
@@ -407,7 +410,7 @@ public class CompoundBuilderTest {
     }
 
     @Test
-    public void build_GivenCollectionDataMembers_ReturnsObjectWithValues() throws Exception {
+    public void build_GivenCollectionDataMembers_ReturnsObjectWithValues() {
 
         List<Long> list = new ArrayList<>();
         list.add(1L);
@@ -446,7 +449,7 @@ public class CompoundBuilderTest {
     }
 
     @Test
-    public void build_GivenMapDataMember_ReturnsObjectWithValues() throws Exception {
+    public void build_GivenMapDataMember_ReturnsObjectWithValues() {
         Map<String, Object> map = new HashMap<>();
 
         Map<Object, Object> hashMap = new HashMap<>();
@@ -476,57 +479,16 @@ public class CompoundBuilderTest {
     }
 
     @Test
-    public void build_GivenSimpleAndCompoundDataMembers_ReturnObjectWithValues() throws Exception {
-        ArrayList<Object> teacherList = new ArrayList<>();
-        ArrayList<Integer> valamiList = new ArrayList<>();
-        Map<String, Object> teacherMapMap = new HashMap<>();
+    public void build_GivenDateDataMember_ReturnsObjectWithValue() {
+        Map<String, Object> map = new HashMap<>();
 
-        valamiList.add(2);
-        valamiList.add(3);
+        Date date = new Date();
+        map.put("date", date.getTime());
 
-        Map<String, Object> teacherMap1 = new HashMap<>();
-        teacherMap1.put("name", "Jolineni");
-        teacherMap1.put("id", 22L);
-        teacherMap1.put("valami", valamiList);
+        CompoundBuilder compoundBuilder = new CompoundBuilder(DateDataMember.class);
 
-        Map<String, Object> teacherMap2 = new HashMap<>();
-        teacherMap2.put("name", "Gaborba");
-        teacherMap2.put("id", 33L);
-        teacherMap2.put("valami", valamiList);
+        DateDataMember ddm = compoundBuilder.build(map);
 
-        teacherList.add(teacherMap1);
-        teacherList.add(teacherMap2);
-
-        teacherMapMap.put("Joli", teacherMap1);
-        teacherMapMap.put("Gabi", teacherMap2);
-
-        Map<String, Object> lessonMap = new HashMap<>();
-        lessonMap.put("id", 2L);
-        lessonMap.put("name", "Anal");
-        lessonMap.put("teachers", teacherList);
-        lessonMap.put("teacherMap", teacherMapMap);
-
-        Map<String, Object> lessonMap2 = new HashMap<>();
-        lessonMap2.put("id", 3L);
-        lessonMap2.put("name", "Anal2");
-        lessonMap2.put("teacher", teacherList);
-        lessonMap.put("teacherMap", teacherMapMap);
-
-        ArrayList<Object> list = new ArrayList<>();
-        list.add(lessonMap);
-        list.add(lessonMap2);
-
-        Map<Object, Object> basicMap = new HashMap<>();
-        basicMap.put("name", "Janos");
-        basicMap.put("age", 22L);
-        basicMap.put("lessons", list);
-
-        CompoundBuilder builder = new CompoundBuilder(Person.class);
-
-        Person person = builder.build(basicMap);
-
-        assertEquals("Janos", person.getName());
-        assertEquals(22, person.getAge());
-        assertEquals(2, person.getLessons().size());
+        assertEquals(date, ddm.getDate());
     }
 }

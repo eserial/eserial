@@ -32,15 +32,7 @@ public class EnumBuilder extends AbstractBuilder {
             return null;
         }
 
-        Class clazz;
-
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pType = (ParameterizedType)type;
-            clazz = (Class) pType.getRawType();
-            throw new EserialBuilderMismatchException (Enum.class.getSimpleName(), clazz.getName());
-        } else {
-            clazz = (Class) type;
-        }
+        Class clazz = (Class) type;
 
         if (!TypeUtils.isEnum(clazz) || !TypeUtils.isLong(value.getClass())) {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), clazz.getName());

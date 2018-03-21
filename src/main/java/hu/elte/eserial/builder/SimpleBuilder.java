@@ -33,15 +33,7 @@ public class SimpleBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
-        Class clazz;
-
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pType = (ParameterizedType)type;
-            clazz = (Class) pType.getRawType();
-            throw new EserialBuilderMismatchException (PrimitiveType.class.getSimpleName(), clazz.getName());
-        } else {
-            clazz = (Class) type;
-        }
+        Class clazz = (Class) type;
 
         if (value == null && TypeUtils.isString(clazz)) {
             return null;

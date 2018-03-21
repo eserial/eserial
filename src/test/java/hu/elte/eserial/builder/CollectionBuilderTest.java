@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class CollectionBuilderTest {
 
@@ -24,6 +25,11 @@ public class CollectionBuilderTest {
         set.add("2");
 
         new CollectionBuilder(List.class).build(set);
+    }
+
+    @Test
+    public void build_GivenListNullValue_ReturnsNullValue() {
+        assertNull(new CollectionBuilder(List.class).build(null));
     }
 
     @Test

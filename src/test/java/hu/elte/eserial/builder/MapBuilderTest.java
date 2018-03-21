@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class MapBuilderTest {
 
@@ -27,6 +28,11 @@ public class MapBuilderTest {
         list.add("key");
 
         new MapBuilder(Map.class).build(list);
+    }
+
+    @Test
+    public void build_GivenMapNullValue_ReturnsNullValue() {
+        assertNull(new CollectionBuilder(Map.class).build(null));
     }
 
     @Test

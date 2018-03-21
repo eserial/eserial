@@ -58,14 +58,8 @@ public class CompoundBuilder extends AbstractBuilder {
 
                 String fieldName = setter.getElementName();
                 Object fieldValue = map.get(fieldName);
-                //Class<?> paramType = setter.getParameterType();
 
                 Type paramType = setter.getTypeParameter();
-               // System.out.println(paramType.getTypeName());
-                if (paramType instanceof ParameterizedType) {
-                    ParameterizedType parameterizedType = (ParameterizedType) paramType;
-                 //   System.out.println(parameterizedType.getActualTypeArguments()[0]);
-                }
 
                 AbstractBuilder abstractBuilder = BuilderFactory.create(paramType);
                 setter.evaluate(abstractBuilder.build(fieldValue));

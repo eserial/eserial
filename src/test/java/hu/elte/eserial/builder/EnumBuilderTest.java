@@ -4,6 +4,7 @@ import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class EnumBuilderTest  {
 
@@ -19,6 +20,11 @@ public class EnumBuilderTest  {
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
         new EnumBuilder(TestEnum.class).build("2");
+    }
+
+    @Test
+    public void build_GivenEnumNullValue_ReturnsNullValue() {
+        assertNull(new EnumBuilder(TestEnum.class).build(null));
     }
 
     @Test

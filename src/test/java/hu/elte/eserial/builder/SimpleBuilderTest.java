@@ -1,11 +1,13 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
 import org.junit.Test;
 
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class SimpleBuilderTest {
 
@@ -17,6 +19,16 @@ public class SimpleBuilderTest {
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
         new SimpleBuilder(Integer.class).build(new Date());
+    }
+
+    @Test(expected = EserialPrimitiveCanNotBeNullException.class)
+    public void build_GivenPrimitiveTypeNullValue_ThrowsEserialPrimitiveCanNotBeNullException() {
+        new SimpleBuilder(Integer.class).build(null);
+    }
+
+    @Test
+    public void build_GivenStringTypeNullValue_ReturnsStringWithNullValue() {
+        assertNull(new SimpleBuilder(String.class).build(null));
     }
 
     @Test

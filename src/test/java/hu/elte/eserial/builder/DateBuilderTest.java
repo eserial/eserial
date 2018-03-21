@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class DateBuilderTest {
 
@@ -17,6 +18,11 @@ public class DateBuilderTest {
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
         new DateBuilder(Date.class).build("20000");
+    }
+
+    @Test
+    public void build_GivenDateNullValue_ReturnsNullValue() {
+        assertNull(new EnumBuilder(Date.class).build(null));
     }
 
     @Test

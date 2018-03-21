@@ -61,14 +61,10 @@ public class Setter {
     }
 
     /**
-     * Returns the class of the setter parameter.
+     * Returns the Type of the setter parameter.
      *
-     * @return class of {@code method} parameter
+     * @return Type of {@code method} parameter
      */
-    public Class getParameterType() {
-        return this.method.getParameterTypes()[0];
-    }
-
     public Type getTypeParameter() {
         return this.method.getGenericParameterTypes()[0];
     }
