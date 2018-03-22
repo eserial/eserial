@@ -1,8 +1,11 @@
 package hu.elte.eserial.util;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class StringUtilsTest {
 
@@ -46,5 +49,70 @@ public class StringUtilsTest {
         assertEquals("eserial\\n", StringUtils.escape("eserial\n"));
         assertEquals("eserial\\r", StringUtils.escape("eserial\r"));
         assertEquals("eserial\\t", StringUtils.escape("eserial\t"));
+    }
+
+    @Test
+    public void isNumeric_GivenStringWhichIsAnInteger_ReturnTrue() {
+        assertTrue(StringUtils.isNumeric("2"));
+    }
+
+    @Test
+    public void isNumeric_GivenStringWhichIsAnDouble_ReturnTrue() {
+        assertTrue(StringUtils.isNumeric("2.0"));
+    }
+
+    @Test
+    public void isNumeric_GivenStringWhichIsNotANumber_ReturnFalse() {
+        assertFalse(StringUtils.isNumeric("test"));
+    }
+
+    @Test
+    public void isBoolean_GivenStringWhichIsAFalseBoolean_ReturnTrue() {
+        assertTrue(StringUtils.isBoolean("false"));
+    }
+
+    @Test
+    public void isBoolean_GivenStringWhichIsATrueBoolean_ReturnTrue() {
+        assertTrue(StringUtils.isBoolean("true"));
+    }
+
+    @Test
+    public void isBoolean_GivenStringWhichIsNotABoolean_ReturnFalse() {
+        assertFalse(StringUtils.isBoolean("test"));
+    }
+
+    @Test
+    public void isInteger_GivenStringWhichIsAnInteger_ReturnTrue() {
+        assertTrue(StringUtils.isInteger("2"));
+    }
+
+    @Test
+    public void isInteger_GivenStringWhichIsAnDouble_ReturnFalse() {
+        assertFalse(StringUtils.isInteger("2.0"));
+    }
+
+    @Test
+    public void isInteger_GivenStringWhichIsANegativeInteger_ReturnTrue() {
+        assertTrue(StringUtils.isInteger("-3"));
+    }
+
+    @Test
+    public void isInteger_GivenStringWhichIsNotANumber_ReturnFalse() {
+        assertFalse(StringUtils.isInteger("test"));
+    }
+
+    @Test
+    public void isDouble_GivenStringWhichIsADouble_ReturnTrue() {
+        assertTrue(StringUtils.isDouble("2.0"));
+    }
+
+    @Test
+    public void isDouble_GivenStringWhichIsAInteger_ReturnFalse() {
+        assertFalse(StringUtils.isDouble("2"));
+    }
+
+    @Test
+    public void isDouble_GivenStringWhichIsNotANumber_ReturnFalse() {
+        assertFalse(StringUtils.isDouble("test"));
     }
 }

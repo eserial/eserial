@@ -85,4 +85,12 @@ public class StringUtils {
             return false;
         }
     }
+
+    public static boolean isInteger(String str) {
+        return str.matches("-?[\\d]+");
+    }
+
+    public static boolean isDouble(String str) {
+        return str.matches("-?[0-9]+\\.?[0-9]+");
+    }
 }
