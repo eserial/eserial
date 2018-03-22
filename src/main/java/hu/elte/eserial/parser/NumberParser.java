@@ -6,19 +6,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NumberParser {
-    public Map<String, Object> parser(String json) {
-        Map<String, Object> map = new HashMap<>();
+    public ParserEntry<String, Object> parser(String json) {
+        ParserEntry<String, Object> entry;
 
-        json.replaceAll("\"", "");
+        json = json.replaceAll("\"", "");
         String parts[] = json.split(":");
 
-        if(StringUtils.isInteger(parts[1])) {
-           map.put(parts[0], Integer.parseInt(parts[1]));
+        if(StringUtils.isInteger(parts[1].trim())) {
+            entry = new ParserEntry(parts[0].trim(), Long.parseLong(parts[1].trim()));
         } else {
-           map.put(parts[0], Double.parseDouble(parts[1]));
+            entry = new ParserEntry(parts[0].trim(), Double.parseDouble(parts[1].trim()));
         }
 
-        return map;
+        return entry;
     }
 }
 

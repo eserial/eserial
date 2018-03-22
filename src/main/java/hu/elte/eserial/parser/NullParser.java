@@ -5,8 +5,6 @@ package hu.elte.eserial.parser;
  */
 public class NullParser {
     public ParserEntry<String, Object> parser(String json) {
-        json = json.replace("{", "");
-        json = json.replace("}", "");
         json = json.replace("\"", "");
 
         String[] parts = json.split(":");
