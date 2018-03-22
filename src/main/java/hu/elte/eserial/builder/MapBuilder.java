@@ -39,20 +39,9 @@ public class MapBuilder extends AbstractBuilder{
             return null;
         }
 
-        Class clazz;
-        Type keyTypeArg;
-        Type valueTypeArg;
-
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pType = (ParameterizedType)type;
-            clazz = (Class) pType.getRawType();
-            keyTypeArg = pType.getActualTypeArguments()[0];
-            valueTypeArg = pType.getActualTypeArguments()[1];
-        } else {
-            clazz = (Class) type;
-            keyTypeArg = null;
-            valueTypeArg = null;
-        }
+        Class clazz = TypeUtils.convertTypeToClass(type);
+        Type keyTypeArg = TypeUtils.getTypeArgument(type, 0);
+        Type valueTypeArg = TypeUtils.getTypeArgument(type, 1);
 
         if (!TypeUtils.isMap(clazz) || !TypeUtils.isMap(value.getClass())) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(), clazz.getName());
@@ -61,8 +50,9 @@ public class MapBuilder extends AbstractBuilder{
         try {
             Map<Object, Object> map = (Map<Object, Object>) value;
 
-            Class keyTypeArgClass = (Class) keyTypeArg;
-            Class valueTypeArgsClass = (Class) valueTypeArg;
+            Class keyTypeArgClass = TypeUtils.convertTypeToClass(keyTypeArg);
+            Class valueTypeArgsClass = TypeUtils.convertTypeToClass(valueTypeArg);
+
             if (keyTypeArg != null && valueTypeArg != null) {
                 Map<Object, Object> newMap = new HashMap<>();
                 Iterator it = map.entrySet().iterator();

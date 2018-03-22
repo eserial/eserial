@@ -4,6 +4,7 @@ import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.model.Setter;
 import hu.elte.eserial.util.MethodUtils;
+import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -27,7 +28,7 @@ public class CompoundBuilder extends AbstractBuilder {
     /**
      * @param value {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a compuund object of the given class and initialized with the map parameter
+     * @return a compound object of the given class and initialized with the map parameter
      */
     @Override
     public <T> T build(Object value) {
@@ -36,14 +37,7 @@ public class CompoundBuilder extends AbstractBuilder {
         }
 
         try {
-            Class clazz;
-
-            if (type instanceof ParameterizedType) {
-                ParameterizedType pType = (ParameterizedType)type;
-                clazz = (Class) pType.getRawType();
-            } else {
-                clazz = (Class) type;
-            }
+            Class clazz = TypeUtils.convertTypeToClass(type);
 
             Object that = clazz.newInstance();
 
