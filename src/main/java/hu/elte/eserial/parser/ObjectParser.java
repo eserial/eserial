@@ -1,5 +1,7 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.util.StringUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +28,9 @@ public class ObjectParser {
 
             String value = parts[1].trim().replace("\"", "");
 
-            if(isNumeric(value)) {
+            if(StringUtils.isNumeric(value)) {
                 map.put(key, Double.parseDouble(value));
-            } else if(isBoolean(value)){
+            } else if(StringUtils.isBoolean(value)){
                 map.put(key, Boolean.parseBoolean(value));
             } else {
                 map.put(key, value);
@@ -36,19 +38,5 @@ public class ObjectParser {
         }
 
         return map;
-    }
-
-    //match a number with optional '-' and decimal.
-    public static boolean isNumeric(String str)
-    {
-        return str.matches("-?\\d+(\\.\\d+)?");
-    }
-
-    public static boolean isBoolean(String str) {
-        if(str.equals("false") || str.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
     }
 }
