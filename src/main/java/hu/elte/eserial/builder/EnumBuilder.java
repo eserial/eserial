@@ -32,7 +32,7 @@ public class EnumBuilder extends AbstractBuilder {
             return null;
         }
 
-        Class clazz = (Class) type;
+        Class clazz = TypeUtils.convertTypeToClass(type);
 
         if (!TypeUtils.isEnum(clazz) || !TypeUtils.isLong(value.getClass())) {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), clazz.getName());

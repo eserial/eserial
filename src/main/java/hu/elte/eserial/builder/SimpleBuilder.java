@@ -9,7 +9,6 @@ import hu.elte.eserial.util.TypeUtils;
 import javax.lang.model.type.PrimitiveType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -33,7 +32,7 @@ public class SimpleBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object value) {
-        Class clazz = (Class) type;
+        Class clazz = TypeUtils.convertTypeToClass(type);
 
         if (value == null && TypeUtils.isString(clazz)) {
             return null;
