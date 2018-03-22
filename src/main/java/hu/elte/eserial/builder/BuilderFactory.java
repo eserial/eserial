@@ -22,14 +22,7 @@ public class BuilderFactory {
      * @return an object builder for {@code type}
      */
     public static AbstractBuilder create(Type type) {
-        Class clazz;
-
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pType = (ParameterizedType)type;
-            clazz = (Class) pType.getRawType();
-        } else {
-            clazz = (Class) type;
-        }
+        Class clazz = TypeUtils.convertTypeToClass(type);
 
         if (!TypeUtils.isCompound(clazz)) {
             return new SimpleBuilder(type);
