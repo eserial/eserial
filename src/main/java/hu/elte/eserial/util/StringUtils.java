@@ -72,4 +72,17 @@ public class StringUtils {
 
         return builder.toString();
     }
+
+    public static boolean isNumeric(String str)
+    {
+        return str.matches("-?\\d+(\\.\\d+)?");
+    }
+
+    public static boolean isBoolean(String str) {
+        if(str.equals("false") || str.equals("true")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
