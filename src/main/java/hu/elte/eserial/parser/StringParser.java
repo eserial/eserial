@@ -13,10 +13,10 @@ public class StringParser {
 
         json = json.replace("{", "");
         json = json.replace("}", "");
-        json = json.replace("\"", "");
 
         String[] parts = json.split(":");
-        map.put(parts[0], parts[1]);
+
+        map.put(parts[0].replace("\"", ""), parts[1].substring(1, parts[1].length() - 1));
 
         return map;
     }

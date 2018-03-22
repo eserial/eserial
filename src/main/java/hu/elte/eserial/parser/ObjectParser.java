@@ -6,7 +6,6 @@ import java.util.Map;
 /**
  * Parses objects.
  */
-
 public class ObjectParser {
     public Map<String, Object> parser(String json) {
         Map<String, Object> map = new HashMap<>();
