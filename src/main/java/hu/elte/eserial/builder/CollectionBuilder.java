@@ -5,7 +5,6 @@ import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -37,17 +36,8 @@ public class CollectionBuilder extends AbstractBuilder {
             return null;
         }
 
-        Class clazz;
-        Type typeArg;
-
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pType = (ParameterizedType)type;
-            clazz = (Class) pType.getRawType();
-            typeArg = pType.getActualTypeArguments()[0];
-        } else {
-            clazz = (Class) type;
-            typeArg = null;
-        }
+        Class clazz = TypeUtils.convertTypeToClass(type);
+        Type typeArg = TypeUtils.getTypeArgument(type, 0);
 
         if (!TypeUtils.isCollection(clazz) || (!TypeUtils.isList(value.getClass()))) {
             throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), clazz.getName());
@@ -56,7 +46,8 @@ public class CollectionBuilder extends AbstractBuilder {
         try {
             List<Object> list = (List) value;
 
-            Class typeArgClass = (Class) typeArg;
+            Class typeArgClass = TypeUtils.convertTypeToClass(typeArg);
+
             if (typeArg != null && TypeUtils.isCompound(typeArgClass)) {
                 for (int i = 0; i < list.size(); i++) {
                     AbstractBuilder abstractBuilder = BuilderFactory.create(typeArg);

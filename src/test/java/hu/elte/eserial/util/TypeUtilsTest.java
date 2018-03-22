@@ -1,14 +1,16 @@
 package hu.elte.eserial.util;
 
+import com.sun.jmx.remote.internal.ArrayQueue;
+import hu.elte.eserial.builder.CompoundBuilderTest;
+import hu.elte.eserial.model.Setter;
 import org.junit.Test;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.*;
+import java.util.concurrent.*;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TypeUtilsTest {
 
@@ -165,4 +167,175 @@ public class TypeUtilsTest {
     public void isCharacter_GivenNonCharacter_ReturnsFalse() {
         assertFalse(TypeUtils.isCharacter(Integer.class));
     }
+
+    @Test
+    public void isDecimal_GivenDecimal_ReturnsTrue() {
+        assertTrue(TypeUtils.isDecimal(double.class));
+        assertTrue(TypeUtils.isDecimal(Double.class));
+        assertTrue(TypeUtils.isDecimal(float.class));
+        assertTrue(TypeUtils.isDecimal(Float.class));
+    }
+
+    @Test
+    public void isDecimal_GivenNonDecimal_ReturnsFalse() {
+        assertFalse(TypeUtils.isDecimal(Integer.class));
+    }
+
+    @Test
+    public void isLong_GivenLong_ReturnsTrue() {
+        assertTrue(TypeUtils.isLong(Long.class));
+        assertTrue(TypeUtils.isLong(long.class));
+    }
+
+    @Test
+    public void isLong_GivenNonLong_ReturnsFalse() {
+        assertFalse(TypeUtils.isLong(Integer.class));
+    }
+
+    @Test
+    public void isCollection_GivenCollection_ReturnsTrue() {
+        assertTrue(TypeUtils.isCollection(Set.class));
+        assertTrue(TypeUtils.isCollection(List.class));
+        assertTrue(TypeUtils.isCollection(Queue.class));
+    }
+
+    @Test
+    public void isCollection_GivenNonCollection_ReturnsFalse() {
+        assertFalse(TypeUtils.isCollection(Integer.class));
+        assertFalse(TypeUtils.isCollection(Map.class));
+        assertFalse(TypeUtils.isCollection(Date.class));
+    }
+
+    @Test
+    public void isSortedSet_GivenSortedSet_ReturnsTrue() {
+        assertTrue(TypeUtils.isSortedSet(SortedSet.class));
+        assertTrue(TypeUtils.isSortedSet(TreeSet.class));
+    }
+
+    @Test
+    public void isSortedSet_GivenNonSortedSet_ReturnsFalse() {
+        assertFalse(TypeUtils.isSortedSet(HashSet.class));
+    }
+
+    @Test
+    public void isSet_GivenSet_ReturnsTrue() {
+        assertTrue(TypeUtils.isSet(Set.class));
+        assertTrue(TypeUtils.isSet(HashSet.class));
+    }
+
+    @Test
+    public void isSet_GivenNonSet_ReturnsFalse() {
+        assertFalse(TypeUtils.isSet(Queue.class));
+    }
+
+    @Test
+    public void isQueue_GivenQueue_ReturnsTrue() {
+        assertTrue(TypeUtils.isQueue(Queue.class));
+        assertTrue(TypeUtils.isQueue(ArrayQueue.class));
+    }
+
+    @Test
+    public void isQueue_GivenNonQueue_ReturnsFalse() {
+        assertFalse(TypeUtils.isQueue(Set.class));
+    }
+
+    @Test
+    public void isConcurrentNavigableMap_GivenNavigableMap_ReturnsTrue() {
+        assertTrue(TypeUtils.isConcurrentNavigableMap(ConcurrentNavigableMap.class));
+        assertTrue(TypeUtils.isConcurrentNavigableMap(ConcurrentSkipListMap.class));
+    }
+
+    @Test
+    public void isConcurrentNavigableMap_GivenNonConcurrentNavigableMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isConcurrentNavigableMap(HashMap.class));
+    }
+
+    @Test
+    public void isConcurrentMap_GivenConcurrentMap_ReturnsTrue() {
+        assertTrue(TypeUtils.isConcurrentMap(ConcurrentMap.class));
+        assertTrue(TypeUtils.isConcurrentMap(ConcurrentSkipListMap.class));
+    }
+
+    @Test
+    public void isConcurrentMap_GivenNonConcurrentMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isConcurrentMap(Set.class));
+    }
+
+    @Test
+    public void isSortedMap_GivenSortedMap_ReturnsTrue() {
+        assertTrue(TypeUtils.isSortedMap(SortedMap.class));
+        assertTrue(TypeUtils.isSortedMap(TreeMap.class));
+    }
+
+    @Test
+    public void isSortedMap_GivenNonSortedMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isSortedMap(Set.class));
+    }
+
+    @Test
+    public void isBlockingQueue_GivenBlockingQueue_ReturnsTrue() {
+        assertTrue(TypeUtils.isBlockingQueue(LinkedBlockingQueue.class));
+        assertTrue(TypeUtils.isBlockingQueue(BlockingQueue.class));
+    }
+
+    @Test
+    public void isBlockingQueue_GivenNonBlockingQueue_ReturnsFalse() {
+        assertFalse(TypeUtils.isBlockingQueue(Set.class));
+    }
+
+    @Test
+    public void isBlockingDeque_GivenBlockingDeque_ReturnsTrue() {
+        assertTrue(TypeUtils.isBlockingDeque(BlockingDeque.class));
+        assertTrue(TypeUtils.isBlockingDeque(LinkedBlockingDeque.class));
+    }
+
+    @Test
+    public void isBlockingDeque_GivenNonBlockingDeque_ReturnsFalse() {
+        assertFalse(TypeUtils.isBlockingDeque(Set.class));
+    }
+
+    @Test
+    public void isTransferQueue_GivenTransferQueue_ReturnsTrue() {
+        assertTrue(TypeUtils.isTransferQueue(TransferQueue.class));
+        assertTrue(TypeUtils.isTransferQueue(LinkedTransferQueue.class));
+    }
+
+    @Test
+    public void isTransferQueue_GivenNonTransferQueue_ReturnsFalse() {
+        assertFalse(TypeUtils.isTransferQueue(Set.class));
+    }
+
+    @Test
+    public void convertTypeToClass_GivenType_ReturnsItsClass() {
+        Type type = List.class;
+
+        assertEquals(List.class, TypeUtils.convertTypeToClass(type));
+    }
+
+    @Test
+    public void convertTypeToClass_GivenParameterizedType_ReturnsItsClass() {
+        List<Integer> list = new ArrayList<>();
+
+        assertEquals(ArrayList.class, TypeUtils.convertTypeToClass(list.getClass()));
+    }
+
+    @Test
+    public void getTypeArgument_GivenNonParameterizedType_ReturnsNull() {
+        assertNull(TypeUtils.getTypeArgument(Integer.class.getGenericSuperclass(), 0));
+    }
+
+    @Test
+    public void getTypeArgument_GivenParameterizedType_ReturnsTypeArguments() {
+        try {
+            Method method = CompoundBuilderTest.CompoundTestClassTwo.class.getDeclaredMethod("setList", List.class);
+            Setter setter = new Setter(new CompoundBuilderTest.CompoundTestClassTwo(), method);
+
+            Type type = setter.getTypeParameter();
+
+            assertEquals(Integer.class, TypeUtils.getTypeArgument(type, 0));
+        } catch (NoSuchMethodException e) {
+            fail(e.getMessage());
+        }
+    }
+
 }

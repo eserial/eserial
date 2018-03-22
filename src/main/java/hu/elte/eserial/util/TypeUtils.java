@@ -1,5 +1,7 @@
 package hu.elte.eserial.util;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -243,7 +245,7 @@ public class TypeUtils {
      * @return {@code true} if {@code type} is a long
      */
     public static Boolean isLong(Class<?> type) {
-        return Long.class.isAssignableFrom(type);
+        return type == Long.class || type == long.class;
     }
 
     /**
@@ -254,5 +256,36 @@ public class TypeUtils {
      */
     public static Boolean isDecimal(Class<?> type) {
         return type == double.class || type == Double.class || type == float.class || type == Float.class;
+    }
+
+    /**
+     * Converts type to a class.
+     *
+     * @param type is a Type
+     * @return RawType if {@code type} is parameterized, else casts {@code type} to class
+     */
+    public static Class convertTypeToClass(Type type) {
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType)type;
+            return (Class) pType.getRawType();
+        } else {
+            return (Class) type;
+        }
+    }
+
+    /**
+     * Returns the TypeArgument of a type if parameterized, else null.
+     *
+     * @param type is a Type
+     * @param i is the index of the ActualTypeArgument
+     * @return Type if {@code type} is parameterized, else null
+     */
+    public static Type getTypeArgument(Type type, int i) {
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pType = (ParameterizedType)type;
+            return pType.getActualTypeArguments()[i];
+        } else {
+            return null;
+        }
     }
 }
