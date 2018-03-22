@@ -33,7 +33,7 @@ public class DateBuilder extends AbstractBuilder{
             return null;
         }
 
-        Class clazz = (Class) type;
+        Class clazz = TypeUtils.convertTypeToClass(type);
 
         if (!TypeUtils.isDate(clazz) || !TypeUtils.isNumber(value.getClass())) {
             throw new EserialBuilderMismatchException(Date.class.getSimpleName(), clazz.getName());
