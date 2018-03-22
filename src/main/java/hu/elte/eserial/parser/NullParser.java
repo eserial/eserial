@@ -1,22 +1,18 @@
 package hu.elte.eserial.parser;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Parses null values.
  */
 public class NullParser {
-    public Map<String, Object> parser(String json) {
-        Map<String, Object> map = new HashMap<>();
+    public ParserEntry<String, Object> parser(String json) {
         json = json.replace("{", "");
         json = json.replace("}", "");
         json = json.replace("\"", "");
 
         String[] parts = json.split(":");
 
-        map.put(parts[0], null);
+        ParserEntry<String, Object> entry = new ParserEntry(parts[0].trim(), null);
 
-        return map;
+        return entry;
     }
 }
