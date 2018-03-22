@@ -231,7 +231,7 @@ public class TypeUtilsTest {
     @Test
     public void isQueue_GivenQueue_ReturnsTrue() {
         assertTrue(TypeUtils.isQueue(Queue.class));
-        assertTrue(TypeUtils.isQueue(ArrayQueue.class));
+        assertTrue(TypeUtils.isQueue(ArrayDeque.class));
     }
 
     @Test
