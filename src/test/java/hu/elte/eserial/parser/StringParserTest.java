@@ -1,18 +1,20 @@
 package hu.elte.eserial.parser;
 
+import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 
 public class StringParserTest {
     @Test
-    public void parser_GivenASimpleJsonString_ReturnAMap() {
-       Map<String, Object> testMap = new StringParser().parser("{\"car\":\"Audi\"}");
+    public void parser_GivenASimplePairWithTwoString_ReturnAEntry() {
+       ParserEntry<String, Object> entry = new StringParser().parser(new Pair("test", "test"));
 
-       Assert.assertTrue(testMap.containsKey("car"));
-       Assert.assertTrue(testMap.containsValue("Audi"));
-       Assert.assertTrue(1 == testMap.size());
+       assertEquals(entry.getKey(), "test");
+       assertEquals(entry.getValue(), "test");
     }
 }

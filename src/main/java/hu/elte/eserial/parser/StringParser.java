@@ -1,5 +1,7 @@
 package hu.elte.eserial.parser;
 
+import javafx.util.Pair;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,16 +10,10 @@ import java.util.Map;
  */
 public class StringParser {
 
-    public Map<String, Object> parser(String json) {
-        Map<String, Object> map = new HashMap<>();
+    public ParserEntry<String, Object> parser(Pair<String, String> pair) {
 
-        json = json.replace("{", "");
-        json = json.replace("}", "");
+        ParserEntry<String, Object> entry = new ParserEntry<>(pair.getKey(), pair.getValue());
 
-        String[] parts = json.split(":");
-
-        map.put(parts[0].replace("\"", ""), parts[1].substring(1, parts[1].length() - 1));
-
-        return map;
+        return entry;
     }
 }

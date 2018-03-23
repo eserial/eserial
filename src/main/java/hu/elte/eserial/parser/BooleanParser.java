@@ -1,5 +1,7 @@
 package hu.elte.eserial.parser;
 
+import javafx.util.Pair;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,17 +9,10 @@ import java.util.Map;
  * Parses booleans.
  */
 public class BooleanParser {
+    public ParserEntry<String, Object> parser(Pair<String, String> pair) {
 
-    public Map<String, Object> parser(String json) {
-        Map<String, Object> map = new HashMap<>();
-        json = json.replace("{", "");
-        json = json.replace("}", "");
-        json = json.replace("\"", "");
+        ParserEntry<String, Object> entry = new ParserEntry(pair.getKey(), Boolean.parseBoolean(pair.getValue()));
 
-        String[] parts = json.split(":");
-
-        map.put(parts[0], Boolean.parseBoolean(parts[1].trim()));
-
-        return map;
+        return entry;
     }
 }

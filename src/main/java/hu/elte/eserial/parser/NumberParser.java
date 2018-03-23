@@ -1,21 +1,19 @@
 package hu.elte.eserial.parser;
 
 import hu.elte.eserial.util.StringUtils;
+import javafx.util.Pair;
 
-import java.util.HashMap;
-import java.util.Map;
-
+/**
+ * Parses numbers.
+ */
 public class NumberParser {
-    public ParserEntry<String, Object> parser(String json) {
+    public ParserEntry<String, Object> parser(Pair<String, String> pair) {
         ParserEntry<String, Object> entry;
 
-        json = json.replaceAll("\"", "");
-        String parts[] = json.split(":");
-
-        if(StringUtils.isInteger(parts[1].trim())) {
-            entry = new ParserEntry(parts[0].trim(), Long.parseLong(parts[1].trim()));
+        if(StringUtils.isInteger(pair.getValue().trim())) {
+            entry = new ParserEntry(pair.getKey().trim(), Long.parseLong(pair.getValue().trim()));
         } else {
-            entry = new ParserEntry(parts[0].trim(), Double.parseDouble(parts[1].trim()));
+            entry = new ParserEntry(pair.getKey().trim(), Double.parseDouble(pair.getValue().trim()));
         }
 
         return entry;

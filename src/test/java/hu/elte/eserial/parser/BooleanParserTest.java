@@ -1,26 +1,27 @@
 package hu.elte.eserial.parser;
 
+import javafx.util.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 public class BooleanParserTest {
     @Test
-    public void parser_GivenTrue_ReturnTrueInMap() {
-        Map<String, Object> testMap = new BooleanParser().parser("{\"hasNext\": true}");
+    public void parser_GivenAPairWhichRepresentATrueBoolean_ReturnTrueInEntry() {
+        ParserEntry<String, Object> entry = new BooleanParser().parser(new Pair("test", "true"));
 
-        Assert.assertTrue(testMap.containsKey("hasNext"));
-        Assert.assertTrue(testMap.containsValue(true));
-        Assert.assertTrue(1 == testMap.size());
+        assertEquals(entry.getKey(),"test");
+        assertEquals(entry.getValue(), true);
     }
 
     @Test
-    public void parser_GivenFalse_ReturnFalseInMap() {
-        Map<String, Object> testMap = new BooleanParser().parser("{\"hasNext\": false}");
+    public void parser_GivenAPairWhichRepresentAFalseBoolean_ReturnFalseInEntry() {
+        ParserEntry<String, Object> entry = new BooleanParser().parser(new Pair("test", "false"));
 
-        Assert.assertTrue(testMap.containsKey("hasNext"));
-        Assert.assertTrue(testMap.containsValue(false));
-        Assert.assertTrue(1 == testMap.size());
+        assertEquals(entry.getKey(),"test");
+        assertEquals(entry.getValue(), false);
     }
 }
