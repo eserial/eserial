@@ -4,20 +4,26 @@ import hu.elte.eserial.util.StringUtils;
 
 import java.util.LinkedList;
 
-public class CollectionParser {
-    public LinkedList<Object> parser(String json) {
+public class CollectionParser extends AbstractParser{
+
+    CollectionParser(String value) {
+        super(value);
+    }
+
+    @Override
+    LinkedList<Object> parser() {
         LinkedList<Object> list = new LinkedList<>();
 
-        for(String part : json.split(",")) {
+        for(String part : value.split(",")) {
             part = part.trim();
             if(StringUtils.isNumeric(part)) {
-                list.add(new NumberParser().parser(part));
+                list.add(new NumberParser(part).parser());
             } else if(StringUtils.isBoolean(part)){
-                list.add(new BooleanParser().parser(part));
+                list.add(new BooleanParser(part).parser());
             } else if(part.equals("null")) {
-                list.add(new NullParser().parser(part));
+                list.add(new NullParser(part).parser());
             } else {
-                list.add(new StringParser().parser(part));
+                list.add(new StringParser(part).parser());
             }
         }
 

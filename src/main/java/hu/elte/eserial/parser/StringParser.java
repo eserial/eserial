@@ -8,9 +8,14 @@ import java.util.Map;
 /**
  * Parses strings.
  */
-public class StringParser {
+public class StringParser extends AbstractParser{
 
-    public String parser(String value) {
+    StringParser(String value) {
+        super(value);
+    }
+
+    @Override
+    String parser() {
 
         return value.substring(1, value.length() - 1);
     }

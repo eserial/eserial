@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public class CollectionParserTest {
     @Test
     public void parser_GivenAJsonWhichRepresentAListOfNumbers_ReturnLongList() {
-        LinkedList<Object> testList = new CollectionParser().parser("2, 3,4, 5 ");
+        LinkedList<Object> testList = new CollectionParser("2, 3,4, 5 ").parser();
 
         Assert.assertTrue(4 == testList.size());
         Assert.assertEquals(testList.get(0), new Long(2));
@@ -19,7 +19,7 @@ public class CollectionParserTest {
 
     @Test
     public void parser_GivenAJsonWhichRepresentAListOfBooleans_ReturnBooleanList() {
-        LinkedList<Object> testList = new CollectionParser().parser("true, false, true, false");
+        LinkedList<Object> testList = new CollectionParser("true, false, true, false").parser();
 
         Assert.assertTrue(4 == testList.size());
         Assert.assertEquals(testList.get(0), true);
@@ -30,7 +30,7 @@ public class CollectionParserTest {
 
     @Test
     public void parser_GivenAJsonWhichRepresentAListOfStrings_ReturnStringList() {
-        LinkedList<Object> testList = new CollectionParser().parser("\"test1 \", \"test2\", \"test3\", \"test4\"");
+        LinkedList<Object> testList = new CollectionParser("\"test1 \", \"test2\", \"test3\", \"test4\"").parser();
 
         Assert.assertTrue(4 == testList.size());
 

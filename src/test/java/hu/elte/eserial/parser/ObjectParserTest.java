@@ -31,6 +31,8 @@ public class ObjectParserTest {
 
     @Test
     public void parser_GivenAJsonWithList_ReturnMap() {
-        Map<String, Object> testMap = new ObjectParser().parser("{\"test\" : [\"test\":\"test\"]}");
+        Map<String, Object> testMap = new ObjectParser().parser("{\"test\" : [\"test2\"]}");
+
+        Assert.assertTrue(1 == testMap.size());
     }
 }
