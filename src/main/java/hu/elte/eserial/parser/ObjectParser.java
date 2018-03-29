@@ -30,7 +30,7 @@ public class ObjectParser {
 
             if(parts[1].trim().charAt(0) == '[') {
                 value = parts[1].trim().substring(1, parts[1].trim().length() - 1);
-                LinkedList<Object> list = new CollectionParser().parser(value);
+                LinkedList<Object> list = new CollectionParser(value).parser();
                 map.put(key, list);
                 continue;
             }
@@ -38,13 +38,13 @@ public class ObjectParser {
             value = parts[1].trim();
 
             if(StringUtils.isNumeric(value)) {
-                map.put(key, new NumberParser().parser(value));
+                map.put(key, new NumberParser(value).parser());
             } else if(StringUtils.isBoolean(value)){
-                map.put(key, new BooleanParser().parser(value));
+                map.put(key, new BooleanParser(value).parser());
             } else if(value.equals("null")) {
-                map.put(key, new NullParser().parser(value));
+                map.put(key, new NullParser(value).parser());
             } else {
-                map.put(key, new StringParser().parser(value));
+                map.put(key, new StringParser(value).parser());
             }
         }
 

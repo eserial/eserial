@@ -5,8 +5,14 @@ import javafx.util.Pair;
 /**
  * Parses null values.
  */
-public class NullParser {
-    public Object parser(String value) {
+public class NullParser extends AbstractParser{
+
+    NullParser(String value) {
+        super(value);
+    }
+
+    @Override
+    Object parser() {
 
         return null;
     }
