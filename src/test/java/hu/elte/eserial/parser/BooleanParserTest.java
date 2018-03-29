@@ -1,27 +1,21 @@
 package hu.elte.eserial.parser;
 
-import javafx.util.Pair;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 
 public class BooleanParserTest {
     @Test
     public void parser_GivenAPairWhichRepresentATrueBoolean_ReturnTrueInEntry() {
-        ParserEntry<String, Object> entry = new BooleanParser().parser(new Pair("test", "true"));
+        Boolean bool = new BooleanParser().parser("true");
 
-        assertEquals(entry.getKey(),"test");
-        assertEquals(entry.getValue(), true);
+        assertEquals(bool, true);
     }
 
     @Test
     public void parser_GivenAPairWhichRepresentAFalseBoolean_ReturnFalseInEntry() {
-        ParserEntry<String, Object> entry = new BooleanParser().parser(new Pair("test", "false"));
+        Boolean bool = new BooleanParser().parser("false");
 
-        assertEquals(entry.getKey(),"test");
-        assertEquals(entry.getValue(), false);
+        assertEquals(bool, false);
     }
 }

@@ -10,10 +10,8 @@ import java.util.Map;
  */
 public class StringParser {
 
-    public ParserEntry<String, Object> parser(Pair<String, String> pair) {
+    public String parser(String value) {
 
-        ParserEntry<String, Object> entry = new ParserEntry<>(pair.getKey(), pair.getValue());
-
-        return entry;
+        return value.substring(1, value.length() - 1);
     }
 }
