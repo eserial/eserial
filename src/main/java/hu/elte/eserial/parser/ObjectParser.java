@@ -1,8 +1,10 @@
 package hu.elte.eserial.parser;
 
 import hu.elte.eserial.util.StringUtils;
+import javafx.util.Pair;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -11,29 +13,38 @@ import java.util.Map;
 public class ObjectParser {
     public Map<String, Object> parser(String json) {
         Map<String, Object> map = new HashMap<>();
+        String key;
+        String value;
 
-        json = json.substring(1, json.length()-1);
-
-        System.out.println(json);
+        json = json.substring(1, json.length() - 1);
 
         for(String pair : json.split(",")) {
             String[] parts = pair.split(":", 2);
 
-            String key = parts[0].trim().replace("\"", "");
+            key = parts[0].trim().replace("\"", "");
 
             if(parts[1].trim().charAt(0) == '{') {
                 map.put(key, parser(parts[1].trim()));
                 continue;
             }
 
-            String value = parts[1].trim().replace("\"", "");
+            if(parts[1].trim().charAt(0) == '[') {
+                value = parts[1].trim().substring(1, parts[1].trim().length() - 1);
+                LinkedList<Object> list = new CollectionParser().parser(value);
+                map.put(key, list);
+                continue;
+            }
+
+            value = parts[1].trim();
 
             if(StringUtils.isNumeric(value)) {
-                map.put(key, Double.parseDouble(value));
+                map.put(key, new NumberParser().parser(value));
             } else if(StringUtils.isBoolean(value)){
-                map.put(key, Boolean.parseBoolean(value));
+                map.put(key, new BooleanParser().parser(value));
+            } else if(value.equals("null")) {
+                map.put(key, new NullParser().parser(value));
             } else {
-                map.put(key, value);
+                map.put(key, new StringParser().parser(value));
             }
         }
 

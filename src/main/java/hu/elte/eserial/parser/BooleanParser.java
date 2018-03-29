@@ -9,10 +9,8 @@ import java.util.Map;
  * Parses booleans.
  */
 public class BooleanParser {
-    public ParserEntry<String, Object> parser(Pair<String, String> pair) {
+    public Boolean parser(String value) {
 
-        ParserEntry<String, Object> entry = new ParserEntry(pair.getKey(), Boolean.parseBoolean(pair.getValue()));
-
-        return entry;
+        return Boolean.parseBoolean(value);
     }
 }
