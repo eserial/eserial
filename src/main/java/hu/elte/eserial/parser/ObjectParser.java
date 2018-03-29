@@ -1,7 +1,6 @@
 package hu.elte.eserial.parser;
 
 import hu.elte.eserial.util.StringUtils;
-import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,7 +17,7 @@ public class ObjectParser {
 
         json = json.substring(1, json.length() - 1);
 
-        for(String pair : json.split(",")) {
+        for(String pair : StringUtils.splitJson(json)) {
             String[] parts = pair.split(":", 2);
 
             key = parts[0].trim().replace("\"", "");

@@ -15,10 +15,6 @@ public class ObjectParserTest {
         Assert.assertTrue(testMap.containsKey("key1"));
         Assert.assertTrue(testMap.containsValue(new Long(5)));
 
-        for (Map.Entry<String, Object> entry : testMap.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
-        }
-
         Assert.assertTrue(testMap.containsValue(true));
     }
 
@@ -31,8 +27,10 @@ public class ObjectParserTest {
 
     @Test
     public void parser_GivenAJsonWithList_ReturnMap() {
-        Map<String, Object> testMap = new ObjectParser().parser("{\"test\" : [\"test2\"]}");
+        Map<String, Object> testMap = new ObjectParser().parser("{\"test\" : [\"test2\", \"test3\"]}");
 
         Assert.assertTrue(1 == testMap.size());
+
+        System.out.println(testMap.get("test").toString());
     }
 }

@@ -93,4 +93,8 @@ public class StringUtils {
     public static boolean isDouble(String str) {
         return str.matches("-?[0-9]+\\.?[0-9]+");
     }
+
+    public static String[] splitJson(String json) {
+        return json.split("(?=(?:(?:[^\"]*\"){2})*[^\"]*$)(?![^{]*})(?![^\\[]*\\]),+");
+    }
 }
