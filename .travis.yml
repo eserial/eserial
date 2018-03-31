@@ -1,10 +1,12 @@
 language: java
+
 jdk:
   - oraclejdk8
 
 env:
   global:
-  - secure: Pxqeif258krW/7m2ncPZXjwdL2tENIueaAiwMWuJ8XJD56ZVtiEykU8w4u8+5vlgmdLRDTs7z3L9eE3/mnzeKH5NUOpAL/1rWx4DhvEonDPOrJfuhDej1rTFYmA+tBjWWYHwYvV59aN19G70Lxv2Z8n56IwkgBThP1h/XNEl4heLnZyO1O7jGOgHqr/+Ldds5tfsxQrygYAHMxdkdEnM6oXaQ1P9FEJ8WBiURUmF3nEMnXOtRzpYHL3hHVXev31bQ7VvpGrKqCGlyJaHvk+u3PWuhsjO6+8SbnF/UWuiwwnQsPn/nj0GI0WZ38rrrl6LCnNmYd4PyxJBZo/A9NLFqvMeTfkoZlkwZwejGLaEr19eF48veyg2Cy1UMn8wcM3xs9xfeMq2fs3w3eXbBOrdg0JSY3WhFbPPfn3gPwM2hKBALJ3j5GN6bWzmt0glXis6XO7zH7C64Z7obONqjl7rY+2U9eJ9EUtqhXxjhb+6oHn6ga9JfGhg8NEiLn6tfrn4qFuNq67ADctteooUP/vtsRIB3yeihs0FSKcI4mWuOBD/Os2Ug5PenAMeNQUANOCgM2JjPD5y2tL/dVBXAYqwy6tNzntSdkhRamlxSKqXj7+2v/XS64vFSZq8hn8hLKLbgjgSvTBsP3ofIzfZ5pB6QZ0/rdMaFX4Ru+aTWwwLvCE=
+    - secure: Pxqeif258krW/7m2ncPZXjwdL2tENIueaAiwMWuJ8XJD56ZVtiEykU8w4u8+5vlgmdLRDTs7z3L9eE3/mnzeKH5NUOpAL/1rWx4DhvEonDPOrJfuhDej1rTFYmA+tBjWWYHwYvV59aN19G70Lxv2Z8n56IwkgBThP1h/XNEl4heLnZyO1O7jGOgHqr/+Ldds5tfsxQrygYAHMxdkdEnM6oXaQ1P9FEJ8WBiURUmF3nEMnXOtRzpYHL3hHVXev31bQ7VvpGrKqCGlyJaHvk+u3PWuhsjO6+8SbnF/UWuiwwnQsPn/nj0GI0WZ38rrrl6LCnNmYd4PyxJBZo/A9NLFqvMeTfkoZlkwZwejGLaEr19eF48veyg2Cy1UMn8wcM3xs9xfeMq2fs3w3eXbBOrdg0JSY3WhFbPPfn3gPwM2hKBALJ3j5GN6bWzmt0glXis6XO7zH7C64Z7obONqjl7rY+2U9eJ9EUtqhXxjhb+6oHn6ga9JfGhg8NEiLn6tfrn4qFuNq67ADctteooUP/vtsRIB3yeihs0FSKcI4mWuOBD/Os2Ug5PenAMeNQUANOCgM2JjPD5y2tL/dVBXAYqwy6tNzntSdkhRamlxSKqXj7+2v/XS64vFSZq8hn8hLKLbgjgSvTBsP3ofIzfZ5pB6QZ0/rdMaFX4Ru+aTWwwLvCE=
+    - secure: "GlJ93EgvGwjMwh83tnpQNsnNcyz8r/e66scvZpX6bmG/CVU6FRNIRNGI+p9ScRocCdhxjedp/VXjCasHI/c9bH7qAkk18WLF+wDe/RqTZTj+bfz24VsB0oszTehvt2Uoafi5y1tmMDJEtADAW3ofZJWuvXJXTlnWRUtDAStncABkFhn4p4NmbF/1g7QP1KZbzP8Hj5g8b1oUTO/hUo16DGbqs5m/oO3udyq3UyBTnko+JjgumaOV/qwHn2H/Ui9kSLFOcykao8X094CemVlAVKhoSMunyWtNgqPWeddriGphK+60N31QhmY4S64WIh+1pCnAHE/g03WZalUveseFLerAvtfDUKo9QOG1+gUVpPARG9O1oZXP+A1w6KVxYKAfLvi5a2fH0/JLcEhi4gPUhvhi4zh8bi/XC1D8dXPTI3UXJkIJHW2+pn+OruH/Sdx0vb+dT1BZ0pSrfQDE5SYvSnohkXoMISGf9FAFWVcHMhWdQoY4+QTmB3gQghnOWvid/4vh82S1GC9oJpaKlFHhEAm+R/ws4MTbCYRmKjUhveemR6ASsV5FGsknI/oqEa4xq6bmilSWlbXN/GMjMETRI7yCne2RZ2g5hSKVdwTaUnzVAZQOz8eP1thq8UMjM/mpL1Iptvmbae9Cnq2L27cjnO+0iPb+sa2kzTtn7IRmmPY="
 
 before_install:
   - chmod +x ./script/push-javadoc-to-gh-pages.sh
@@ -25,3 +27,11 @@ deploy:
   skip_cleanup: true
   on:
     tags: true
+
+addons:
+  sonarcloud:
+    organization: "eserial-github"
+    token: $SONAR_TOKEN
+
+script:
+  - sonar-scanner
