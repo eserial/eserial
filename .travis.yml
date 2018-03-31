@@ -32,6 +32,8 @@ addons:
   sonarcloud:
     organization: "eserial-github"
     token: $SONAR_TOKEN
+    branches:
+      - master
 
 script:
   - sonar-scanner
