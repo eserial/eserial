@@ -1,11 +1,27 @@
 language: java
 jdk:
   - oraclejdk8
+
 env:
   global:
   - secure: Pxqeif258krW/7m2ncPZXjwdL2tENIueaAiwMWuJ8XJD56ZVtiEykU8w4u8+5vlgmdLRDTs7z3L9eE3/mnzeKH5NUOpAL/1rWx4DhvEonDPOrJfuhDej1rTFYmA+tBjWWYHwYvV59aN19G70Lxv2Z8n56IwkgBThP1h/XNEl4heLnZyO1O7jGOgHqr/+Ldds5tfsxQrygYAHMxdkdEnM6oXaQ1P9FEJ8WBiURUmF3nEMnXOtRzpYHL3hHVXev31bQ7VvpGrKqCGlyJaHvk+u3PWuhsjO6+8SbnF/UWuiwwnQsPn/nj0GI0WZ38rrrl6LCnNmYd4PyxJBZo/A9NLFqvMeTfkoZlkwZwejGLaEr19eF48veyg2Cy1UMn8wcM3xs9xfeMq2fs3w3eXbBOrdg0JSY3WhFbPPfn3gPwM2hKBALJ3j5GN6bWzmt0glXis6XO7zH7C64Z7obONqjl7rY+2U9eJ9EUtqhXxjhb+6oHn6ga9JfGhg8NEiLn6tfrn4qFuNq67ADctteooUP/vtsRIB3yeihs0FSKcI4mWuOBD/Os2Ug5PenAMeNQUANOCgM2JjPD5y2tL/dVBXAYqwy6tNzntSdkhRamlxSKqXj7+2v/XS64vFSZq8hn8hLKLbgjgSvTBsP3ofIzfZ5pB6QZ0/rdMaFX4Ru+aTWwwLvCE=
+
 before_install:
-  - chmod +x ./script/push-javadoc-to-gh-pages.sh  
+  - chmod +x ./script/push-javadoc-to-gh-pages.sh
+
 after_success:
   - gradle javadoc
   - ./script/push-javadoc-to-gh-pages.sh 
+  
+before_deploy:
+  - gradle jar
+
+deploy:
+  provider: releases
+  api_key:
+    secure: "qm2Uv8Jv3V98vtumj1mplNH8HLrhR/Zuy0SKzh5xLdVZMS69DVX38g9ouiMGl6m1u5bmr9kVZ7XxyifTGrUpyCLRqc643UZiMuEpmHuggsNF7PihBnjZdLySX4W0Aq9rGD92X/qM2Dw0phgZ/FNMueKENL78Wqu+ZE1v1Jgug3zIMbss3FYrbSOc8M0Y8bCvbUnRCPoUhQbsmyocACBOwgm5fISjIwIB6MplKGOrjh+0+6d5PNXv2aPe7F9hftVIXBYu7d23/H6KUcBZRu8zr/uxaHxUs8VSD01E/jsfsT9XBJtNBRwynHlLj3lN5N2kKk0Pk4jyQUR1rpnNika1GCLvAJfqxmjmBy08EQ1a4Uf4iCOo+xpvZVPecmqaj+942Ze0HSkcWF8GUEfby35/dMwfJBtlmQAwDBducYTv52SYTFc6it/GEOjO9uwoNQ1ddRa8EOH8hOciclMv5UukomoHkWBjAy85SlC24U5lVL6kZUQ5bHZIQv1x/SPudaF3ehz+fxmtpG35JPguPnTbqMCiso8hzgt4iPHEHSfy8hBm5eDtvx6dmlChHR1SzkXttbQ5KAKM3m/HB3hy8WBIZZABmQR3bQv0V5Jzy9JxDkptPqFld2qqN9ONGp9lXvlGo2JEbwqWhqWmS/RTH0gdsD52KdkPVv/8/1E2S6mf8GQ="
+  file_glob: true
+  file: build/libs/*
+  skip_cleanup: true
+  on:
+    tags: true
