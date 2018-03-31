@@ -1,0 +1,3 @@
+# Eserial
+
+![Travis](https://img.shields.io/travis/eserial/eserial.svg) ![Quality Gate](https://sonarcloud.io/api/badges/gate?key=hu.elte.eserial:eserial) ![SonarCloud Unit tests](https://sonarcloud.io/api/badges/measure?key=hu.elte.eserial:eserial&metric=tests) ![SonarCloud Coverage](https://sonarcloud.io/api/badges/measure?key=hu.elte.eserial:eserial&metric=coverage) ![SonarCloud Bugs](https://sonarcloud.io/api/badges/measure?key=hu.elte.eserial:eserial&metric=bugs) ![SonarCloud Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=hu.elte.eserial:eserial&metric=vulnerabilities)
