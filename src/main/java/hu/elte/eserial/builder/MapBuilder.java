@@ -98,9 +98,9 @@ public class MapBuilder extends AbstractBuilder{
 
             return (T) mapObject;
         } catch (IllegalAccessException e) {
-            throw new EserialInvalidMethodException(e.getMessage());
+            throw new EserialInvalidMethodException("Could not initialize map", e);
         } catch (InstantiationException e) {
-            throw new EserialInstantiationException(e.getMessage());
+            throw new EserialInstantiationException("Could not initialize map", e);
         }
     }
 }

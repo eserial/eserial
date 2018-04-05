@@ -74,7 +74,7 @@ public class SimpleBuilder extends AbstractBuilder {
                 return (T) value;
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new EserialInvalidMethodException(e.getMessage());
+           throw new EserialInvalidMethodException("Could not build simple object", e);
         }
     }
 }
