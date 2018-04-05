@@ -17,7 +17,7 @@ import java.util.Map;
 public class CompoundBuilder extends AbstractBuilder {
 
     /**
-     * Constructs an {@link CompoundBuilder} and sets the {@code type} in it.
+     * Constructs a {@link CompoundBuilder} and sets the {@code type} in it.
      *
      * @param type the class to be used in the {@link AbstractBuilder#build} method
      */

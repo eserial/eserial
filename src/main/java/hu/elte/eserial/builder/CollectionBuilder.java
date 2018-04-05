@@ -28,7 +28,7 @@ public class CollectionBuilder extends AbstractBuilder {
     /**
      * @param value {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a collection of the given class and initialized with the list parameter
+     * @return a collection of the given class initialized from {@code value}, which is an ArrayList
      */
     @Override
     public <T> T build(Object value) {
@@ -39,7 +39,7 @@ public class CollectionBuilder extends AbstractBuilder {
         Class clazz = TypeUtils.convertTypeToClass(type);
         Type typeArg = TypeUtils.getTypeArgument(type, 0);
 
-        if (!TypeUtils.isCollection(clazz) || (!TypeUtils.isList(value.getClass()))) {
+        if (!TypeUtils.isCollection(clazz) || !TypeUtils.isList(value.getClass())) {
             throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), clazz.getName());
         }
 
@@ -49,32 +49,37 @@ public class CollectionBuilder extends AbstractBuilder {
             Class typeArgClass = TypeUtils.convertTypeToClass(typeArg);
 
             if (typeArg != null && TypeUtils.isCompound(typeArgClass)) {
+                AbstractBuilder abstractBuilder = BuilderFactory.create(typeArg);
+                List compoundListItemList = new ArrayList();
                 for (int i = 0; i < list.size(); i++) {
-                    AbstractBuilder abstractBuilder = BuilderFactory.create(typeArg);
                     Object innerObject = abstractBuilder.build(list.get(i));
-                    list.set(i, innerObject);
+                    compoundListItemList.add(innerObject);
                 }
+                list = compoundListItemList;
             }
+
+            Collection collectionObject;
 
             if (clazz.isInterface()) {
                 if (TypeUtils.isSortedSet(clazz)) {
-                    return (T) new TreeSet<>(list);
+                    collectionObject = new TreeSet<>();
                 } else if (TypeUtils.isSet(clazz)) {
-                    return (T) new HashSet<>(list);
+                    collectionObject = new HashSet<>();
                 } else if (TypeUtils.isTransferQueue(clazz)) {
-                    return (T) new LinkedTransferQueue(list);
+                    collectionObject = new LinkedTransferQueue();
                 } else if (TypeUtils.isBlockingDeque(clazz)) {
-                    return (T) new LinkedBlockingDeque(list);
+                    collectionObject = new LinkedBlockingDeque();
                 } else if (TypeUtils.isBlockingQueue(clazz)) {
-                    return (T) new PriorityBlockingQueue(list);
+                    collectionObject = new PriorityBlockingQueue();
                 } else if (TypeUtils.isQueue(clazz)) {
-                    return (T) new ArrayDeque<>(list);
+                    collectionObject = new ArrayDeque<>();
                 } else {
-                    return (T) new ArrayList<>(list);
+                    collectionObject = new ArrayList<>();
                 }
+            } else {
+                 collectionObject = (Collection) clazz.newInstance();
             }
 
-            Collection collectionObject = (Collection) clazz.newInstance();
             collectionObject.addAll(list);
 
             return (T) collectionObject;
