@@ -29,13 +29,13 @@ public class MapBuilder extends AbstractBuilder{
     }
 
     /**
-     * @param value {@inheritDoc}
+     * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a map of the given class and initialized with the map parameter
      */
     @Override
-    public <T> T build(Object value) {
-        if (value == null) {
+    public <T> T build(Object initializationObject) {
+        if (initializationObject == null) {
             return null;
         }
 
@@ -43,12 +43,12 @@ public class MapBuilder extends AbstractBuilder{
         Type keyTypeArg = TypeUtils.getTypeArgument(type, 0);
         Type valueTypeArg = TypeUtils.getTypeArgument(type, 1);
 
-        if (!TypeUtils.isMap(clazz) || !TypeUtils.isMap(value.getClass())) {
+        if (!TypeUtils.isMap(clazz) || !TypeUtils.isMap(initializationObject.getClass())) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(), clazz.getName());
         }
 
         try {
-            Map<Object, Object> map = (Map<Object, Object>) value;
+            Map<Object, Object> map = (Map<Object, Object>) initializationObject;
 
             Class keyTypeArgClass = TypeUtils.convertTypeToClass(keyTypeArg);
             Class valueTypeArgsClass = TypeUtils.convertTypeToClass(valueTypeArg);

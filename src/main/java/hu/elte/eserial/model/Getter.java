@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 /**
  * Wrapper class for an instance and a getter method.
- * It can evaluate the getter and return the name of the corresponding element.
+ * It can invoke the getter and return the name of the corresponding element.
  */
 public class Getter {
 
@@ -55,7 +55,7 @@ public class Getter {
         try {
             return method.invoke(that);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new EserialInvalidMethodException("Could not evaluate getter", e);
+            throw new EserialInvalidMethodException("Could not invoke getter", e);
         }
     }
 

@@ -22,22 +22,22 @@ public class EnumBuilder extends AbstractBuilder {
 
     /**
      *
-     * @param value {@inheritDoc}
+     * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return an Enum object initialized with the given ordinal value
      */
     @Override
-    public <T> T build(Object value) {
-        if (value == null) {
+    public <T> T build(Object initializationObject) {
+        if (initializationObject == null) {
             return null;
         }
 
         Class clazz = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isEnum(clazz) || !TypeUtils.isLong(value.getClass())) {
+        if (!TypeUtils.isEnum(clazz) || !TypeUtils.isLong(initializationObject.getClass())) {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), clazz.getName());
         }
 
-        return (T) clazz.getEnumConstants()[((Long) value).intValue()];
+        return (T) clazz.getEnumConstants()[((Long) initializationObject).intValue()];
     }
 }

@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 /**
  * Wrapper class for an instance and a setter method.
- * It can evaluate the setter, furthermore return the name and the type of the corresponding element.
+ * It can invoke the setter, furthermore return the name and the type of the corresponding element.
  */
 public class Setter {
 
@@ -48,15 +48,15 @@ public class Setter {
     }
 
     /**
-     * Evaluates the setter method with the given parameter.
+     * Invokes the setter method with the given parameter.
      *
      * @param value an arbitrary object
      */
-    public void evaluate(Object value) {
+    public void invoke(Object value) {
         try {
              method.invoke(that, value);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            throw new EserialInvalidMethodException("Could not evaluate setter", e);
+            throw new EserialInvalidMethodException("Could not invoke setter", e);
         }
     }
 
@@ -65,7 +65,7 @@ public class Setter {
      *
      * @return Type of {@code method} parameter
      */
-    public Type getTypeParameter() {
+    public Type getTypeOfSetterParameter() {
         return this.method.getGenericParameterTypes()[0];
     }
 }

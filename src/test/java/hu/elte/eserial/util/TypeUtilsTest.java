@@ -1,6 +1,5 @@
 package hu.elte.eserial.util;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
 import hu.elte.eserial.builder.CompoundBuilderTest;
 import hu.elte.eserial.model.Setter;
 import org.junit.Test;
@@ -330,7 +329,7 @@ public class TypeUtilsTest {
             Method method = CompoundBuilderTest.CompoundTestClassTwo.class.getDeclaredMethod("setList", List.class);
             Setter setter = new Setter(new CompoundBuilderTest.CompoundTestClassTwo(), method);
 
-            Type type = setter.getTypeParameter();
+            Type type = setter.getTypeOfSetterParameter();
 
             assertEquals(Integer.class, TypeUtils.getTypeArgument(type, 0));
         } catch (NoSuchMethodException e) {
