@@ -4,7 +4,6 @@ import hu.elte.eserial.exception.EserialInvalidMethodException;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -60,7 +59,7 @@ public class SetterTest {
             Method method = ClassWithSetters.class.getDeclaredMethod("setterThatThrows", int.class);
 
             Setter setter = new Setter(new ClassWithSetters(), method);
-            setter.evaluate(2);
+            setter.invoke(2);
         } catch (NoSuchMethodException e) {
             fail(e.getMessage());
         }
@@ -73,7 +72,7 @@ public class SetterTest {
 
             ClassWithSetters classWithSetters = new ClassWithSetters();
             Setter setter = new Setter(classWithSetters, method);
-            setter.evaluate(2);
+            setter.invoke(2);
             assertEquals(2, classWithSetters.getId());
         } catch (NoSuchMethodException e) {
             fail(e.getMessage());
@@ -87,7 +86,7 @@ public class SetterTest {
 
             Setter setter = new Setter(new ClassWithSetters(), method);
 
-            assertEquals(int.class, setter.getTypeParameter());
+            assertEquals(int.class, setter.getTypeOfSetterParameter());
         } catch (NoSuchMethodException e) {
             fail(e.getMessage());
         }

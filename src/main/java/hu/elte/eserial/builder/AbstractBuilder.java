@@ -19,11 +19,11 @@ abstract class AbstractBuilder {
     }
 
     /**
-     * Builds an object with the given type and initializes it with the given value.
+     * Builds an object with the given type and initializes it with the given initializationObject.
      *
-     * @param value is the initial value of the object
+     * @param initializationObject is the initial initializationObject of the object
      * @param <T> is the type of the reference which the returned object is given to
-     * @return an object of the given class and initialized with the value parameter
+     * @return an object of the given class and initialized with the initializationObject parameter
      */
-    abstract <T> T build(Object value);
+    abstract <T> T build(Object initializationObject);
 }

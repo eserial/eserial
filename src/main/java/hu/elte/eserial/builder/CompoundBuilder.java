@@ -7,7 +7,6 @@ import hu.elte.eserial.util.MethodUtils;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -17,49 +16,49 @@ import java.util.Map;
 public class CompoundBuilder extends AbstractBuilder {
 
     /**
-     * Constructs a {@link CompoundBuilder} and sets the {@code type} in it.
+     * Constructs a {@link CompoundBuilder} and sets the {@code objectType} in it.
      *
-     * @param type the class to be used in the {@link AbstractBuilder#build} method
+     * @param objectType the class to be used in the {@link AbstractBuilder#build} method
      */
-    CompoundBuilder(Type type) {
-        super(type);
+    CompoundBuilder(Type objectType) {
+        super(objectType);
     }
 
     /**
-     * @param value {@inheritDoc}
+     * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a compound object of the given class and initialized with the map parameter
      */
     @Override
-    public <T> T build(Object value) {
-        if (value == null) {
+    public <T> T build(Object initializationObject) {
+        if (initializationObject == null) {
             return null;
         }
 
         try {
-            Class clazz = TypeUtils.convertTypeToClass(type);
+            Class classOfObjectType = TypeUtils.convertTypeToClass(type);
 
-            Object that = clazz.newInstance();
+            Object objectInstance = classOfObjectType.newInstance();
 
-            for (Method method : clazz.getMethods()) {
+            for (Method method : classOfObjectType.getMethods()) {
                 if (MethodUtils.isIgnored(method) || !MethodUtils.isSetter(method)) {
                     continue;
                 }
 
-                Map<String, Object> map = (Map) value;
+                Map<String, Object> initializationMap = (Map) initializationObject;
 
-                Setter setter = new Setter(that, method);
+                Setter setter = new Setter(objectInstance, method);
 
-                String fieldName = setter.getElementName();
-                Object fieldValue = map.get(fieldName);
+                String nameOfActualDataMember = setter.getElementName();
+                Object valueOfActualDataMember = initializationMap.get(nameOfActualDataMember);
 
-                Type paramType = setter.getTypeParameter();
+                Type typeOfActualDataMember = setter.getTypeOfSetterParameter();
 
-                AbstractBuilder abstractBuilder = BuilderFactory.create(paramType);
-                setter.evaluate(abstractBuilder.build(fieldValue));
+                AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfActualDataMember);
+                setter.invoke(abstractBuilder.build(valueOfActualDataMember));
             }
 
-            return (T) that;
+            return (T) objectInstance;
         } catch (IllegalAccessException e) {
             throw new EserialInvalidMethodException("Could not initialize object", e);
         } catch (InstantiationException e) {

@@ -23,22 +23,22 @@ public class DateBuilder extends AbstractBuilder{
 
     /**
      *
-     * @param value {@inheritDoc}
+     * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a Date object initialized with the given {@link Long} value
      */
     @Override
-    public <T> T build(Object value) {
-        if (value == null) {
+    public <T> T build(Object initializationObject) {
+        if (initializationObject == null) {
             return null;
         }
 
         Class clazz = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isDate(clazz) || !TypeUtils.isNumber(value.getClass())) {
+        if (!TypeUtils.isDate(clazz) || !TypeUtils.isNumber(initializationObject.getClass())) {
             throw new EserialBuilderMismatchException(Date.class.getSimpleName(), clazz.getName());
         }
 
-        return (T) new Date((Long) value);
+        return (T) new Date((Long) initializationObject);
     }
 }

@@ -26,24 +26,24 @@ public class SimpleBuilder extends AbstractBuilder {
     }
 
     /**
-     * @param value {@inheritDoc}
+     * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a simple object of the given class and initialized with the primitive or Wrapper parameter
      */
     @Override
-    public <T> T build(Object value) {
+    public <T> T build(Object initializationObject) {
         Class clazz = TypeUtils.convertTypeToClass(type);
 
-        if (value == null && TypeUtils.isString(clazz)) {
+        if (initializationObject == null && TypeUtils.isString(clazz)) {
             return null;
-        } else if (value == null) {
+        } else if (initializationObject == null) {
             throw new EserialPrimitiveCanNotBeNullException(clazz.getSimpleName());
         }
 
         if ((!TypeUtils.isPrimitive(clazz) && !TypeUtils.isWrapper(clazz)) && !TypeUtils.isString(clazz)
-                || (!TypeUtils.isPrimitive(value.getClass())
-                    && !TypeUtils.isWrapper(value.getClass())
-                    && !TypeUtils.isString(value.getClass()))) {
+                || (!TypeUtils.isPrimitive(initializationObject.getClass())
+                    && !TypeUtils.isWrapper(initializationObject.getClass())
+                    && !TypeUtils.isString(initializationObject.getClass()))) {
             throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), clazz.getName());
         }
 
@@ -52,15 +52,15 @@ public class SimpleBuilder extends AbstractBuilder {
                 Method method;
                 String lowercaseTypeName = StringUtils.lowercaseFirstLetter(clazz.getSimpleName());
                 if (TypeUtils.isDecimal(clazz)) {
-                    if(TypeUtils.isString(value.getClass())) {
-                        value = Double.parseDouble((String) value);
+                    if(TypeUtils.isString(initializationObject.getClass())) {
+                        initializationObject = Double.parseDouble((String) initializationObject);
                     }
 
                     method = Double.class.getDeclaredMethod(lowercaseTypeName + "Value");
-                    return (T) method.invoke(value);
+                    return (T) method.invoke(initializationObject);
                 } else {
-                    if(TypeUtils.isString(value.getClass())) {
-                        value = Long.parseLong((String) value);
+                    if(TypeUtils.isString(initializationObject.getClass())) {
+                        initializationObject = Long.parseLong((String) initializationObject);
                     }
 
                     if (lowercaseTypeName.equals("integer")) {
@@ -68,10 +68,10 @@ public class SimpleBuilder extends AbstractBuilder {
                     }
 
                     method = Long.class.getDeclaredMethod(lowercaseTypeName + "Value");
-                    return (T) method.invoke(value);
+                    return (T) method.invoke(initializationObject);
                 }
             } else {
-                return (T) value;
+                return (T) initializationObject;
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
            throw new EserialInvalidMethodException("Could not build simple object", e);

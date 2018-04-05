@@ -17,70 +17,70 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class CollectionBuilder extends AbstractBuilder {
 
     /**
-     * Constructs an {@link CollectionBuilder} and sets the {@code clazz} in it.
+     * Constructs an {@link CollectionBuilder} and sets the {@code collectionType} in it.
      *
-     * @param type the {@link Collection} to be used in the {@link AbstractBuilder#build} method
+     * @param collectionType the {@link Collection} to be used in the {@link AbstractBuilder#build} method
      */
-    CollectionBuilder(Type type) {
-        super(type);
+    CollectionBuilder(Type collectionType) {
+        super(collectionType);
     }
 
     /**
-     * @param value {@inheritDoc}
+     * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a collection of the given class initialized from {@code value}, which is an ArrayList
+     * @return a collection of the given class initialized from {@code initializationObject}, which is an ArrayList
      */
     @Override
-    public <T> T build(Object value) {
-        if (value == null) {
+    public <T> T build(Object initializationObject) {
+        if (initializationObject == null) {
             return null;
         }
 
-        Class clazz = TypeUtils.convertTypeToClass(type);
-        Type typeArg = TypeUtils.getTypeArgument(type, 0);
+        Class classOfCollectionType = TypeUtils.convertTypeToClass(type);
+        Type typeOfCollectionTypeArgument = TypeUtils.getTypeArgument(type, 0);
 
-        if (!TypeUtils.isCollection(clazz) || !TypeUtils.isList(value.getClass())) {
-            throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), clazz.getName());
+        if (!TypeUtils.isCollection(classOfCollectionType) || !TypeUtils.isList(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), classOfCollectionType.getName());
         }
 
         try {
-            List<Object> list = (List) value;
+            List<Object> initializationList = (List) initializationObject;
 
-            Class typeArgClass = TypeUtils.convertTypeToClass(typeArg);
+            Class typeArgClass = TypeUtils.convertTypeToClass(typeOfCollectionTypeArgument);
 
-            if (typeArg != null && TypeUtils.isCompound(typeArgClass)) {
-                AbstractBuilder abstractBuilder = BuilderFactory.create(typeArg);
+            if (typeOfCollectionTypeArgument != null && TypeUtils.isCompound(typeArgClass)) {
+                AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfCollectionTypeArgument);
                 List compoundListItemList = new ArrayList();
-                for (int i = 0; i < list.size(); i++) {
-                    Object innerObject = abstractBuilder.build(list.get(i));
+                for (int i = 0; i < initializationList.size(); i++) {
+                    Object innerObject = abstractBuilder.build(initializationList.get(i));
                     compoundListItemList.add(innerObject);
                 }
-                list = compoundListItemList;
+                initializationList = compoundListItemList;
             }
 
             Collection collectionObject;
 
-            if (clazz.isInterface()) {
-                if (TypeUtils.isSortedSet(clazz)) {
+            if (classOfCollectionType.isInterface()) {
+                if (TypeUtils.isSortedSet(classOfCollectionType)) {
                     collectionObject = new TreeSet<>();
-                } else if (TypeUtils.isSet(clazz)) {
+                } else if (TypeUtils.isSet(classOfCollectionType)) {
                     collectionObject = new HashSet<>();
-                } else if (TypeUtils.isTransferQueue(clazz)) {
+                } else if (TypeUtils.isTransferQueue(classOfCollectionType)) {
                     collectionObject = new LinkedTransferQueue();
-                } else if (TypeUtils.isBlockingDeque(clazz)) {
+                } else if (TypeUtils.isBlockingDeque(classOfCollectionType)) {
                     collectionObject = new LinkedBlockingDeque();
-                } else if (TypeUtils.isBlockingQueue(clazz)) {
+                } else if (TypeUtils.isBlockingQueue(classOfCollectionType)) {
                     collectionObject = new PriorityBlockingQueue();
-                } else if (TypeUtils.isQueue(clazz)) {
+                } else if (TypeUtils.isQueue(classOfCollectionType)) {
                     collectionObject = new ArrayDeque<>();
                 } else {
                     collectionObject = new ArrayList<>();
                 }
             } else {
-                 collectionObject = (Collection) clazz.newInstance();
+                 collectionObject = (Collection) classOfCollectionType.newInstance();
             }
 
-            collectionObject.addAll(list);
+            collectionObject.addAll(initializationList);
 
             return (T) collectionObject;
         } catch (IllegalAccessException e) {

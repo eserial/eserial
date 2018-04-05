@@ -22,18 +22,18 @@ public class BuilderFactory {
      * @return an object builder for {@code type}
      */
     public static AbstractBuilder create(Type type) {
-        Class clazz = TypeUtils.convertTypeToClass(type);
+        Class classOfType = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isCompound(clazz)) {
+        if (!TypeUtils.isCompound(classOfType)) {
             return new SimpleBuilder(type);
         } else {
-            if (TypeUtils.isCollection(clazz)) {
+            if (TypeUtils.isCollection(classOfType)) {
                 return new CollectionBuilder(type);
-            } else if (TypeUtils.isMap(clazz)) {
+            } else if (TypeUtils.isMap(classOfType)) {
                 return new MapBuilder(type);
-            } else if (TypeUtils.isEnum(clazz)) {
+            } else if (TypeUtils.isEnum(classOfType)) {
                 return new EnumBuilder(type);
-            } else if (TypeUtils.isDate(clazz)) {
+            } else if (TypeUtils.isDate(classOfType)) {
                 return new DateBuilder(type);
             } else {
                 return new CompoundBuilder(type);
