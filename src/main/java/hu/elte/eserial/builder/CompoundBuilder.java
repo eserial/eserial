@@ -61,9 +61,9 @@ public class CompoundBuilder extends AbstractBuilder {
 
             return (T) that;
         } catch (IllegalAccessException e) {
-            throw new EserialInvalidMethodException(e.getMessage());
+            throw new EserialInvalidMethodException("Could not initialize object", e);
         } catch (InstantiationException e) {
-            throw new EserialInstantiationException(e.getMessage());
+            throw new EserialInstantiationException("Could not initialize object", e);
         }
     }
 }

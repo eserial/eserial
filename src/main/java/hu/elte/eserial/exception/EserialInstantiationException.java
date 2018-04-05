@@ -6,11 +6,12 @@ package hu.elte.eserial.exception;
 public class EserialInstantiationException extends EserialException {
 
     /**
-     * Instantiates a new EserialInstantiationException with the given message.
+     * Instantiates a new EserialInstantationException with the given message and cause.
      *
-     * @param message is the error message
+     * @param message the message of the exception
+     * @param cause the cause of the exception
      */
-    public EserialInstantiationException(String message) {
-        super(message);
+    public EserialInstantiationException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

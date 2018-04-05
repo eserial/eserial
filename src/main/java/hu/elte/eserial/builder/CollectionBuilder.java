@@ -84,9 +84,9 @@ public class CollectionBuilder extends AbstractBuilder {
 
             return (T) collectionObject;
         } catch (IllegalAccessException e) {
-            throw new EserialInvalidMethodException(e.getMessage());
+            throw new EserialInvalidMethodException("Could not initialize collection", e);
         } catch (InstantiationException e) {
-            throw new EserialInstantiationException(e.getMessage());
+            throw new EserialInstantiationException("Could not initialize collection", e);
         }
     }
 }
