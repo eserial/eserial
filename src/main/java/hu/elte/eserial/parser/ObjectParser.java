@@ -20,7 +20,7 @@ public class ObjectParser extends AbstractParser{
         Map<String, Object> map = new HashMap<>();
         String key;
 
-        json = json.substring(1, json.length()).trim();
+        json = json.substring(1, json.length());
 
         while (json.length() > 0) {
             json = json.trim();
@@ -47,33 +47,28 @@ public class ObjectParser extends AbstractParser{
         if(json.startsWith("{")) {
            value = json;
            int index = StringUtils.findClosingCurlyBracket(json) + 1;
-           System.out.println(index);
            json = json.substring(index, json.length());
-           System.out.println(json);
            return new ObjectParser(value).parser();
         } else if(json.startsWith("\"")) {
            json = json.substring(1, json.length());
            int index = json.indexOf("\"");
            value = json.substring(0, index);
-           json = json.substring(index + 1, json.length()).trim();
+           json = json.substring(index + 1, json.length());
            return new StringParser(value).parser();
         } else if(json.startsWith("[")) {
-           value = json;
            int index = StringUtils.findSquareBracket(json) + 1;
+           value = json.trim().substring(0,index);
            json = json.substring(index, json.length());
-           return new CollectionParser(value);
+           return new CollectionParser(value).parser();
         } else if(json.startsWith("null")) {
-            value = json.substring(0,4);
             json = json.substring(4, json.length());
-            return new NullParser(value).parser();
+            return new NullParser("null").parser();
         } else if(json.startsWith("true")) {
-            value = json.substring(0, 4);
             json = json.substring(4, json.length());
-            return new BooleanParser(value).parser();
+            return new BooleanParser("true").parser();
         } else if(json.startsWith("false")) {
-            value = json.substring(0, 5);
             json = json.substring(5, json.length());
-            return new BooleanParser(value).parser();
+            return new BooleanParser("false").parser();
         } else if(StringUtils.isNumeric(Character.toString(json.charAt(0)))) {
             int index = StringUtils.findNumber(json);
             value = json.substring(0, index + 1);
