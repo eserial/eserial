@@ -4,12 +4,24 @@ import hu.elte.eserial.util.StringUtils;
 
 import java.util.LinkedList;
 
+/**
+ * Parses collections.
+ */
 public class CollectionParser extends AbstractParser{
 
+    /**
+     * Stores a string for parsing
+     * @param json string to be parsed
+     */
     CollectionParser(String json) {
         super(json);
     }
 
+    /**
+     * Returns the list representation of the string {@code json}.
+     *
+     * @return list representation of {@code json}
+     */
     @Override
     LinkedList<Object> parser() {
         LinkedList<Object> list = new LinkedList<>();
