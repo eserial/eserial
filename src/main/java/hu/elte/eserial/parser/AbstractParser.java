@@ -5,10 +5,10 @@ package hu.elte.eserial.parser;
  */
 abstract class AbstractParser {
 
-    protected String value;
+    protected String json;
 
-    AbstractParser(String value) {
-        this.value = value;
+    AbstractParser(String json) {
+        this.json = json;
     }
 
     abstract Object parser();

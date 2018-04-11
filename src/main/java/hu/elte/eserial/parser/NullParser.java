@@ -1,7 +1,5 @@
 package hu.elte.eserial.parser;
 
-import javafx.util.Pair;
-
 /**
  * Parses null values.
  */
@@ -13,7 +11,6 @@ public class NullParser extends AbstractParser{
 
     @Override
     Object parser() {
-
         return null;
     }
 }

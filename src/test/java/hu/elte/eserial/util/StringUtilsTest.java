@@ -115,4 +115,14 @@ public class StringUtilsTest {
     public void isDouble_GivenStringWhichIsNotANumber_ReturnFalse() {
         assertFalse(StringUtils.isDouble("test"));
     }
+
+    @Test
+    public void findNumber_GivenStringWhichStartWithInteger_ReturnIndex() {
+        assertEquals(2, StringUtils.findNumber("123test"));
+    }
+
+    @Test
+    public void findNumber_GivenStringWhichStartWithDouble_ReturnIndex() {
+        assertEquals(6, StringUtils.findNumber("123.123test"));
+    }
 }

@@ -6,15 +6,15 @@ import java.util.LinkedList;
 
 public class CollectionParser extends AbstractParser{
 
-    CollectionParser(String value) {
-        super(value);
+    CollectionParser(String json) {
+        super(json);
     }
 
     @Override
     LinkedList<Object> parser() {
         LinkedList<Object> list = new LinkedList<>();
 
-        for(String part : value.split(",")) {
+        for(String part : json.split(",")) {
             part = part.trim();
             if(StringUtils.isNumeric(part)) {
                 list.add(new NumberParser(part).parser());

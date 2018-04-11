@@ -8,17 +8,17 @@ import javafx.util.Pair;
  */
 public class NumberParser extends AbstractParser{
 
-    NumberParser(String value) {
-        super(value);
+    NumberParser(String json) {
+        super(json);
     }
 
     @Override
     Number parser() {
 
-        if(StringUtils.isInteger(value.trim())) {
-            return Long.parseLong(value.trim());
+        if(StringUtils.isInteger(json.trim())) {
+            return Long.parseLong(json.trim());
         } else {
-            return Double.parseDouble(value.trim());
+            return Double.parseDouble(json.trim());
         }
     }
 }
