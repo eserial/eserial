@@ -10,11 +10,19 @@ import java.util.Map;
  */
 public class ObjectParser extends AbstractParser{
 
-
+    /**
+     * Stores a string for parsing
+     * @param json string to be parsed
+     */
     ObjectParser(String json) {
         super(json);
     }
 
+    /**
+     * Returns the map representation of the string {@code json}.
+     *
+     * @return map representation of {@code json}
+     */
     @Override
     Map<String, Object> parser() {
         Map<String, Object> map = new HashMap<>();
@@ -40,6 +48,11 @@ public class ObjectParser extends AbstractParser{
         return map;
     }
 
+    /**
+     * Returns the object representation of the string {@code json}.
+     *
+     * @return object representation of {@code json}
+     */
     public Object valueFinder() {
         String value;
         json = json.substring(1, json.length()).trim();

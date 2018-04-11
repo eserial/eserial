@@ -8,10 +8,19 @@ import javafx.util.Pair;
  */
 public class NumberParser extends AbstractParser{
 
+    /**
+     * Stores a string for parsing
+     * @param json string to be parsed
+     */
     NumberParser(String json) {
         super(json);
     }
 
+    /**
+     * Returns the number representation of the string {@code json}.
+     *
+     * @return number representation of {@code json}
+     */
     @Override
     Number parser() {
 
