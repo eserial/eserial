@@ -94,7 +94,45 @@ public class StringUtils {
         return str.matches("-?[0-9]+\\.?[0-9]+");
     }
 
-    public static String[] splitJson(String json) {
-        return json.split("(?=(?:(?:[^\"]*\"){2})*[^\"]*$)(?![^{]*})(?![^\\[]*\\]),+");
+    public static int findNumber(String str) {
+        int index = 0;
+
+        while(index < str.length() && (Character.isDigit(str.charAt(index)) || str.charAt(index) == '.' || str.charAt(index) == '-') ) {
+            index++;
+        }
+
+        return index - 1;
+    }
+
+    public static int findClosingCurlyBracket(String str) {
+        int closePos = 0;
+        int counter = 1;
+
+        while (counter > 0) {
+            char c = str.charAt(++closePos);
+            if (c == '{') {
+                counter++;
+            }
+            else if (c == '}') {
+                counter--;
+            }
+        }
+        return closePos;
+    }
+
+    public static int findSquareBracket(String str) {
+        int closePos = 0;
+        int counter = 1;
+
+        while (counter > 0) {
+            char c = str.charAt(++closePos);
+            if (c == '[') {
+                counter++;
+            }
+            else if (c == ']') {
+                counter--;
+            }
+        }
+        return closePos;
     }
 }

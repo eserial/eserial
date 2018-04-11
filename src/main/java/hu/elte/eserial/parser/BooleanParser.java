@@ -1,21 +1,16 @@
 package hu.elte.eserial.parser;
 
-import javafx.util.Pair;
-
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Parses booleans.
  */
 public class BooleanParser extends AbstractParser {
 
-    BooleanParser(String value) {
-        super(value);
+    BooleanParser(String json) {
+        super(json);
     }
 
     @Override
     Boolean parser() {
-        return Boolean.parseBoolean(value);
+        return Boolean.parseBoolean(json);
     }
 }
