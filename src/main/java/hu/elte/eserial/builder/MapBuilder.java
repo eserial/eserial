@@ -20,12 +20,12 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class MapBuilder extends AbstractBuilder{
 
     /**
-     * Constructs an {@link MapBuilder} and sets the {@code type} in it.
+     * Constructs an {@link MapBuilder} and sets the {@code mapType} in it.
      *
-     * @param type {@link Map} class to be used in the {@link AbstractBuilder#build} method
+     * @param mapType {@link Map} class to be used in the {@link AbstractBuilder#build} method
      */
-    MapBuilder(Type type) {
-        super(type);
+    MapBuilder(Type mapType) {
+        super(mapType);
     }
 
     /**
@@ -39,37 +39,37 @@ public class MapBuilder extends AbstractBuilder{
             return null;
         }
 
-        Class clazz = TypeUtils.convertTypeToClass(type);
-        Type keyTypeArg = TypeUtils.getTypeArgument(type, 0);
-        Type valueTypeArg = TypeUtils.getTypeArgument(type, 1);
+        Class classOfMapType = TypeUtils.convertTypeToClass(type);
+        Type typeOfMapKeyTypeArgument = TypeUtils.getTypeArgument(type, 0);
+        Type typeOfMapValueTypeArgument = TypeUtils.getTypeArgument(type, 1);
 
-        if (!TypeUtils.isMap(clazz) || !TypeUtils.isMap(initializationObject.getClass())) {
-            throw new EserialBuilderMismatchException(Map.class.getSimpleName(), clazz.getName());
+        if (!TypeUtils.isMap(classOfMapType) || !TypeUtils.isMap(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Map.class.getSimpleName(), classOfMapType.getName());
         }
 
         try {
-            Map<Object, Object> map = (Map<Object, Object>) initializationObject;
+            Map<Object, Object> initializationMap = (Map<Object, Object>) initializationObject;
 
-            Class keyTypeArgClass = TypeUtils.convertTypeToClass(keyTypeArg);
-            Class valueTypeArgsClass = TypeUtils.convertTypeToClass(valueTypeArg);
+            Class classOfKeyTypeArgumentType = TypeUtils.convertTypeToClass(typeOfMapKeyTypeArgument);
+            Class classOfValueTypeArgumentType = TypeUtils.convertTypeToClass(typeOfMapValueTypeArgument);
 
-            if (keyTypeArg != null && valueTypeArg != null) {
+            if (typeOfMapKeyTypeArgument != null && typeOfMapValueTypeArgument != null) {
                 Map<Object, Object> newMap = new HashMap<>();
-                Iterator it = map.entrySet().iterator();
+                Iterator it = initializationMap.entrySet().iterator();
                 while(it.hasNext()) {
                     Map.Entry pair = (Map.Entry)it.next();
 
                     Object keyObject;
-                    if(TypeUtils.isCompound(keyTypeArgClass)) {
-                        AbstractBuilder abstractBuilder = BuilderFactory.create(keyTypeArg);
+                    if(TypeUtils.isCompound(classOfKeyTypeArgumentType)) {
+                        AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfMapKeyTypeArgument);
                         keyObject = abstractBuilder.build(pair.getKey());
                     } else {
                         keyObject = pair.getKey();
                     }
 
                     Object valueObject;
-                    if(TypeUtils.isCompound(valueTypeArgsClass)) {
-                        AbstractBuilder abstractBuilder = BuilderFactory.create(valueTypeArg);
+                    if(TypeUtils.isCompound(classOfValueTypeArgumentType)) {
+                        AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfMapValueTypeArgument);
                         valueObject = abstractBuilder.build(pair.getValue());
                     } else {
                         valueObject = pair.getValue();
@@ -78,23 +78,23 @@ public class MapBuilder extends AbstractBuilder{
                     newMap.put(keyObject, valueObject);
                 }
 
-                map = newMap;
+                initializationMap = newMap;
             }
 
-            if (clazz.isInterface()) {
-                if (TypeUtils.isConcurrentNavigableMap(clazz)) {
-                    return (T) new ConcurrentSkipListMap(map);
-                } else if (TypeUtils.isConcurrentMap(clazz)) {
-                    return (T) new ConcurrentHashMap(map);
-                } else if (TypeUtils.isSortedMap(clazz)) {
-                    return (T) new TreeMap(map);
+            if (classOfMapType.isInterface()) {
+                if (TypeUtils.isConcurrentNavigableMap(classOfMapType)) {
+                    return (T) new ConcurrentSkipListMap(initializationMap);
+                } else if (TypeUtils.isConcurrentMap(classOfMapType)) {
+                    return (T) new ConcurrentHashMap(initializationMap);
+                } else if (TypeUtils.isSortedMap(classOfMapType)) {
+                    return (T) new TreeMap(initializationMap);
                 } else {
-                    return (T) new HashMap(map);
+                    return (T) new HashMap(initializationMap);
                 }
             }
 
-            Map mapObject = (Map) clazz.newInstance();
-            mapObject.putAll(map);
+            Map mapObject = (Map) classOfMapType.newInstance();
+            mapObject.putAll(initializationMap);
 
             return (T) mapObject;
         } catch (IllegalAccessException e) {

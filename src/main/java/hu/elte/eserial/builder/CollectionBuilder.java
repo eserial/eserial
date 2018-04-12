@@ -46,9 +46,9 @@ public class CollectionBuilder extends AbstractBuilder {
         try {
             List<Object> initializationList = (List) initializationObject;
 
-            Class typeArgClass = TypeUtils.convertTypeToClass(typeOfCollectionTypeArgument);
+            Class classOfTypeArgumentType = TypeUtils.convertTypeToClass(typeOfCollectionTypeArgument);
 
-            if (typeOfCollectionTypeArgument != null && TypeUtils.isCompound(typeArgClass)) {
+            if (typeOfCollectionTypeArgument != null && TypeUtils.isCompound(classOfTypeArgumentType)) {
                 AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfCollectionTypeArgument);
                 List compoundListItemList = new ArrayList();
                 for (int i = 0; i < initializationList.size(); i++) {
