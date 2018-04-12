@@ -20,7 +20,9 @@ public class StringParser extends AbstractParser{
      */
     @Override
     String parser() {
-
+        if(json == null) {
+            throw new NullPointerException();
+        }
         return json;
     }
 }
