@@ -30,8 +30,6 @@ deploy:
 addons:
   sonarcloud:
     organization: "eserial-github"
-    branches:
-      - master
 
 script:
   - sonar-scanner
