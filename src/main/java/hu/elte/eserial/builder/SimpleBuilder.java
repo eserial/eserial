@@ -41,14 +41,20 @@ public class SimpleBuilder extends AbstractBuilder {
             throw new EserialPrimitiveCanNotBeNullException(classOfSimpleType.getSimpleName());
         }
 
-        if ((!TypeUtils.isPrimitive(classOfSimpleType) && !TypeUtils.isWrapper(classOfSimpleType))
-                && !TypeUtils.isString(classOfSimpleType)) {
+        boolean isTypePrimitive = TypeUtils.isPrimitive(classOfSimpleType);
+        boolean isTypeWrapper = TypeUtils.isWrapper(classOfSimpleType);
+        boolean isTypeString = TypeUtils.isString(classOfSimpleType);
+
+        Class initializationObjectClass = initializationObject.getClass();
+        boolean isInitObjectPrimitive = TypeUtils.isPrimitive(initializationObjectClass);
+        boolean isInitObjectWrapper = TypeUtils.isWrapper(initializationObjectClass);
+        boolean isInitObjectString = TypeUtils.isString(initializationObjectClass);
+
+        if (!isTypePrimitive && !isTypeWrapper && !isTypeString) {
             throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), classOfSimpleType.getName());
         }
 
-        if ((!TypeUtils.isPrimitive(initializationObject.getClass())
-                && !TypeUtils.isWrapper(initializationObject.getClass())
-                && !TypeUtils.isString(initializationObject.getClass()))) {
+        if (!isInitObjectPrimitive && !isInitObjectWrapper && !isInitObjectString) {
             throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
