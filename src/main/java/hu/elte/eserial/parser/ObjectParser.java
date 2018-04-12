@@ -1,5 +1,6 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.exception.EserialParserMismatchException;
 import hu.elte.eserial.util.StringUtils;
 
 import java.util.HashMap;
@@ -25,6 +26,15 @@ public class ObjectParser extends AbstractParser{
      */
     @Override
     Map<String, Object> parser() {
+
+        if(!json.trim().startsWith("{")) {
+            throw new EserialParserMismatchException("Missing { the front of the json");
+        }
+
+        if(!json.trim().endsWith("}")) {
+            throw new EserialParserMismatchException("Missing } the end of the json");
+        }
+
         Map<String, Object> map = new HashMap<>();
         String key;
 
@@ -62,13 +72,7 @@ public class ObjectParser extends AbstractParser{
            int index = StringUtils.findClosingCurlyBracket(json) + 1;
            json = json.substring(index, json.length());
            return new ObjectParser(value).parser();
-        } else if(json.startsWith("\"")) {
-           json = json.substring(1, json.length());
-           int index = json.indexOf("\"");
-           value = json.substring(0, index);
-           json = json.substring(index + 1, json.length());
-           return new StringParser(value).parser();
-        } else if(json.startsWith("[")) {
+        }  else if(json.startsWith("[")) {
            int index = StringUtils.findSquareBracket(json) + 1;
            value = json.trim().substring(0,index);
            json = json.substring(index, json.length());
@@ -87,7 +91,12 @@ public class ObjectParser extends AbstractParser{
             value = json.substring(0, index + 1);
             json = json.substring(index + 1, json.length());
             return new NumberParser(value).parser();
+        } else {
+            json = json.substring(1, json.length());
+            int index = json.indexOf("\"");
+            value = json.substring(0, index);
+            json = json.substring(index + 1, json.length());
+            return new StringParser(value).parser();
         }
-        return null;
     }
 }

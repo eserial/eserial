@@ -20,6 +20,10 @@ public class BooleanParser extends AbstractParser {
      */
     @Override
     Boolean parser() {
+        if(json == null) {
+            throw new NullPointerException();
+        }
+
         return Boolean.parseBoolean(json);
     }
 }

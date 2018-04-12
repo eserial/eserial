@@ -1,5 +1,6 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.exception.EserialParserMismatchException;
 import hu.elte.eserial.util.StringUtils;
 
 import java.util.LinkedList;
@@ -24,6 +25,14 @@ public class CollectionParser extends AbstractParser{
      */
     @Override
     LinkedList<Object> parser() {
+        if(!json.startsWith("[")) {
+            throw new EserialParserMismatchException("Missing [ the front of the list in json");
+        }
+
+        if(!json.endsWith("]")) {
+            throw new EserialParserMismatchException("Missing ] the front of the list in json");
+        }
+
         LinkedList<Object> list = new LinkedList<>();
         String value;
 

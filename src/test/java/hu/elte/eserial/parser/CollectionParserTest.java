@@ -1,5 +1,6 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.exception.EserialParserMismatchException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,6 +8,21 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 public class CollectionParserTest {
+    @Test(expected = NullPointerException.class)
+    public void serializer_GivenNull_ThrowsNullPointerException() {
+        new CollectionParser(null).parser();
+    }
+
+    @Test(expected = EserialParserMismatchException.class)
+    public void serialize_GivenInvalidJsonWithoutOpeningCurlyBrackets_ThrowsEserialParserMismatchException() {
+        new CollectionParser("\"key1\": 1]").parser();
+    }
+
+    @Test(expected = EserialParserMismatchException.class)
+    public void serialize_GivenInvalidJsonWithoutClosingCurlyBrackets_ThrowsEserialParserMismatchException() {
+        new CollectionParser("[\"key1\": 1").parser();
+    }
+
     @Test
     public void parser_GivenAJsonWhichRepresentsAListOfNumbers_ReturnLongList() {
         LinkedList<Object> testList = new CollectionParser("[2, 3,4, 5 ]").parser();

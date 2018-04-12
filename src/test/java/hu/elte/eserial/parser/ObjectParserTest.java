@@ -1,5 +1,6 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.exception.EserialParserMismatchException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,6 +8,21 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class ObjectParserTest {
+    @Test(expected = NullPointerException.class)
+    public void serializer_GivenNull_ThrowsNullPointerException() {
+        new ObjectParser(null).parser();
+    }
+
+    @Test(expected = EserialParserMismatchException.class)
+    public void serialize_GivenInvalidJsonWithoutOpeningCurlyBrackets_ThrowsEserialParserMismatchException() {
+        new ObjectParser("\"key1\": 1]").parser();
+    }
+
+    @Test(expected = EserialParserMismatchException.class)
+    public void serialize_GivenInvalidJsonWithoutClosingCurlyBrackets_ThrowsEserialParserMismatchException() {
+        new ObjectParser("{\"key1\": 1").parser();
+    }
+
     @Test
     public void parser_GivenAJsonWithSimpleObject_ReturnMap() {
        Map<String, Object> testMap = new ObjectParser("{ \"key1\" : 2, \"key2\" : 5, \"key3\" : \"value2\" , \"key4\" : true, \"key5\":false, \"key6\" : null } ").parser();
