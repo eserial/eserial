@@ -43,8 +43,13 @@ public class MapBuilder extends AbstractBuilder{
         Type typeOfMapKeyTypeArgument = TypeUtils.getTypeArgument(type, 0);
         Type typeOfMapValueTypeArgument = TypeUtils.getTypeArgument(type, 1);
 
-        if (!TypeUtils.isMap(classOfMapType) || !TypeUtils.isMap(initializationObject.getClass())) {
+        if (!TypeUtils.isMap(classOfMapType)) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(), classOfMapType.getName());
+        }
+
+        if (!TypeUtils.isMap(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Map.class.getSimpleName(),
+                    initializationObject.getClass().getName());
         }
 
         try {

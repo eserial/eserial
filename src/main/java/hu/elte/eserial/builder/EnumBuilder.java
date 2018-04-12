@@ -7,7 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
- * Builds Enum-Like objects.
+ * Builds Enums.
  */
 public class EnumBuilder extends AbstractBuilder {
 
@@ -34,8 +34,12 @@ public class EnumBuilder extends AbstractBuilder {
 
         Class classOfEnumType = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isEnum(classOfEnumType) || !TypeUtils.isLong(initializationObject.getClass())) {
+        if (!TypeUtils.isEnum(classOfEnumType)) {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), classOfEnumType.getName());
+        }
+
+        if (!TypeUtils.isLong(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Long.class.getSimpleName(), initializationObject.getClass().getName());
         }
 
         return (T) classOfEnumType.getEnumConstants()[((Long) initializationObject).intValue()];
