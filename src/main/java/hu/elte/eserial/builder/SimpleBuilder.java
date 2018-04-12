@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 public class SimpleBuilder extends AbstractBuilder {
 
     /**
-     * Constructs an {@link SimpleBuilder} and sets the {@code simpleType} in it.
+     * Constructs a {@link SimpleBuilder} and sets the {@code simpleType} in it.
      *
      * @param simpleType the simple object to be used in the {@link AbstractBuilder#build} method
      */
@@ -28,13 +28,14 @@ public class SimpleBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a simple object of the given class and initialized with the primitive or Wrapper parameter
+     * @return a simple type of the given class and initialized with the primitive or Wrapper parameter
      */
     @Override
     public <T> T build(Object initializationObject) {
         Class classOfSimpleType = TypeUtils.convertTypeToClass(type);
 
-        if (initializationObject == null && TypeUtils.isString(classOfSimpleType)) {
+        if (initializationObject == null && TypeUtils.isString(classOfSimpleType)
+                && TypeUtils.isWrapper(classOfSimpleType)) {
             return null;
         } else if (initializationObject == null) {
             throw new EserialPrimitiveCanNotBeNullException(classOfSimpleType.getSimpleName());

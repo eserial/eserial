@@ -15,12 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
- * Build Map objects.
+ * Builds Map objects.
  */
 public class MapBuilder extends AbstractBuilder{
 
     /**
-     * Constructs an {@link MapBuilder} and sets the {@code mapType} in it.
+     * Constructs a {@link MapBuilder} and sets the {@code mapType} in it.
      *
      * @param mapType {@link Map} class to be used in the {@link AbstractBuilder#build} method
      */
