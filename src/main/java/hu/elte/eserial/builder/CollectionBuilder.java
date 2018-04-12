@@ -39,8 +39,13 @@ public class CollectionBuilder extends AbstractBuilder {
         Class classOfCollectionType = TypeUtils.convertTypeToClass(type);
         Type typeOfCollectionTypeArgument = TypeUtils.getTypeArgument(type, 0);
 
-        if (!TypeUtils.isCollection(classOfCollectionType) || !TypeUtils.isList(initializationObject.getClass())) {
+        if (!TypeUtils.isCollection(classOfCollectionType)) {
             throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), classOfCollectionType.getName());
+        }
+
+        if (!TypeUtils.isList(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(List.class.getSimpleName(),
+                    initializationObject.getClass().getName());
         }
 
         try {

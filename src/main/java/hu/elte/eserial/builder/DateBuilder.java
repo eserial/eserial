@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.Date;
 
 /**
- * Builds Date objects.
+ * Builds Dates.
  */
 public class DateBuilder extends AbstractBuilder{
 
@@ -35,8 +35,13 @@ public class DateBuilder extends AbstractBuilder{
 
         Class classOfDateType = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isDate(classOfDateType) || !TypeUtils.isNumber(initializationObject.getClass())) {
+        if (!TypeUtils.isDate(classOfDateType)) {
             throw new EserialBuilderMismatchException(Date.class.getSimpleName(), classOfDateType.getName());
+        }
+
+        if (!TypeUtils.isLong(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Long.class.getSimpleName(),
+                    initializationObject.getClass().getName());
         }
 
         return (T) new Date((Long) initializationObject);

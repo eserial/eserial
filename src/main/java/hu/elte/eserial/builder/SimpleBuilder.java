@@ -41,11 +41,15 @@ public class SimpleBuilder extends AbstractBuilder {
         }
 
         if ((!TypeUtils.isPrimitive(classOfSimpleType) && !TypeUtils.isWrapper(classOfSimpleType))
-                && !TypeUtils.isString(classOfSimpleType)
-                || (!TypeUtils.isPrimitive(initializationObject.getClass())
-                    && !TypeUtils.isWrapper(initializationObject.getClass())
-                    && !TypeUtils.isString(initializationObject.getClass()))) {
+                && !TypeUtils.isString(classOfSimpleType)) {
             throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), classOfSimpleType.getName());
+        }
+
+        if ((!TypeUtils.isPrimitive(initializationObject.getClass())
+                && !TypeUtils.isWrapper(initializationObject.getClass())
+                && !TypeUtils.isString(initializationObject.getClass()))) {
+            throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(),
+                    initializationObject.getClass().getName());
         }
 
         try {
