@@ -2,6 +2,9 @@ package hu.elte.eserial.util;
 
 import hu.elte.eserial.model.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Contains helper methods for the built-in String class.
  */
@@ -49,34 +52,21 @@ public class StringUtils {
 
         char[] characters = str.toCharArray();
 
+        Map<Character, String> escaped = new HashMap<>();
+        escaped.put('"', "\\\"");
+        escaped.put('\\', "\\\\");
+        escaped.put('/', "\\/");
+        escaped.put('\b', "\\b");
+        escaped.put('\f', "\\f");
+        escaped.put('\n', "\\n");
+        escaped.put('\r', "\\r");
+        escaped.put('\t', "\\t");
+
         for (Character character : characters) {
-            switch (character) {
-                case '"':
-                    builder.append("\\\"");
-                    break;
-                case '\\':
-                    builder.append("\\\\");
-                    break;
-                case '/':
-                    builder.append("\\/");
-                    break;
-                case '\b':
-                    builder.append("\\b");
-                    break;
-                case '\f':
-                    builder.append("\\f");
-                    break;
-                case '\n':
-                    builder.append("\\n");
-                    break;
-                case '\r':
-                    builder.append("\\r");
-                    break;
-                case '\t':
-                    builder.append("\\t");
-                    break;
-                default:
-                    builder.append(character);
+            if (escaped.containsKey(character)) {
+                builder.append(escaped.get(character));
+            } else {
+                builder.append(character);
             }
         }
 
