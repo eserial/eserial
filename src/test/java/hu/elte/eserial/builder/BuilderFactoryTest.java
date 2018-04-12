@@ -12,7 +12,12 @@ import static org.junit.Assert.assertTrue;
 public class BuilderFactoryTest {
 
     @Test
-    public void create_GivenSimpleType_ReturnsSimpleBuilder() {
+    public void create_GivenPrimitiveType_ReturnsSimpleBuilder() {
+        assertTrue(BuilderFactory.create(int.class) instanceof SimpleBuilder);
+    }
+
+    @Test
+    public void create_GivenWrapperType_ReturnsSimpleBuilder() {
         assertTrue(BuilderFactory.create(Integer.class) instanceof SimpleBuilder);
     }
 

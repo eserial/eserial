@@ -16,7 +16,7 @@ public class TypeUtils {
     private TypeUtils() {}
 
     /**
-     * Determines if the given type is a primitive (excluding void).
+     * Determines if the given {@link Type} is a primitive (excluding void).
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a primitive type
@@ -26,7 +26,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a wrapper.
+     * Determines if the given {@link Type} is a wrapper.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a wrapper type
@@ -39,7 +39,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a string.
+     * Determines if the given {@link Type} is a string.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a string
@@ -49,7 +49,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is compound (not primitive, not wrapper, not a string).
+     * Determines if the given {@link Type} is compound (not primitive, not wrapper, not a string).
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is compound
@@ -59,7 +59,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a number.
+     * Determines if the given {@link Type} is a number.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a number
@@ -69,7 +69,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a collection.
+     * Determines if the given {@link Type} is a collection.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a collection
@@ -79,7 +79,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a map.
+     * Determines if the given {@link Type} is a map.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a map
@@ -89,7 +89,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is an array.
+     * Determines if the given {@link Type} is an array.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is an array
@@ -99,7 +99,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is an enum.
+     * Determines if the given {@link Type} is an enum.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is an enum
@@ -109,7 +109,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a date.
+     * Determines if the given {@link Type} is a date.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a date
@@ -119,7 +119,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a SortedSet.
+     * Determines if the given {@link Type} is a SortedSet.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a sortedset
@@ -129,7 +129,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a Set.
+     * Determines if the given {@link Type} is a Set.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a set
@@ -139,7 +139,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a Queue.
+     * Determines if the given {@link Type} is a Queue.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a queue
@@ -149,7 +149,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a ConcurrentNavigableMap.
+     * Determines if the given {@link Type} is a ConcurrentNavigableMap.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a concurrentnavigablemap
@@ -159,7 +159,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a ConcurrentMap.
+     * Determines if the given {@link Type} is a ConcurrentMap.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a concurrentmap
@@ -169,7 +169,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a SortedMap.
+     * Determines if the given {@link Type} is a SortedMap.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a sortedmap
@@ -179,7 +179,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a BlockingQueue.
+     * Determines if the given {@link Type} is a BlockingQueue.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a blockingqueue
@@ -189,7 +189,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a BlockingDeque.
+     * Determines if the given {@link Type} is a BlockingDeque.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a blockingdeque
@@ -199,7 +199,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a TransferQueue.
+     * Determines if the given {@link Type} is a TransferQueue.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a transferqueue
@@ -209,7 +209,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a list.
+     * Determines if the given {@link Type} is a list.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a list
@@ -219,7 +219,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a boolean.
+     * Determines if the given {@link Type} is a boolean.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a boolean
@@ -229,7 +229,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a character.
+     * Determines if the given {@link Type} is a character.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a character
@@ -239,7 +239,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the gives type is a long.
+     * Determines if the given {@link Type} is a long.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a long
@@ -249,7 +249,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is a decimal number.
+     * Determines if the given {@link Type} is a decimal number.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a long
@@ -274,11 +274,11 @@ public class TypeUtils {
     }
 
     /**
-     * Returns the TypeArgument of a type if parameterized, else null.
+     * Returns the TypeArgument of a {@link Type} if parameterized, else null.
      *
-     * @param type is a Type
+     * @param type is a {@link Type}
      * @param i is the index of the ActualTypeArgument
-     * @return Type if {@code type} is parameterized, else null
+     * @return  the {@code i}_th type parameter of the given type if parametrized, else null
      */
     public static Type getTypeArgument(Type type, int i) {
         if (type instanceof ParameterizedType) {
