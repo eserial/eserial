@@ -32,4 +32,4 @@ addons:
     organization: "eserial-github"
 
 script:
-  - sonar-scanner
+  - ./gradlew sonarqube
