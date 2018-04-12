@@ -1,6 +1,5 @@
 package hu.elte.eserial.util;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import hu.elte.eserial.model.Getter;
 
 /**

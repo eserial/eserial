@@ -41,7 +41,7 @@ public final class MethodUtils {
      *
      * A method is a setter if and only if:
      * <ul>
-     *     <li>it does have one parameter only</li>
+     *     <li>it has one parameter only</li>
      *     <li>its name starts with "set"</li>
      *     <li>its return type is void</li>
      * </ul>
