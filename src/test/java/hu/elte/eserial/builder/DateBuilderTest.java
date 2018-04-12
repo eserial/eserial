@@ -15,9 +15,13 @@ public class DateBuilderTest {
         new DateBuilder(Integer.class).build(3000000L);
     }
 
-    @Test(expected = EserialBuilderMismatchException.class)
-    public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
-        new DateBuilder(Date.class).build("20000");
+    @Test
+    public void build_GivenStringValue_ReturnsDateWithValue() {
+        Date date = new Date();
+        Long value = date.getTime();
+        DateBuilder dateBuilder = new DateBuilder(Date.class);
+
+        assertEquals(date, dateBuilder.build(value.toString()));
     }
 
     @Test

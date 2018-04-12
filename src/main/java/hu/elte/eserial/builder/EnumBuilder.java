@@ -3,7 +3,6 @@ package hu.elte.eserial.builder;
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -36,6 +35,18 @@ public class EnumBuilder extends AbstractBuilder {
 
         if (!TypeUtils.isEnum(classOfEnumType)) {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), classOfEnumType.getName());
+        }
+
+        if (TypeUtils.isString(initializationObject.getClass())) {
+            Long initializationLong;
+
+            try {
+                initializationLong = Long.parseLong((String) initializationObject);
+            } catch (NumberFormatException e) {
+                throw new EserialBuilderMismatchException("Could not parse String to Long", e);
+            }
+
+            return (T) classOfEnumType.getEnumConstants()[initializationLong.intValue()];
         }
 
         if (!TypeUtils.isLong(initializationObject.getClass())) {

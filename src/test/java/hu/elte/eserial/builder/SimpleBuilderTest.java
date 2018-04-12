@@ -23,7 +23,7 @@ public class SimpleBuilderTest {
 
     @Test(expected = EserialPrimitiveCanNotBeNullException.class)
     public void build_GivenPrimitiveTypeNullValue_ThrowsEserialPrimitiveCanNotBeNullException() {
-        new SimpleBuilder(Integer.class).build(null);
+        new SimpleBuilder(int.class).build(null);
     }
 
     @Test
