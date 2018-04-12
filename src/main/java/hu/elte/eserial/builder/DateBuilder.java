@@ -8,7 +8,7 @@ import java.lang.reflect.Type;
 import java.util.Date;
 
 /**
- * Builds Date-Like objects.
+ * Builds Date objects.
  */
 public class DateBuilder extends AbstractBuilder{
 
