@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@EserialAnnotation(type = EserialAnnotationType.Formatting)
+@EserialAnnotation(type = EserialAnnotationType.FORMATTING)
 public @interface UseToString { }

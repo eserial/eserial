@@ -1,14 +1,13 @@
 package hu.elte.eserial.util;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Utility class for fields.
  */
 public class FieldUtils {
+
+    private FieldUtils() {}
 
     /**
      * @param clazz the class to find the field in

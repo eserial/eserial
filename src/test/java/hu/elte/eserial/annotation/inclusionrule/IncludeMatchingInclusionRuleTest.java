@@ -16,7 +16,7 @@ public class IncludeMatchingInclusionRuleTest {
             new IncludeMatchingInclusionRule(new IncludeMatching() {
                 @Override
                 public IncludeMatcher[] value() {
-                    return new IncludeMatcher[] {IncludeMatcher.NotNull, IncludeMatcher.NotEmpty};
+                    return new IncludeMatcher[] {IncludeMatcher.NOT_NULL, IncludeMatcher.NOT_EMPTY};
                 }
 
                 @Override

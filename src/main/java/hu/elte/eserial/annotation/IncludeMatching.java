@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-@EserialAnnotation(priority = 1000, type = EserialAnnotationType.Inclusion)
+@EserialAnnotation(priority = 1000, type = EserialAnnotationType.INCLUSION)
 public @interface IncludeMatching {
     IncludeMatcher[] value();
 }

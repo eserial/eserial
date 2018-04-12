@@ -18,7 +18,7 @@ public class EserialContextTest {
         EserialContext context = EserialContext.forRoot("Eserial");
 
         assertNotNull(context);
-        assertEquals(context.getContainingClass(), String.class);
+        assertEquals(String.class, context.getContainingClass());
         assertNotNull(context.getRecursionChecker());
     }
 
@@ -40,10 +40,10 @@ public class EserialContextTest {
 
         assertNotNull(context);
         assertNotNull(context.getGetter());
-        assertEquals(context.getGetter().getMethod().getName(), "getName");
+        assertEquals("getName", context.getGetter().getMethod().getName());
         assertNotNull(context.getField());
-        assertEquals(context.getField().getName(), "name");
-        assertEquals(context.getContainingClass(), User.class);
+        assertEquals("name", context.getField().getName());
+        assertEquals(User.class, context.getContainingClass());
         assertNotNull(context.getRecursionChecker());
     }
 }

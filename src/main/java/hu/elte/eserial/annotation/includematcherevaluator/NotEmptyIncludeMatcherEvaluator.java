@@ -5,10 +5,10 @@ import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import java.util.Collection;
 
 /**
- * Evaluates {@link IncludeMatcher#NotEmpty} constraints.
- * @see AbstractIncludeMatcherEvaluator
+ * Evaluates {@link IncludeMatcher#NOT_EMPTY} constraints.
+ * @see IncludeMatcherEvaluator
  */
-public class NotEmptyIncludeMatcherEvaluator extends AbstractIncludeMatcherEvaluator {
+public class NotEmptyIncludeMatcherEvaluator implements IncludeMatcherEvaluator {
 
     /**
      * @param value {@inheritDoc}
@@ -18,7 +18,7 @@ public class NotEmptyIncludeMatcherEvaluator extends AbstractIncludeMatcherEvalu
      *     <li>a {@link String} and is not empty</li>
      *     <li>of another type and is not null</li>
      * </ul>
-     * @see AbstractIncludeMatcherEvaluator#evaluate(Object)
+     * @see IncludeMatcherEvaluator#evaluate(Object)
      */
     @Override
     public boolean evaluate(Object value) {

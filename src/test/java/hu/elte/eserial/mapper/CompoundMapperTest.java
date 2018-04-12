@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class CompoundMapperTest {
 
@@ -49,7 +47,7 @@ public class CompoundMapperTest {
         assertTrue(rootValue instanceof Map);
 
         Map<String, Object> root = (Map) rootValue;
-        assertEquals(null, root.get("class"));
+        assertNull(root.get("class"));
     }
 
     public class MultipleSimpleGetters {
@@ -140,7 +138,7 @@ public class CompoundMapperTest {
         WithToString withToString = new WithToString();
         Object rootValue = new CompoundMapper(withToString).map(EserialContext.forRoot(withToString));
         assertTrue(rootValue instanceof String);
-        assertEquals(rootValue, "toString representation");
+        assertEquals("toString representation", rootValue);
     }
 
 

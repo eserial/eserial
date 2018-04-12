@@ -10,13 +10,13 @@ public class IncludeMatcherEvaluatorFactoryTest {
 
     @Test
     public void get_GivenNotNull_ReturnsANotNullIncludeMatcherEvaluator() {
-        AbstractIncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(IncludeMatcher.NotNull);
+        IncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(IncludeMatcher.NOT_NULL);
         assertTrue(evaluator instanceof NotNullIncludeMatcherEvaluator);
     }
 
     @Test
     public void get_GivenNotEmpty_ReturnsANotEmptyIncludeMatcherEvaluator() {
-        AbstractIncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(IncludeMatcher.NotEmpty);
+        IncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(IncludeMatcher.NOT_EMPTY);
         assertTrue(evaluator instanceof NotEmptyIncludeMatcherEvaluator);
     }
 

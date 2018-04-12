@@ -2,7 +2,7 @@ package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
-import hu.elte.eserial.annotation.includematcherevaluator.AbstractIncludeMatcherEvaluator;
+import hu.elte.eserial.annotation.includematcherevaluator.IncludeMatcherEvaluator;
 import hu.elte.eserial.annotation.includematcherevaluator.IncludeMatcherEvaluatorFactory;
 import hu.elte.eserial.recursion.model.EserialElement;
 
@@ -25,7 +25,7 @@ public class IncludeMatchingInclusionRule extends AbstractInclusionRule<IncludeM
     public boolean evaluate(EserialElement element) {
         boolean shouldInclude = true;
         for (IncludeMatcher includeMatcher : annotation.value()) {
-            AbstractIncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(includeMatcher);
+            IncludeMatcherEvaluator evaluator = IncludeMatcherEvaluatorFactory.get(includeMatcher);
             shouldInclude &= evaluator.evaluate(element.getValue());
         }
         return shouldInclude;

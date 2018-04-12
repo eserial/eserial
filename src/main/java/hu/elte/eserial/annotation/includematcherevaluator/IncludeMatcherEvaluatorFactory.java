@@ -5,7 +5,7 @@ import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import hu.elte.eserial.exception.EserialMissingIncludeMatcherEvaluatorException;
 
 /**
- * A simple factory for constructing {@link AbstractIncludeMatcherEvaluator} descendants.
+ * A simple factory for constructing {@link IncludeMatcherEvaluator} descendants.
  */
 public class IncludeMatcherEvaluatorFactory {
 
@@ -15,19 +15,19 @@ public class IncludeMatcherEvaluatorFactory {
     private IncludeMatcherEvaluatorFactory() {}
 
     /**
-     * Constructs an {@link AbstractIncludeMatcherEvaluator} descendant.
+     * Constructs an {@link IncludeMatcherEvaluator} descendant.
      *
      * @param includeMatcher an {@link IncludeMatcher} in an {@link IncludeMatching} annotation
-     * @return an {@link AbstractIncludeMatcherEvaluator} for the given {@code includeMatcher}
+     * @return an {@link IncludeMatcherEvaluator} for the given {@code includeMatcher}
      *
      * @exception EserialMissingIncludeMatcherEvaluatorException if the given {@code includeMatcher}
-     * is {@code null} or no {@link AbstractIncludeMatcherEvaluator} exists for that {@link IncludeMatcher}
+     * is {@code null} or no {@link IncludeMatcherEvaluator} exists for that {@link IncludeMatcher}
      */
-    public static AbstractIncludeMatcherEvaluator get(IncludeMatcher includeMatcher) {
-        if (IncludeMatcher.NotNull.equals(includeMatcher)) {
+    public static IncludeMatcherEvaluator get(IncludeMatcher includeMatcher) {
+        if (IncludeMatcher.NOT_NULL.equals(includeMatcher)) {
             return new NotNullIncludeMatcherEvaluator();
         }
-        else if (IncludeMatcher.NotEmpty.equals(includeMatcher)) {
+        else if (IncludeMatcher.NOT_EMPTY.equals(includeMatcher)) {
             return new NotEmptyIncludeMatcherEvaluator();
         }
         else if (includeMatcher == null) {

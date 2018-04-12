@@ -1,11 +1,10 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
-import java.util.Arrays;
-
 import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.model.Getter;
 import hu.elte.eserial.recursion.model.EserialElement;
-import hu.elte.eserial.util.FieldUtils;
+
+import java.util.Arrays;
 
 /**
  * Evaluates {@link hu.elte.eserial.annotation.IncludeElements} annotations.
