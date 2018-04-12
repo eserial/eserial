@@ -119,7 +119,7 @@ public class TypeUtils {
     }
 
     /**
-     * Determines if the given type is aSortedSet.
+     * Determines if the given type is a SortedSet.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a sortedset
@@ -259,10 +259,10 @@ public class TypeUtils {
     }
 
     /**
-     * Converts type to a class.
+     * Converts {@code type} to a class.
      *
-     * @param type is a Type
-     * @return RawType if {@code type} is parameterized, else casts {@code type} to class
+     * @param type is a {@link Type}
+     * @return the class represented by the given {@link Type}
      */
     public static Class convertTypeToClass(Type type) {
         if (type instanceof ParameterizedType) {
