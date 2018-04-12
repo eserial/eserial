@@ -35,18 +35,19 @@ public class CollectionParser extends AbstractParser{
 
         LinkedList<Object> list = new LinkedList<>();
         String value;
+        int index;
 
         json = json.substring(1, json.length());
 
         while(json.length() > 0) {
             if(StringUtils.isNumeric(Character.toString(json.charAt(0)))) {
-                int index = StringUtils.findNumber(json);
+                index = StringUtils.findNumber(json);
                 value = json.substring(0, index + 1);
                 json = json.substring(index + 1, json.length());
                 list.add(new NumberParser(value).parser());
             } else if(json.startsWith("\"")) {
                 json = json.substring(1, json.length());
-                int index = json.indexOf("\"");
+                index = json.indexOf("\"");
                 value = json.substring(0, index);
                 json = json.substring(index + 1, json.length());
                 list.add(new StringParser(value).parser());
@@ -60,12 +61,12 @@ public class CollectionParser extends AbstractParser{
                 json = json.substring(4, json.length());
                 list.add(new NullParser("null").parser());
             } else if(json.startsWith("[")) {
-                int index = StringUtils.findSquareBracket(json) + 1;
+                index = StringUtils.findSquareBracket(json) + 1;
                 value = json.trim().substring(0,index);
                 json = json.substring(index, json.length());
                 list.add(new CollectionParser(value).parser());
             } else if(json.startsWith("{")) {
-                int index = StringUtils.findClosingCurlyBracket(json) + 1;
+                index = StringUtils.findClosingCurlyBracket(json) + 1;
                 value = json.trim().substring(0,index);
                 json = json.substring(index, json.length());
                 list.add(new ObjectParser(value).parser());
