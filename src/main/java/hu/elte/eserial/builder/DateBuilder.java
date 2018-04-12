@@ -39,6 +39,18 @@ public class DateBuilder extends AbstractBuilder{
             throw new EserialBuilderMismatchException(Date.class.getSimpleName(), classOfDateType.getName());
         }
 
+        if (TypeUtils.isString(initializationObject.getClass())) {
+            Long initializationLong;
+
+            try {
+                initializationLong = Long.parseLong((String) initializationObject);
+            } catch (NumberFormatException e) {
+                throw new EserialBuilderMismatchException("Could not parse String to Long", e);
+            }
+
+            return (T) new Date(initializationLong);
+        }
+
         if (!TypeUtils.isLong(initializationObject.getClass())) {
             throw new EserialBuilderMismatchException(Long.class.getSimpleName(),
                     initializationObject.getClass().getName());

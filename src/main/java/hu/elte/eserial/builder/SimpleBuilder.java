@@ -34,8 +34,8 @@ public class SimpleBuilder extends AbstractBuilder {
     public <T> T build(Object initializationObject) {
         Class classOfSimpleType = TypeUtils.convertTypeToClass(type);
 
-        if (initializationObject == null && TypeUtils.isString(classOfSimpleType)
-                && TypeUtils.isWrapper(classOfSimpleType)) {
+        if (initializationObject == null && (TypeUtils.isString(classOfSimpleType)
+                || TypeUtils.isWrapper(classOfSimpleType))) {
             return null;
         } else if (initializationObject == null) {
             throw new EserialPrimitiveCanNotBeNullException(classOfSimpleType.getSimpleName());

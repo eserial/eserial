@@ -18,8 +18,15 @@ public class EnumBuilderTest  {
     }
 
     @Test(expected = EserialBuilderMismatchException.class)
-    public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
-        new EnumBuilder(TestEnum.class).build("2");
+    public void build_GivenDoubleValue_ThrowsEserialBuilderMismatchException() {
+        new EnumBuilder(TestEnum.class).build(3.14);
+    }
+
+    @Test
+    public void build_GivenStringValue_ReturnsEnumValue() {
+        EnumBuilder enumBuilder = new EnumBuilder(TestEnum.class);
+
+        assertEquals(TestEnum.C, enumBuilder.build("2"));
     }
 
     @Test
