@@ -41,7 +41,7 @@ public class EserialAnnotationProcessorTest {
     }
 
     @IncludeElements({"includedAndNull", "includedAndNotNull"})
-    @IncludeMatching(IncludeMatcher.NotNull)
+    @IncludeMatching(IncludeMatcher.NOT_NULL)
     public class IncludeFieldsAndMatchingDummy {
 
         private String includedAndNull = null;

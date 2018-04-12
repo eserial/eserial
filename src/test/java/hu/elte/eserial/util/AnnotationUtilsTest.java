@@ -11,11 +11,9 @@ import java.lang.annotation.Annotation;
 import java.util.Arrays;
 import java.util.List;
 
-import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.Formatting;
-import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.Inclusion;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.FORMATTING;
+import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.INCLUSION;
+import static org.junit.Assert.*;
 
 public class AnnotationUtilsTest {
 
@@ -105,29 +103,29 @@ public class AnnotationUtilsTest {
 
     @Test(expected = NullPointerException.class)
     public void isMatchingEserialAnnotation_GivenNullAndValidType_ThrowsNullPointerException() {
-        AnnotationUtils.isMatchingEserialAnnotation(null, Inclusion);
+        AnnotationUtils.isMatchingEserialAnnotation(null, INCLUSION);
     }
 
     @Test
     public void isMatchingEserialAnnotation_GivenExcludeThisAndInclusionType_ReturnsTrue() {
-        assertTrue(AnnotationUtils.isMatchingEserialAnnotation(excludeThis, Inclusion));
+        assertTrue(AnnotationUtils.isMatchingEserialAnnotation(excludeThis, INCLUSION));
     }
 
     @Test
     public void isMatchingEserialAnnotation_GivenExcludeThisAndFormattingType_ReturnsFalse() {
-        assertFalse(AnnotationUtils.isMatchingEserialAnnotation(excludeThis, Formatting));
+        assertFalse(AnnotationUtils.isMatchingEserialAnnotation(excludeThis, FORMATTING));
     }
 
     @Test
     public void isEserialAnnotation_GivenOtherAnnotationAndValidType_ReturnsFalse() {
-        assertFalse(AnnotationUtils.isMatchingEserialAnnotation(test, Inclusion));
+        assertFalse(AnnotationUtils.isMatchingEserialAnnotation(test, INCLUSION));
     }
 
     @Test
     public void getEserialAnnotations_GivenMixedList_ReturnsListOfEserialAnnotations() {
         List<Annotation> annotations =
                 AnnotationUtils.getEserialAnnotations(Arrays.asList(excludeThis, test, includeElements),
-                        Inclusion);
+                        INCLUSION);
         assertEquals(2, annotations.size());
         assertTrue(annotations.contains(excludeThis));
         assertFalse(annotations.contains(test));
@@ -139,7 +137,7 @@ public class AnnotationUtilsTest {
 
     @Test
     public void getEserialAnnotations_GivenClassWithIncludeElements_ReturnsIncludeElements() {
-        List<Annotation> annotations = AnnotationUtils.getEserialAnnotations(WithIncludeElements.class, Inclusion);
+        List<Annotation> annotations = AnnotationUtils.getEserialAnnotations(WithIncludeElements.class, INCLUSION);
         assertEquals(1, annotations.size());
         assertTrue(annotations.get(0) instanceof IncludeElements);
     }
@@ -152,7 +150,7 @@ public class AnnotationUtilsTest {
     @Test
     public void getEserialAnnotations_GivenFieldWithExcludeThis_ReturnsExcludeThis() throws NoSuchFieldException {
         List<Annotation> annotations = AnnotationUtils.getEserialAnnotations(
-                WithExcludeThisOnField.class.getDeclaredField("onField"), Inclusion);
+                WithExcludeThisOnField.class.getDeclaredField("onField"), INCLUSION);
         assertEquals(1, annotations.size());
         assertTrue(annotations.get(0) instanceof ExcludeThis);
     }
@@ -165,7 +163,7 @@ public class AnnotationUtilsTest {
     @Test
     public void getEserialAnnotations_GivenGetterWithExcludeThis_ReturnsExcludeThis() throws NoSuchMethodException {
         List<Annotation> annotations = AnnotationUtils.getEserialAnnotations(
-                WithExcludeThisOnGetter.class.getDeclaredMethod("onGetter"), Inclusion);
+                WithExcludeThisOnGetter.class.getDeclaredMethod("onGetter"), INCLUSION);
         assertEquals(1, annotations.size());
         assertTrue(annotations.get(0) instanceof ExcludeThis);
     }

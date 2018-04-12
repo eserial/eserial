@@ -13,6 +13,8 @@ import java.lang.annotation.Annotation;
  */
 public class InclusionRuleFactory {
 
+    private InclusionRuleFactory() {}
+
     /**
      * Constructs an {@link AbstractInclusionRule} descendant.
      *

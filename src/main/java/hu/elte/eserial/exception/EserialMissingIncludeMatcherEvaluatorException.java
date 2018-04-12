@@ -1,9 +1,9 @@
 package hu.elte.eserial.exception;
 
-import hu.elte.eserial.annotation.includematcherevaluator.AbstractIncludeMatcherEvaluator;
+import hu.elte.eserial.annotation.includematcherevaluator.IncludeMatcherEvaluator;
 
 /**
- * Thrown when annotation processing is interrupted due to a missing {@link AbstractIncludeMatcherEvaluator}.
+ * Thrown when annotation processing is interrupted due to a missing {@link IncludeMatcherEvaluator}.
  */
 public class EserialMissingIncludeMatcherEvaluatorException extends EserialException {
 

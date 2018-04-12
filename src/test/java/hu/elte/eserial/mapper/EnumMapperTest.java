@@ -25,9 +25,9 @@ public class EnumMapperTest {
     }
 
     class EnumTest {
-        @Enumerated(EnumeratedFormat.Name)
+        @Enumerated(EnumeratedFormat.NAME)
         private TestEnum byName = TestEnum.A;
-        @Enumerated(EnumeratedFormat.Ordinal)
+        @Enumerated(EnumeratedFormat.ORDINAL)
         private TestEnum byOrdinal = TestEnum.B;
         private TestEnum noAnnotation = TestEnum.C;
 

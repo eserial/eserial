@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
  */
 public class AnnotationUtils {
 
+    private AnnotationUtils() {}
+
     /**
      * @param accessibleObject a field or a method
      * @param type the type of {@link EserialAnnotation}
