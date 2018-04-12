@@ -13,12 +13,12 @@ import java.util.Date;
 public class DateBuilder extends AbstractBuilder{
 
     /**
-     * Constructs a {@link DateBuilder} and sets the {@code type} in it.
+     * Constructs a {@link DateBuilder} and sets the {@code dateType} in it.
      *
-     * @param type {@link Date} class to be used in the {@link AbstractBuilder#build} method
+     * @param dateType {@link Date} class to be used in the {@link AbstractBuilder#build} method
      */
-    DateBuilder(Type type) {
-        super(type);
+    DateBuilder(Type dateType) {
+        super(dateType);
     }
 
     /**
@@ -33,10 +33,10 @@ public class DateBuilder extends AbstractBuilder{
             return null;
         }
 
-        Class clazz = TypeUtils.convertTypeToClass(type);
+        Class classOfDateType = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isDate(clazz) || !TypeUtils.isNumber(initializationObject.getClass())) {
-            throw new EserialBuilderMismatchException(Date.class.getSimpleName(), clazz.getName());
+        if (!TypeUtils.isDate(classOfDateType) || !TypeUtils.isNumber(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Date.class.getSimpleName(), classOfDateType.getName());
         }
 
         return (T) new Date((Long) initializationObject);

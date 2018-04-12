@@ -12,12 +12,12 @@ import java.lang.reflect.Type;
 public class EnumBuilder extends AbstractBuilder {
 
     /**
-     * Constructs an {@link EnumBuilder} and sets the {@code type} in it.
+     * Constructs an {@link EnumBuilder} and sets the {@code enumType} in it.
      *
-     * @param type {@link Enum} class to be used in the {@link AbstractBuilder#build} method
+     * @param enumType {@link Enum} class to be used in the {@link AbstractBuilder#build} method
      */
-    EnumBuilder(Type type) {
-        super(type);
+    EnumBuilder(Type enumType) {
+        super(enumType);
     }
 
     /**
@@ -32,12 +32,12 @@ public class EnumBuilder extends AbstractBuilder {
             return null;
         }
 
-        Class clazz = TypeUtils.convertTypeToClass(type);
+        Class classOfEnumType = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isEnum(clazz) || !TypeUtils.isLong(initializationObject.getClass())) {
-            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), clazz.getName());
+        if (!TypeUtils.isEnum(classOfEnumType) || !TypeUtils.isLong(initializationObject.getClass())) {
+            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), classOfEnumType.getName());
         }
 
-        return (T) clazz.getEnumConstants()[((Long) initializationObject).intValue()];
+        return (T) classOfEnumType.getEnumConstants()[((Long) initializationObject).intValue()];
     }
 }
