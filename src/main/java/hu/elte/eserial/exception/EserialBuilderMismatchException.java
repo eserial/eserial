@@ -14,4 +14,14 @@ public class EserialBuilderMismatchException extends EserialException {
     public EserialBuilderMismatchException(String expected, String actual) {
         super(String.format("Expected %s got %s", expected, actual));
     }
+
+    /**
+     * Instantiates a new EserialBuilderMismatchException with the given message and cause.
+     *
+     * @param message the message of the exception
+     * @param cause the cause of the exception
+     */
+    public EserialBuilderMismatchException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

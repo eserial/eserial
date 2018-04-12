@@ -65,14 +65,22 @@ public class SimpleBuilder extends AbstractBuilder {
                 String lowercaseClassOfSimpleType = StringUtils.lowercaseFirstLetter(classOfSimpleType.getSimpleName());
                 if (TypeUtils.isDecimal(classOfSimpleType)) {
                     if(TypeUtils.isString(initializationObject.getClass())) {
-                        initializationObject = Double.parseDouble((String) initializationObject);
+                        try {
+                            initializationObject = Double.parseDouble((String) initializationObject);
+                        } catch (NumberFormatException e) {
+                            throw new EserialBuilderMismatchException("Could not parse String to Double", e);
+                        }
                     }
 
                     numberToLongOrDoubleMethod = Double.class.getDeclaredMethod(lowercaseClassOfSimpleType + "Value");
                     return (T) numberToLongOrDoubleMethod.invoke(initializationObject);
                 } else {
                     if(TypeUtils.isString(initializationObject.getClass())) {
-                        initializationObject = Long.parseLong((String) initializationObject);
+                        try {
+                            initializationObject = Long.parseLong((String) initializationObject);
+                        } catch (NumberFormatException e) {
+                            throw new EserialBuilderMismatchException("Could not parse String to Long", e);
+                        }
                     }
 
                     if (lowercaseClassOfSimpleType.equals("integer")) {
