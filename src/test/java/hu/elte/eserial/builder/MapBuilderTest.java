@@ -41,10 +41,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(ConcurrentSkipListMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(ConcurrentSkipListMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -53,10 +53,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(ConcurrentHashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(ConcurrentHashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -65,10 +65,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(TreeMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(TreeMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -77,10 +77,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(HashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(HashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -89,10 +89,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(ConcurrentHashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(ConcurrentHashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -101,10 +101,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(ConcurrentSkipListMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(ConcurrentSkipListMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -113,10 +113,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(TreeMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(TreeMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -125,10 +125,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(LinkedHashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(LinkedHashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -137,10 +137,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(IdentityHashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(IdentityHashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -149,10 +149,10 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(WeakHashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(WeakHashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 
     @Test
@@ -161,9 +161,9 @@ public class MapBuilderTest {
         HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("key", "value");
 
-        Map buildedMap = mapBuilder.build(hashMap);
+        Map builtMap = mapBuilder.build(hashMap);
 
-        assertEquals(HashMap.class, buildedMap.getClass());
-        assertEquals(1, buildedMap.size());
+        assertEquals(HashMap.class, builtMap.getClass());
+        assertEquals(1, builtMap.size());
     }
 }
