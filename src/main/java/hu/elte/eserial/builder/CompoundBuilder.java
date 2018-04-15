@@ -2,6 +2,7 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
+import hu.elte.eserial.exception.EserialNoDefaultConstructorException;
 import hu.elte.eserial.model.Setter;
 import hu.elte.eserial.util.MethodUtils;
 import hu.elte.eserial.util.TypeUtils;
@@ -59,10 +60,8 @@ public class CompoundBuilder extends AbstractBuilder {
             }
 
             return (T) objectInstance;
-        } catch (IllegalAccessException e) {
-            throw new EserialInvalidMethodException("Could not initialize object", e);
-        } catch (InstantiationException e) {
-            throw new EserialInstantiationException("Could not initialize object", e);
+        } catch (IllegalAccessException | InstantiationException e) {
+            throw new EserialNoDefaultConstructorException("Could not find default constructor", e);
         }
     }
 }
