@@ -324,17 +324,23 @@ public class TypeUtilsTest {
     }
 
     @Test
-    public void getTypeArgument_GivenParameterizedType_ReturnsTypeArguments() {
-        try {
+    public void getTypeArgument_GivenParameterizedType_ReturnsTypeArguments() throws NoSuchMethodException {
             Method method = CompoundBuilderTest.CompoundTestClassTwo.class.getDeclaredMethod("setList", List.class);
             Setter setter = new Setter(new CompoundBuilderTest.CompoundTestClassTwo(), method);
 
             Type type = setter.getTypeOfSetterParameter();
 
             assertEquals(Integer.class, TypeUtils.getTypeArgument(type, 0));
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
+    @Test
+    public void getTypeArgument_GivenTypeWithNoGenericParameter_ReturnsNull() throws NoSuchMethodException {
+        Method method = CompoundBuilderTest.CollectionDataMember.class.getDeclaredMethod("setLinkedListDataMember"
+                , LinkedList.class);
+        Setter setter = new Setter(new CompoundBuilderTest.CollectionDataMember(), method);
+
+        Type type = setter.getTypeOfSetterParameter();
+
+        assertNull(TypeUtils.getTypeArgument(type, 0));
+    }
 }
