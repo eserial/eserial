@@ -28,62 +28,42 @@ public class GetterTest {
     }
 
     @Test
-    public void getElementName_GivenAGetterThatStartsWithGet_ReturnsId() {
-        try {
+    public void getElementName_GivenAGetterThatStartsWithGet_ReturnsId() throws NoSuchMethodException {
             Method getId = ClassWithGetters.class.getDeclaredMethod("getId");
 
             Getter getter = new Getter(new ClassWithGetters(), getId);
             assertEquals("id", getter.getElementName());
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void getElementName_GivenAGetterThatStartsWithStartsWithIs_ReturnsIs() {
-        try {
+    public void getElementName_GivenAGetterThatStartsWithStartsWithIs_ReturnsIs() throws NoSuchMethodException {
             Method isReady = ClassWithGetters.class.getDeclaredMethod("isReady");
 
             Getter getter = new Getter(new ClassWithGetters(), isReady);
             assertEquals("ready", getter.getElementName());
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test(expected = EserialInvalidMethodException.class)
-    public void getElementName_GivenAnInvalidGetter_ThrowsEserialInvalidMethodException() {
-        try {
+    public void getElementName_GivenAnInvalidGetter_ThrowsEserialInvalidMethodException() throws NoSuchMethodException {
             Method malformedGetter = ClassWithGetters.class.getDeclaredMethod("malformedGetter");
 
             Getter getter = new Getter(new ClassWithGetters(), malformedGetter);
             getter.getElementName();
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void evaluate_GivenAGetter_ReturnsItsValue() {
-        try {
+    public void evaluate_GivenAGetter_ReturnsItsValue() throws NoSuchMethodException {
             Method isReady = ClassWithGetters.class.getDeclaredMethod("isReady");
 
             Getter getter = new Getter(new ClassWithGetters(), isReady);
             assertTrue((boolean) getter.evaluate());
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test(expected = EserialInvalidMethodException.class)
-    public void evaluate_GivenAnInvalidGetter_ThrowsEserialInvalidMethodException() {
-        try {
+    public void evaluate_GivenAnInvalidGetter_ThrowsEserialInvalidMethodException() throws NoSuchMethodException {
             Method getterThatThrows = ClassWithGetters.class.getDeclaredMethod("getterThatThrows");
 
             Getter getter = new Getter(new ClassWithGetters(), getterThatThrows);
             getter.evaluate();
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 }
