@@ -73,11 +73,23 @@ public class StringUtils {
         return builder.toString();
     }
 
+    /**
+     * Check the the param string is a Numeric
+     *
+     * @param str a string
+     * @return boolean
+     */
     public static boolean isNumeric(String str)
     {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
+    /**
+     * Check the the param string is a Boolean
+     *
+     * @param str a string
+     * @return boolean
+     */
     public static boolean isBoolean(String str) {
         if(str.equals("false") || str.equals("true")) {
             return true;
@@ -86,14 +98,32 @@ public class StringUtils {
         }
     }
 
+    /**
+     * Check the the param string is an Integer
+     *
+     * @param str a string
+     * @return boolean
+     */
     public static boolean isInteger(String str) {
         return str.matches("-?[\\d]+");
     }
 
+    /**
+     * Check the the param string is an Double
+     *
+     * @param str a string
+     * @return boolean
+     */
     public static boolean isDouble(String str) {
         return str.matches("-?[0-9]+\\.?[0-9]+");
     }
 
+    /**
+     * Find the number at the beginning of the String
+     *
+     * @param str a string
+     * @return {@code str} the index of the last digit
+     */
     public static int findNumber(String str) {
         int index = 0;
 
@@ -104,6 +134,12 @@ public class StringUtils {
         return index - 1;
     }
 
+    /**
+     * Find the closing curly bracket int the given string
+     *
+     * @param str a string
+     * @return {@code closePos} the index of the closing curly bracket
+     */
     public static int findClosingCurlyBracket(String str) {
         int closePos = 0;
         int counter = 1;
@@ -120,6 +156,13 @@ public class StringUtils {
         return closePos;
     }
 
+
+    /**
+     * Find the closing square bracket int the given string
+     *
+     * @param str a string
+     * @return {@code closePos} the index of the closing square bracket
+     */
     public static int findSquareBracket(String str) {
         int closePos = 0;
         int counter = 1;
