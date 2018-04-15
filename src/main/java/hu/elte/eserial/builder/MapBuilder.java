@@ -7,11 +7,10 @@ import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
@@ -43,11 +42,11 @@ public class MapBuilder extends AbstractBuilder{
         Type typeOfMapKeyTypeArgument = TypeUtils.getTypeArgument(type, 0);
         Type typeOfMapValueTypeArgument = TypeUtils.getTypeArgument(type, 1);
 
-        if (!TypeUtils.isMap(classOfMapType)) {
+        if (!TypeUtils.isAssignableFrom(classOfMapType, Map.class)) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(), classOfMapType.getName());
         }
 
-        if (!TypeUtils.isMap(initializationObject.getClass())) {
+        if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), Map.class)) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
@@ -87,11 +86,11 @@ public class MapBuilder extends AbstractBuilder{
             }
 
             if (classOfMapType.isInterface()) {
-                if (TypeUtils.isConcurrentNavigableMap(classOfMapType)) {
+                if (TypeUtils.isAssignableFrom(classOfMapType, ConcurrentNavigableMap.class)) {
                     return (T) new ConcurrentSkipListMap(initializationMap);
-                } else if (TypeUtils.isConcurrentMap(classOfMapType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfMapType, ConcurrentMap.class)) {
                     return (T) new ConcurrentHashMap(initializationMap);
-                } else if (TypeUtils.isSortedMap(classOfMapType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfMapType, SortedMap.class)) {
                     return (T) new TreeMap(initializationMap);
                 } else {
                     return (T) new HashMap(initializationMap);

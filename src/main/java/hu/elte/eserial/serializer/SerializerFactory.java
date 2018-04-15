@@ -2,6 +2,8 @@ package hu.elte.eserial.serializer;
 
 import hu.elte.eserial.util.TypeUtils;
 
+import java.util.List;
+
 /**
  * Provides an adequate serializer implementation for a given type.
  */
@@ -30,7 +32,7 @@ public class SerializerFactory {
                 return new BooleanSerializer(object);
             } else if (TypeUtils.isString(type) || TypeUtils.isCharacter(type)) {
                 return new StringSerializer(object);
-            } else if (TypeUtils.isList(type)) {
+            } else if (TypeUtils.isAssignableFrom(type, List.class)) {
                 return new ArraySerializer(object);
             } else {
                 return new ObjectSerializer(object);

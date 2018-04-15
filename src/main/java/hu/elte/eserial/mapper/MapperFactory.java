@@ -2,6 +2,9 @@ package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.util.TypeUtils;
 
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * Provides an adequate mapper implementation for a given type.
  */
@@ -24,9 +27,9 @@ public class MapperFactory {
         }
         else {
             Class type = object.getClass();
-            if (TypeUtils.isCollection(type)) {
+            if (TypeUtils.isAssignableFrom(type, Collection.class)) {
                 return new CollectionMapper(object);
-            } else if (TypeUtils.isMap(type)) {
+            } else if (TypeUtils.isAssignableFrom(type, Map.class)) {
                 return new MapMapper(object);
             } else if (TypeUtils.isEnum(type)) {
                 return new EnumMapper(object);
