@@ -61,9 +61,9 @@ public class Setter {
     }
 
     /**
-     * Returns the Type of the setter parameter.
+     * Returns the {@link Type} of the setter parameter.
      *
-     * @return Type of {@code method} parameter
+     * @return {@link Type} of {@code method} parameter
      */
     public Type getTypeOfSetterParameter() {
         return this.method.getGenericParameterTypes()[0];
