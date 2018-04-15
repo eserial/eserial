@@ -26,6 +26,16 @@ public class SimpleBuilderTest {
         new SimpleBuilder(int.class).build(null);
     }
 
+    @Test(expected = EserialBuilderMismatchException.class)
+    public void build_GivenCharacterTypeStringValue_ThrowsEserialBuilderMismatchException() {
+        new SimpleBuilder(Character.class).build("character");
+    }
+
+    @Test(expected = EserialBuilderMismatchException.class)
+    public void build_GivenBooleanTypeStringValue_ThrowsEserialBuilderMismatchException() {
+        new SimpleBuilder(Boolean.class).build("notboolean");
+    }
+
     @Test
     public void build_GivenStringTypeNullValue_ReturnsStringWithNullValue() {
         assertNull(new SimpleBuilder(String.class).build(null));
@@ -114,5 +124,15 @@ public class SimpleBuilderTest {
     @Test
     public void build_GivenString_ReturnsStringValue() {
         assertEquals("string", new SimpleBuilder(String.class).build("string"));
+    }
+
+    @Test
+    public void build_GivenString_ReturnsCharacterValue() {
+        assertEquals(new Character('c'), new SimpleBuilder(Character.class).build("c"));
+    }
+
+    @Test
+    public void build_GivenString_ReturnsBooleanValue() {
+        assertEquals(new Boolean("true"), new SimpleBuilder(Boolean.class).build("tRue"));
     }
 }

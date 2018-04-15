@@ -1,5 +1,6 @@
 package hu.elte.eserial.builder;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
@@ -90,6 +91,33 @@ public class SimpleBuilder extends AbstractBuilder {
                     numberToLongOrDoubleMethod = Long.class.getDeclaredMethod(lowercaseClassOfSimpleType + "Value");
                     return (T) numberToLongOrDoubleMethod.invoke(initializationObject);
                 }
+            } else if (TypeUtils.isCharacter(classOfSimpleType)) {
+                if(TypeUtils.isString(initializationObject.getClass())) {
+                    String initializationString = (String) initializationObject;
+
+                    if (initializationString.length() > 1) {
+                        throw new EserialBuilderMismatchException(Character.class.getSimpleName()
+                                , String.class.getSimpleName());
+                    }
+
+                    initializationObject = initializationString.charAt(0);
+                }
+
+                return (T) initializationObject;
+            } else if (TypeUtils.isBoolean(classOfSimpleType)) {
+                if(TypeUtils.isString(initializationObject.getClass())) {
+                    String initializationString = (String) initializationObject;
+
+                    if (!(initializationString.toLowerCase().equals("true"))
+                            && !(initializationString.toLowerCase().equals("false"))) {
+                        throw new EserialBuilderMismatchException(Boolean.class.getSimpleName()
+                                , String.class.getSimpleName());
+                    }
+
+                    initializationObject = Boolean.parseBoolean(initializationString);
+                }
+
+                return (T) initializationObject;
             } else {
                 return (T) initializationObject;
             }
