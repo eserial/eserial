@@ -92,14 +92,14 @@ public class TypeUtilsTest {
     }
 
     @Test
-    public void isMap_GivenMaps_ReturnsTrue() {
-        assertTrue(TypeUtils.isMap(Map.class));
-        assertTrue(TypeUtils.isMap(HashMap.class));
+    public void isAssignableFrom_GivenMaps_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(Map.class, Map.class));
+        assertTrue(TypeUtils.isAssignableFrom(HashMap.class, Map.class));
     }
 
     @Test
-    public void isMap_GivenNonMap_ReturnsFalse() {
-        assertFalse(TypeUtils.isMap(Integer.class));
+    public void isAssignableFrom_GivenNonMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Integer.class, Map.class));
     }
 
     @Test
@@ -136,13 +136,13 @@ public class TypeUtilsTest {
     }
 
     @Test
-    public void isList_GivenList_ReturnsTrue() {
-        assertTrue(TypeUtils.isList(List.class));
+    public void isAssignableFrom_GivenList_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(List.class, List.class));
     }
 
     @Test
-    public void isList_GivenNonList_ReturnsFalse() {
-        assertFalse(TypeUtils.isList(Map.class));
+    public void isAssignableFrom_GivenNonList_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Map.class, List.class));
     }
 
     @Test
@@ -192,116 +192,116 @@ public class TypeUtilsTest {
     }
 
     @Test
-    public void isCollection_GivenCollection_ReturnsTrue() {
-        assertTrue(TypeUtils.isCollection(Set.class));
-        assertTrue(TypeUtils.isCollection(List.class));
-        assertTrue(TypeUtils.isCollection(Queue.class));
+    public void isAssignableFrom_GivenCollection_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(Set.class, Collection.class));
+        assertTrue(TypeUtils.isAssignableFrom(List.class, Collection.class));
+        assertTrue(TypeUtils.isAssignableFrom(Queue.class, Collection.class));
     }
 
     @Test
-    public void isCollection_GivenNonCollection_ReturnsFalse() {
-        assertFalse(TypeUtils.isCollection(Integer.class));
-        assertFalse(TypeUtils.isCollection(Map.class));
-        assertFalse(TypeUtils.isCollection(Date.class));
+    public void isAssignableFrom_GivenNonCollection_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Integer.class, Collection.class));
+        assertFalse(TypeUtils.isAssignableFrom(Map.class, Collection.class));
+        assertFalse(TypeUtils.isAssignableFrom(Date.class, Collection.class));
     }
 
     @Test
-    public void isSortedSet_GivenSortedSet_ReturnsTrue() {
-        assertTrue(TypeUtils.isSortedSet(SortedSet.class));
-        assertTrue(TypeUtils.isSortedSet(TreeSet.class));
+    public void isAssignableFrom_GivenSortedSet_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(SortedSet.class, SortedSet.class));
+        assertTrue(TypeUtils.isAssignableFrom(TreeSet.class, SortedSet.class));
     }
 
     @Test
-    public void isSortedSet_GivenNonSortedSet_ReturnsFalse() {
-        assertFalse(TypeUtils.isSortedSet(HashSet.class));
+    public void isAssignableFrom_GivenNonSortedSet_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(HashSet.class, SortedSet.class));
     }
 
     @Test
-    public void isSet_GivenSet_ReturnsTrue() {
-        assertTrue(TypeUtils.isSet(Set.class));
-        assertTrue(TypeUtils.isSet(HashSet.class));
+    public void isAssignableFrom_GivenSet_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(Set.class, Set.class));
+        assertTrue(TypeUtils.isAssignableFrom(HashSet.class, Set.class));
     }
 
     @Test
-    public void isSet_GivenNonSet_ReturnsFalse() {
-        assertFalse(TypeUtils.isSet(Queue.class));
+    public void isAssignableFrom_GivenNonSet_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Queue.class, Set.class));
     }
 
     @Test
-    public void isQueue_GivenQueue_ReturnsTrue() {
-        assertTrue(TypeUtils.isQueue(Queue.class));
-        assertTrue(TypeUtils.isQueue(ArrayDeque.class));
+    public void isAssignableFrom_GivenQueue_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(Queue.class, Queue.class));
+        assertTrue(TypeUtils.isAssignableFrom(ArrayDeque.class, ArrayDeque.class));
     }
 
     @Test
-    public void isQueue_GivenNonQueue_ReturnsFalse() {
-        assertFalse(TypeUtils.isQueue(Set.class));
+    public void isAssignableFrom_GivenNonQueue_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Set.class, Queue.class));
     }
 
     @Test
-    public void isConcurrentNavigableMap_GivenNavigableMap_ReturnsTrue() {
-        assertTrue(TypeUtils.isConcurrentNavigableMap(ConcurrentNavigableMap.class));
-        assertTrue(TypeUtils.isConcurrentNavigableMap(ConcurrentSkipListMap.class));
+    public void isAssignableFrom_GivenConcurrentNavigableMap_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(ConcurrentNavigableMap.class, ConcurrentNavigableMap.class));
+        assertTrue(TypeUtils.isAssignableFrom(ConcurrentSkipListMap.class, ConcurrentNavigableMap.class));
     }
 
     @Test
-    public void isConcurrentNavigableMap_GivenNonConcurrentNavigableMap_ReturnsFalse() {
-        assertFalse(TypeUtils.isConcurrentNavigableMap(HashMap.class));
+    public void isAssignableFrom_GivenNonConcurrentNavigableMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(HashMap.class, ConcurrentNavigableMap.class));
     }
 
     @Test
-    public void isConcurrentMap_GivenConcurrentMap_ReturnsTrue() {
-        assertTrue(TypeUtils.isConcurrentMap(ConcurrentMap.class));
-        assertTrue(TypeUtils.isConcurrentMap(ConcurrentSkipListMap.class));
+    public void isAssignableFrom_GivenConcurrentMap_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(ConcurrentMap.class, ConcurrentMap.class));
+        assertTrue(TypeUtils.isAssignableFrom(ConcurrentSkipListMap.class, ConcurrentSkipListMap.class));
     }
 
     @Test
-    public void isConcurrentMap_GivenNonConcurrentMap_ReturnsFalse() {
-        assertFalse(TypeUtils.isConcurrentMap(Set.class));
+    public void isAssignableFrom_GivenNonConcurrentMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Set.class, ConcurrentMap.class));
     }
 
     @Test
-    public void isSortedMap_GivenSortedMap_ReturnsTrue() {
-        assertTrue(TypeUtils.isSortedMap(SortedMap.class));
-        assertTrue(TypeUtils.isSortedMap(TreeMap.class));
+    public void isAssignableFrom_GivenSortedMap_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(SortedMap.class, SortedMap.class));
+        assertTrue(TypeUtils.isAssignableFrom(TreeMap.class, SortedMap.class));
     }
 
     @Test
-    public void isSortedMap_GivenNonSortedMap_ReturnsFalse() {
-        assertFalse(TypeUtils.isSortedMap(Set.class));
+    public void isAssignableFrom_GivenNonSortedMap_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Set.class, SortedMap.class));
     }
 
     @Test
-    public void isBlockingQueue_GivenBlockingQueue_ReturnsTrue() {
-        assertTrue(TypeUtils.isBlockingQueue(LinkedBlockingQueue.class));
-        assertTrue(TypeUtils.isBlockingQueue(BlockingQueue.class));
+    public void isAssignableFrom_GivenBlockingQueue_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(LinkedBlockingQueue.class, BlockingQueue.class));
+        assertTrue(TypeUtils.isAssignableFrom(BlockingQueue.class, BlockingQueue.class));
     }
 
     @Test
-    public void isBlockingQueue_GivenNonBlockingQueue_ReturnsFalse() {
-        assertFalse(TypeUtils.isBlockingQueue(Set.class));
+    public void isAssignableFrom_GivenNonBlockingQueue_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Set.class, BlockingQueue.class));
     }
 
     @Test
-    public void isBlockingDeque_GivenBlockingDeque_ReturnsTrue() {
-        assertTrue(TypeUtils.isBlockingDeque(BlockingDeque.class));
-        assertTrue(TypeUtils.isBlockingDeque(LinkedBlockingDeque.class));
+    public void isAssignableFrom_GivenBlockingDeque_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(BlockingDeque.class, BlockingDeque.class));
+        assertTrue(TypeUtils.isAssignableFrom(LinkedBlockingDeque.class, BlockingDeque.class));
     }
 
     @Test
-    public void isBlockingDeque_GivenNonBlockingDeque_ReturnsFalse() {
-        assertFalse(TypeUtils.isBlockingDeque(Set.class));
+    public void isAssignableFrom_GivenNonBlockingDeque_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Set.class, BlockingDeque.class));
     }
 
     @Test
-    public void isTransferQueue_GivenTransferQueue_ReturnsTrue() {
-        assertTrue(TypeUtils.isTransferQueue(TransferQueue.class));
-        assertTrue(TypeUtils.isTransferQueue(LinkedTransferQueue.class));
+    public void isAssignableFrom_GivenTransferQueue_ReturnsTrue() {
+        assertTrue(TypeUtils.isAssignableFrom(TransferQueue.class, TransferQueue.class));
+        assertTrue(TypeUtils.isAssignableFrom(LinkedTransferQueue.class, TransferQueue.class));
     }
 
     @Test
-    public void isTransferQueue_GivenNonTransferQueue_ReturnsFalse() {
-        assertFalse(TypeUtils.isTransferQueue(Set.class));
+    public void isAssignableFrom_GivenNonTransferQueue_ReturnsFalse() {
+        assertFalse(TypeUtils.isAssignableFrom(Set.class, TransferQueue.class));
     }
 
     @Test

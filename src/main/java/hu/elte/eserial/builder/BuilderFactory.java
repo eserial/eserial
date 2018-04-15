@@ -4,6 +4,9 @@ import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Map;
 
 /**
  * Provides an adequate builder implementation for a given type.
@@ -27,13 +30,13 @@ public class BuilderFactory {
         if (!TypeUtils.isCompound(classOfType)) {
             return new SimpleBuilder(type);
         } else {
-            if (TypeUtils.isCollection(classOfType)) {
+            if (TypeUtils.isAssignableFrom(classOfType, Collection.class)) {
                 return new CollectionBuilder(type);
-            } else if (TypeUtils.isMap(classOfType)) {
+            } else if (TypeUtils.isAssignableFrom(classOfType, Map.class)) {
                 return new MapBuilder(type);
-            } else if (TypeUtils.isEnum(classOfType)) {
+            } else if (TypeUtils.isAssignableFrom(classOfType, Enum.class)) {
                 return new EnumBuilder(type);
-            } else if (TypeUtils.isDate(classOfType)) {
+            } else if (TypeUtils.isAssignableFrom(classOfType, Date.class)) {
                 return new DateBuilder(type);
             } else {
                 return new CompoundBuilder(type);

@@ -32,7 +32,7 @@ public class MapMapper extends AbstractMapper {
     @Override
     @SuppressWarnings("unchecked")
     public Object map(EserialContext context) {
-        if (!TypeUtils.isMap(this.object.getClass())) {
+        if (!TypeUtils.isAssignableFrom(this.object.getClass(), Map.class)) {
             throw new EserialMapperMismatchException(Map.class.getSimpleName(), this.object.getClass().getSimpleName());
         }
 

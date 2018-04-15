@@ -7,9 +7,7 @@ import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.LinkedBlockingDeque;
-import java.util.concurrent.LinkedTransferQueue;
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.*;
 
 /**
  * Builds Collection objects (e.g List).
@@ -39,11 +37,11 @@ public class CollectionBuilder extends AbstractBuilder {
         Class classOfCollectionType = TypeUtils.convertTypeToClass(type);
         Type typeOfCollectionTypeArgument = TypeUtils.getTypeArgument(type, 0);
 
-        if (!TypeUtils.isCollection(classOfCollectionType)) {
+        if (!TypeUtils.isAssignableFrom(classOfCollectionType, Collection.class)) {
             throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), classOfCollectionType.getName());
         }
 
-        if (!TypeUtils.isList(initializationObject.getClass())) {
+        if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), List.class)) {
             throw new EserialBuilderMismatchException(List.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
@@ -66,17 +64,17 @@ public class CollectionBuilder extends AbstractBuilder {
             Collection collectionObject;
 
             if (classOfCollectionType.isInterface()) {
-                if (TypeUtils.isSortedSet(classOfCollectionType)) {
+                if (TypeUtils.isAssignableFrom(classOfCollectionType, SortedSet.class)) {
                     collectionObject = new TreeSet<>();
-                } else if (TypeUtils.isSet(classOfCollectionType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, Set.class)) {
                     collectionObject = new HashSet<>();
-                } else if (TypeUtils.isTransferQueue(classOfCollectionType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, TransferQueue.class)) {
                     collectionObject = new LinkedTransferQueue();
-                } else if (TypeUtils.isBlockingDeque(classOfCollectionType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, BlockingDeque.class)) {
                     collectionObject = new LinkedBlockingDeque();
-                } else if (TypeUtils.isBlockingQueue(classOfCollectionType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, BlockingQueue.class)) {
                     collectionObject = new PriorityBlockingQueue();
-                } else if (TypeUtils.isQueue(classOfCollectionType)) {
+                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, Queue.class)) {
                     collectionObject = new ArrayDeque<>();
                 } else {
                     collectionObject = new ArrayList<>();

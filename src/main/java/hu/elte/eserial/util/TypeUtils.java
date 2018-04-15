@@ -21,7 +21,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a primitive type
      */
-    public static Boolean isPrimitive(Class<?> type) {
+    public static boolean isPrimitive(Class<?> type) {
         return type.isPrimitive() && type != void.class;
     }
 
@@ -31,7 +31,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a wrapper type
      */
-    public static Boolean isWrapper(Class<?> type) {
+    public static boolean isWrapper(Class<?> type) {
 
         return type == Double.class || type == Float.class || type == Long.class
                 || type == Integer.class || type == Short.class || type == Character.class
@@ -44,7 +44,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a string
      */
-    public static Boolean isString(Class<?> type) {
+    public static boolean isString(Class<?> type) {
         return type == String.class;
     }
 
@@ -54,8 +54,19 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is compound
      */
-    public static Boolean isCompound(Class<?> type) {
+    public static boolean isCompound(Class<?> type) {
         return !isPrimitive(type) && !isWrapper(type) && !isString(type);
+    }
+
+    /**
+     * Determines if the given {@code from} class is assignable from the {@code target} class.
+     *
+     * @param from is an arbitrary class
+     * @param target is an arbitrary class
+     * @return {@code true} if {@code target} is assignable from {@code from}
+     */
+    public static boolean isAssignableFrom(Class from, Class target) {
+        return target.isAssignableFrom(from);
     }
 
     /**
@@ -64,28 +75,8 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a number
      */
-    public static Boolean isNumber(Class<?> type) {
+    public static boolean isNumber(Class<?> type) {
         return Number.class.isAssignableFrom(type) || (isPrimitive(type) && !isBoolean(type) && !isCharacter(type));
-    }
-
-    /**
-     * Determines if the given {@link Type} is a collection.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a collection
-     */
-    public static Boolean isCollection(Class<?> type) {
-        return Collection.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a map.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a map
-     */
-    public static Boolean isMap(Class<?> type) {
-        return Map.class.isAssignableFrom(type);
     }
 
     /**
@@ -94,7 +85,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is an array
      */
-    public static Boolean isArray(Class<?> type) {
+    public static boolean isArray(Class<?> type) {
         return type.isArray();
     }
 
@@ -104,7 +95,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is an enum
      */
-    public static Boolean isEnum(Class<?> type) {
+    public static boolean isEnum(Class<?> type) {
         return type.isEnum();
     }
 
@@ -114,117 +105,17 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a date
      */
-    public static Boolean isDate(Class<?> type) {
+    public static boolean isDate(Class<?> type) {
         return type == Date.class;
     }
-
-    /**
-     * Determines if the given {@link Type} is a SortedSet.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a sortedset
-     */
-    public static Boolean isSortedSet(Class<?> type) {
-        return SortedSet.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a Set.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a set
-     */
-    public static Boolean isSet(Class<?> type) {
-        return Set.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a Queue.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a queue
-     */
-    public static Boolean isQueue(Class<?> type) {
-        return Queue.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a ConcurrentNavigableMap.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a concurrentnavigablemap
-     */
-    public static Boolean isConcurrentNavigableMap(Class<?> type) {
-        return ConcurrentNavigableMap.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a ConcurrentMap.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a concurrentmap
-     */
-    public static Boolean isConcurrentMap(Class<?> type) {
-        return ConcurrentMap.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a SortedMap.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a sortedmap
-     */
-    public static Boolean isSortedMap(Class<?> type) {
-        return SortedMap.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a BlockingQueue.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a blockingqueue
-     */
-    public static Boolean isBlockingQueue(Class<?> type) {
-        return BlockingQueue.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a BlockingDeque.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a blockingdeque
-     */
-    public static Boolean isBlockingDeque(Class<?> type) {
-        return BlockingDeque.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a TransferQueue.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a transferqueue
-     */
-    public static Boolean isTransferQueue(Class<?> type) {
-        return TransferQueue.class.isAssignableFrom(type);
-    }
-
-    /**
-     * Determines if the given {@link Type} is a list.
-     *
-     * @param type an arbitrary class
-     * @return {@code true} if {@code type} is a list
-     */
-    public static Boolean isList(Class<?> type) {
-        return List.class.isAssignableFrom(type);
-    }
-
+    
     /**
      * Determines if the given {@link Type} is a boolean.
      *
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a boolean
      */
-    public static Boolean isBoolean(Class<?> type) {
+    public static boolean isBoolean(Class<?> type) {
         return type == Boolean.class || type == boolean.class;
     }
 
@@ -234,7 +125,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a character
      */
-    public static Boolean isCharacter(Class<?> type) {
+    public static boolean isCharacter(Class<?> type) {
         return type == Character.class || type == char.class;
     }
 
@@ -244,7 +135,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a long
      */
-    public static Boolean isLong(Class<?> type) {
+    public static boolean isLong(Class<?> type) {
         return type == Long.class || type == long.class;
     }
 
@@ -254,7 +145,7 @@ public class TypeUtils {
      * @param type an arbitrary class
      * @return {@code true} if {@code type} is a long
      */
-    public static Boolean isDecimal(Class<?> type) {
+    public static boolean isDecimal(Class<?> type) {
         return type == double.class || type == Double.class || type == float.class || type == Float.class;
     }
 

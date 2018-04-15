@@ -28,7 +28,7 @@ public class CollectionMapper extends AbstractMapper {
     @Override
     @SuppressWarnings("unchecked")
     public Object map(EserialContext context) {
-        if (!TypeUtils.isCollection(this.object.getClass())) {
+        if (!TypeUtils.isAssignableFrom(this.object.getClass(), Collection.class)) {
             throw new EserialMapperMismatchException(Collection.class.getSimpleName(),
                     this.object.getClass().getSimpleName());
         }
