@@ -26,7 +26,7 @@ public class CollectionBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a collection of the given class initialized from {@code initializationObject}, which is an ArrayList
+     * @return a collection of the given {@link Class} initialized from {@code initializationObject}, which is an {@link ArrayList}
      */
     @Override
     public <T> T build(Object initializationObject) {
