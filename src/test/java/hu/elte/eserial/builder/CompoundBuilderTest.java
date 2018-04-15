@@ -2,6 +2,7 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
+import hu.elte.eserial.exception.EserialNoDefaultConstructorException;
 import org.junit.Test;
 
 import java.util.*;
@@ -694,12 +695,25 @@ public class CompoundBuilderTest {
         private PrivateConstructor() {}
     }
 
-    @Test(expected = EserialInvalidMethodException.class)
-    public void build_GivenClassWithPrivateConstructor_ThrowsEserialInvalidMethodException() {
+    @Test(expected = EserialNoDefaultConstructorException.class)
+    public void build_GivenClassWithPrivateConstructor_ThrowsEserialNoDefaultConstructorException() {
         Map<String, Object> map = new HashMap<>();
         CompoundBuilder compoundBuilder = new CompoundBuilder(PrivateConstructor.class);
 
         PrivateConstructor privateConstructor = compoundBuilder.build(map);
+    }
+
+    public static class NoDefaultConstructor {
+
+        public NoDefaultConstructor(String text) {}
+    }
+
+    @Test(expected = EserialNoDefaultConstructorException.class)
+    public void build_GivenClassWithNoDefaultConstructor_ThrowsEserialNoDefaultConstructorException() {
+        Map<String, Object> map = new HashMap<>();
+        CompoundBuilder compoundBuilder = new CompoundBuilder(NoDefaultConstructor.class);
+
+        NoDefaultConstructor noDefaultConstructor = compoundBuilder.build(map);
     }
 
     public enum Color {
