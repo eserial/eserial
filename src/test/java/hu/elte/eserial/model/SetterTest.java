@@ -30,65 +30,45 @@ public class SetterTest {
     }
 
     @Test(expected = EserialInvalidMethodException.class)
-    public void getElementName_GivenAnInValidSetter_ThrowsEserialInvalidMethodException() {
-        try {
+    public void getElementName_GivenAnInValidSetter_ThrowsEserialInvalidMethodException() throws NoSuchMethodException {
             Method method = ClassWithSetters.class.getDeclaredMethod("invalidSet", int.class);
 
             Setter setter = new Setter(new ClassWithSetters(), method);
             setter.getElementName();
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void getElementName_GivenASetterThatStartsWithSet_ReturnsId() {
-        try {
+    public void getElementName_GivenASetterThatStartsWithSet_ReturnsId() throws NoSuchMethodException {
             Method method = ClassWithSetters.class.getDeclaredMethod("setId", int.class);
 
             Setter setter = new Setter(new ClassWithSetters(), method);
             assertEquals("id", setter.getElementName());
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test(expected = EserialInvalidMethodException.class)
-    public void evaluate_GivenAnInvalidSetter_ThrowsEserialInvalidMethodException() {
-        try {
+    public void evaluate_GivenAnInvalidSetter_ThrowsEserialInvalidMethodException() throws NoSuchMethodException {
             Method method = ClassWithSetters.class.getDeclaredMethod("setterThatThrows", int.class);
 
             Setter setter = new Setter(new ClassWithSetters(), method);
             setter.invoke(2);
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void evaluate_GivenASetter_SetsItsValue() {
-        try {
+    public void evaluate_GivenASetter_SetsItsValue() throws NoSuchMethodException {
             Method method = ClassWithSetters.class.getDeclaredMethod("setId", int.class);
 
             ClassWithSetters classWithSetters = new ClassWithSetters();
             Setter setter = new Setter(classWithSetters, method);
             setter.invoke(2);
             assertEquals(2, classWithSetters.getId());
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
-    public void getTypeParameter_GivenInt_ReturnsIntType() {
-        try {
+    public void getTypeParameter_GivenInt_ReturnsIntType() throws NoSuchMethodException {
             Method method = ClassWithSetters.class.getDeclaredMethod("setId", int.class);
 
             Setter setter = new Setter(new ClassWithSetters(), method);
 
             assertEquals(int.class, setter.getTypeOfSetterParameter());
-        } catch (NoSuchMethodException e) {
-            fail(e.getMessage());
-        }
     }
 }
