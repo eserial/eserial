@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * Provides an adequate builder implementation for a given type.
+ * Provides an adequate builder implementation for a given {@link Type}.
  */
 public class BuilderFactory {
 

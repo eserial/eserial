@@ -23,7 +23,7 @@ public class EnumBuilder extends AbstractBuilder {
      *
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return an Enum object initialized with the given ordinal value
+     * @return an {@link Enum} object initialized with the given ordinal value
      */
     @Override
     public <T> T build(Object initializationObject) {

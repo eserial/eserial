@@ -25,7 +25,7 @@ public class DateBuilder extends AbstractBuilder{
      *
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a Date object initialized with the given {@link Long} value
+     * @return a {@link Date} object initialized with the given {@link Long} value
      */
     @Override
     public <T> T build(Object initializationObject) {

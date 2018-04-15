@@ -29,7 +29,7 @@ public class SimpleBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a simple type of the given class and initialized with the primitive or Wrapper parameter
+     * @return a simple {@link Type} of the given {@link Class} and initialized with the primitive or Wrapper parameter
      */
     @Override
     public <T> T build(Object initializationObject) {

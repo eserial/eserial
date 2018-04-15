@@ -28,7 +28,7 @@ public class CompoundBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a compound object of the given class and initialized with the map parameter
+     * @return a compound object of the given {@link Class} and initialized with the {@link Map} parameter
      */
     @Override
     public <T> T build(Object initializationObject) {
