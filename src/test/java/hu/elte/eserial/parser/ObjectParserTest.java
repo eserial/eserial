@@ -1,6 +1,6 @@
 package hu.elte.eserial.parser;
 
-import hu.elte.eserial.exception.EserialParserMismatchException;
+import hu.elte.eserial.exception.EserialInvalidJsonException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,60 +10,53 @@ import java.util.Map;
 public class ObjectParserTest {
     @Test(expected = NullPointerException.class)
     public void serializer_GivenNull_ThrowsNullPointerException() {
-        new ObjectParser(null).parser();
+        new ObjectParser(null).parse();
     }
 
-    @Test(expected = EserialParserMismatchException.class)
+    @Test(expected = EserialInvalidJsonException.class)
     public void serialize_GivenInvalidJsonWithoutOpeningCurlyBrackets_ThrowsEserialParserMismatchException() {
-        new ObjectParser("\"key1\": 1]").parser();
+        new ObjectParser("\"key1\": 1]").parse();
     }
 
-    @Test(expected = EserialParserMismatchException.class)
+    @Test(expected = EserialInvalidJsonException.class)
     public void serialize_GivenInvalidJsonWithoutClosingCurlyBrackets_ThrowsEserialParserMismatchException() {
-        new ObjectParser("{\"key1\": 1").parser();
+        new ObjectParser("{\"key1\": 1").parse();
     }
 
     @Test
     public void parser_GivenAJsonWithSimpleObject_ReturnMap() {
-       Map<String, Object> testMap = new ObjectParser("{ \"key1\" : 2, \"key2\" : 5, \"key3\" : \"value2\" , \"key4\" : true, \"key5\":false, \"key6\" : null } ").parser();
+       Map<String, Object> testMap = new ObjectParser("{ \"key1\" : 2, \"key2\" : 5, \"key3\" : \"value2\" , \"key4\" : true, \"key5\":false, \"key6\" : null } ").parse();
 
         Assert.assertEquals(6, testMap.size());
 
-        Assert.assertTrue(testMap.containsValue("value2"));
         Assert.assertTrue(testMap.containsKey("key1"));
+        Assert.assertTrue(testMap.containsKey("key2"));
+        Assert.assertTrue(testMap.containsKey("key3"));
+        Assert.assertTrue(testMap.containsKey("key4"));
         Assert.assertTrue(testMap.containsKey("key5"));
         Assert.assertTrue(testMap.containsKey("key6"));
 
-        Assert.assertTrue(testMap.containsValue(new Long(5)));
-        Assert.assertTrue(testMap.containsValue(true));
-        Assert.assertTrue(testMap.containsValue(false));
-        Assert.assertTrue(testMap.containsValue(null));
+        Assert.assertEquals(2L, testMap.get("key1"));
+        Assert.assertEquals(5L, testMap.get("key2"));
+        Assert.assertEquals("value2", testMap.get("key3"));
+        Assert.assertEquals(true, testMap.get("key4"));
+        Assert.assertEquals(false, testMap.get("key5"));
+        Assert.assertEquals(null, testMap.get("key6"));
     }
 
     @Test
     public void parser_GivenAJsonWithCompoundObject_ReturnMap() {
-        Map<String, Object> testMap = new ObjectParser("{\"key1\": 2.3, \"key2\" : 5, \"key3\": \"value3\" , \"key4\" : true, \"key5\" : {\"key6\" : \"value6\"}}").parser();
+        Map<String, Object> testMap = new ObjectParser("{\"key1\": 2.3, \"key2\" : 5, \"key3\": \"value3\" , \"key4\" : true, \"key5\" : {\"key6\" : \"value6\"}}").parse();
 
         Assert.assertEquals(5, testMap.size());
     }
 
     @Test
     public void parser_GivenAJsonWithList_ReturnMap() {
-        Map<String, Object> testMap = new ObjectParser("{\"key1\" : [null , null], \"key2\" : null}").parser();
+        Map<String, Object> testMap = new ObjectParser("{\"key1\" : [null , null], \"key2\" : null}").parse();
 
         Assert.assertEquals(2, testMap.size());
 
         Assert.assertTrue(testMap.containsValue(null));
-
-       /* for (Map.Entry<String,Object> pair : testMap.entrySet()){
-            System.out.println(pair.getKey()+" "+pair.getValue());
-        }*/
-
-       LinkedList<Object> list = (LinkedList) testMap.get("key1");
-
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
-
     }
 }

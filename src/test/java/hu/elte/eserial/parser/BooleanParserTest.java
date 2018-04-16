@@ -7,22 +7,20 @@ import static org.junit.Assert.assertEquals;
 public class BooleanParserTest {
     @Test(expected = NullPointerException.class)
     public void serializer_GivenNull_ThrowsNullPointerException() {
-        new BooleanParser(null).parser();
+        new BooleanParser(null).parse();
     }
 
     @Test
     public void parser_GivenAPStringWhichRepresentATrueBoolean_ReturnTrueInEntry() {
-        Boolean bool = new BooleanParser("true").parser();
+        Boolean bool = new BooleanParser("true").parse();
 
-        assertEquals(bool, true);
-        assertEquals(bool.getClass(), Boolean.class);
+        assertEquals(true, bool);
     }
 
     @Test
     public void parser_GivenAStringWhichRepresentAFalseBoolean_ReturnFalseInEntry() {
-        Boolean bool = new BooleanParser("false").parser();
+        Boolean bool = new BooleanParser("false").parse();
 
-        assertEquals(bool.getClass(), Boolean.class);
-        assertEquals(bool, false);
+        assertEquals(false, bool);
     }
 }

@@ -1,6 +1,6 @@
 package hu.elte.eserial.parser;
 
-import hu.elte.eserial.exception.EserialParserMismatchException;
+import hu.elte.eserial.exception.EserialInvalidJsonException;
 import hu.elte.eserial.util.StringUtils;
 
 import java.util.LinkedList;
@@ -11,26 +11,20 @@ import java.util.LinkedList;
 public class CollectionParser extends AbstractParser{
 
     /**
-     * Stores a string for parsing
-     * @param json string to be parsed
+     * {@inheritDoc}
+     * @param {@inheritDoc}
      */
     CollectionParser(String json) {
         super(json);
     }
 
     /**
-     * Returns the list representation of the string {@code json}.
-     *
      * @return list representation of {@code json}
      */
     @Override
-    LinkedList<Object> parser() {
+    LinkedList<Object> parse() {
         if(!json.startsWith("[")) {
-            throw new EserialParserMismatchException("Missing [ the front of the list in json");
-        }
-
-        if(!json.endsWith("]")) {
-            throw new EserialParserMismatchException("Missing ] the front of the list in json");
+            throw new EserialInvalidJsonException("Missing [ at the front of the list in json");
         }
 
         LinkedList<Object> list = new LinkedList<>();
@@ -44,32 +38,32 @@ public class CollectionParser extends AbstractParser{
                 index = StringUtils.findNumber(json);
                 value = json.substring(0, index + 1);
                 json = json.substring(index + 1, json.length());
-                list.add(new NumberParser(value).parser());
+                list.add(new NumberParser(value).parse());
             } else if(json.startsWith("\"")) {
                 json = json.substring(1, json.length());
                 index = json.indexOf("\"");
                 value = json.substring(0, index);
                 json = json.substring(index + 1, json.length());
-                list.add(new StringParser(value).parser());
+                list.add(new StringParser(value).parse());
             } else if(json.startsWith("false")) {
                 json = json.substring(5, json.length());
-                list.add(new BooleanParser("false").parser());
+                list.add(new BooleanParser("false").parse());
             } else if(json.startsWith("true")) {
                 json = json.substring(4, json.length());
-                list.add(new BooleanParser("true").parser());
+                list.add(new BooleanParser("true").parse());
             } else if(json.startsWith("null")) {
                 json = json.substring(4, json.length());
-                list.add(new NullParser("null").parser());
+                list.add(new NullParser("null").parse());
             } else if(json.startsWith("[")) {
-                index = StringUtils.findSquareBracket(json) + 1;
+                index = StringUtils.findClosingSquareBracket(json) + 1;
                 value = json.trim().substring(0,index);
                 json = json.substring(index, json.length());
-                list.add(new CollectionParser(value).parser());
+                list.add(new CollectionParser(value).parse());
             } else if(json.startsWith("{")) {
                 index = StringUtils.findClosingCurlyBracket(json) + 1;
                 value = json.trim().substring(0,index);
                 json = json.substring(index, json.length());
-                list.add(new ObjectParser(value).parser());
+                list.add(new ObjectParser(value).parse());
             } else {
                 json = json.substring(1, json.length());
             }

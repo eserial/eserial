@@ -21,5 +21,5 @@ abstract class AbstractParser {
      *
      * @return Object representation of {@code json}
      */
-    abstract Object parser();
+    abstract Object parse();
 }

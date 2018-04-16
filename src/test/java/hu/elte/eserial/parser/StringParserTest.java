@@ -8,13 +8,13 @@ import static org.junit.Assert.assertEquals;
 public class StringParserTest {
     @Test(expected = NullPointerException.class)
     public void serializer_GivenNull_ThrowsNullPointerException() {
-        new StringParser(null).parser();
+        new StringParser(null).parse();
     }
 
     @Test
     public void parser_GivenASimplePairWithTwoString_ReturnAEntry() {
-       String value = new StringParser("test").parser();
+       String value = new StringParser("test").parse();
 
-       assertEquals(value, "test");
+       assertEquals("test", value);
     }
 }

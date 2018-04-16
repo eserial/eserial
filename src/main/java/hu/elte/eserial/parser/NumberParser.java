@@ -9,8 +9,8 @@ import javafx.util.Pair;
 public class NumberParser extends AbstractParser{
 
     /**
-     * Stores a string for parsing
-     * @param json string to be parsed
+     * {@inheritDoc}
+     * @param {@inheritDoc}
      */
     NumberParser(String json) {
         super(json);
@@ -22,12 +22,12 @@ public class NumberParser extends AbstractParser{
      * @return number representation of {@code json}
      */
     @Override
-    Number parser() {
+    Number parse() {
 
-        if(StringUtils.isInteger(json.trim())) {
-            return Long.parseLong(json.trim());
+        if(StringUtils.isInteger(json)) {
+            return Long.parseLong(json);
         } else {
-            return Double.parseDouble(json.trim());
+            return Double.parseDouble(json);
         }
     }
 }

@@ -6,8 +6,8 @@ package hu.elte.eserial.parser;
 public class StringParser extends AbstractParser{
 
     /**
-     * Stores a string for parsing
-     * @param json string to be parsed
+     * {@inheritDoc}
+     * @param {@inheritDoc}
      */
     StringParser(String json) {
         super(json);
@@ -19,7 +19,7 @@ public class StringParser extends AbstractParser{
      * @return string representation of {@code json}
      */
     @Override
-    String parser() {
+    String parse() {
         if(json == null) {
             throw new NullPointerException();
         }

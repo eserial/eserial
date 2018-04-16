@@ -6,8 +6,8 @@ package hu.elte.eserial.parser;
 public class BooleanParser extends AbstractParser {
 
     /**
-     * Stores a string for parsing
-     * @param json string to be parsed
+     * {@inheritDoc}
+     * @param {@inheritDoc}
      */
     BooleanParser(String json) {
         super(json);
@@ -19,7 +19,7 @@ public class BooleanParser extends AbstractParser {
      * @return boolean representation of {@code json}
      */
     @Override
-    Boolean parser() {
+    Boolean parse() {
         if(json == null) {
             throw new NullPointerException();
         }
