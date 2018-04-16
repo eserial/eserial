@@ -31,10 +31,10 @@ public class EnumBuilder extends AbstractBuilder {
             return null;
         }
 
-        Class classOfEnumType = TypeUtils.convertTypeToClass(type);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isEnum(classOfEnumType)) {
-            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), classOfEnumType.getName());
+        if (!TypeUtils.isEnum(typeClass)) {
+            throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), typeClass.getName());
         }
 
         if (TypeUtils.isString(initializationObject.getClass())) {
@@ -46,13 +46,13 @@ public class EnumBuilder extends AbstractBuilder {
                 throw new EserialBuilderMismatchException("Could not parse String to Long", e);
             }
 
-            return (T) classOfEnumType.getEnumConstants()[initializationLong.intValue()];
+            return (T) typeClass.getEnumConstants()[initializationLong.intValue()];
         }
 
         if (!TypeUtils.isLong(initializationObject.getClass())) {
             throw new EserialBuilderMismatchException(Long.class.getSimpleName(), initializationObject.getClass().getName());
         }
 
-        return (T) classOfEnumType.getEnumConstants()[((Long) initializationObject).intValue()];
+        return (T) typeClass.getEnumConstants()[((Long) initializationObject).intValue()];
     }
 }

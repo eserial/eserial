@@ -32,26 +32,26 @@ public class SimpleBuilder extends AbstractBuilder {
      */
     @Override
     public <T> T build(Object initializationObject) {
-        Class classOfSimpleType = TypeUtils.convertTypeToClass(type);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
 
-        if (initializationObject == null && (TypeUtils.isString(classOfSimpleType)
-                || TypeUtils.isWrapper(classOfSimpleType))) {
+        if (initializationObject == null && (TypeUtils.isString(typeClass)
+                || TypeUtils.isWrapper(typeClass))) {
             return null;
         } else if (initializationObject == null) {
-            throw new EserialPrimitiveCanNotBeNullException(classOfSimpleType.getSimpleName());
+            throw new EserialPrimitiveCanNotBeNullException(typeClass.getSimpleName());
         }
 
-        boolean isTypePrimitive = TypeUtils.isPrimitive(classOfSimpleType);
-        boolean isTypeWrapper = TypeUtils.isWrapper(classOfSimpleType);
-        boolean isTypeString = TypeUtils.isString(classOfSimpleType);
+        boolean isTypePrimitive = TypeUtils.isPrimitive(typeClass);
+        boolean isTypeWrapper = TypeUtils.isWrapper(typeClass);
+        boolean isTypeString = TypeUtils.isString(typeClass);
 
-        Class initializationObjectClass = initializationObject.getClass();
-        boolean isInitObjectPrimitive = TypeUtils.isPrimitive(initializationObjectClass);
-        boolean isInitObjectWrapper = TypeUtils.isWrapper(initializationObjectClass);
-        boolean isInitObjectString = TypeUtils.isString(initializationObjectClass);
+        Class initObjectClass = initializationObject.getClass();
+        boolean isInitObjectPrimitive = TypeUtils.isPrimitive(initObjectClass);
+        boolean isInitObjectWrapper = TypeUtils.isWrapper(initObjectClass);
+        boolean isInitObjectString = TypeUtils.isString(initObjectClass);
 
         if (!isTypePrimitive && !isTypeWrapper && !isTypeString) {
-            throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), classOfSimpleType.getName());
+            throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), typeClass.getName());
         }
 
         if (!isInitObjectPrimitive && !isInitObjectWrapper && !isInitObjectString) {
@@ -60,10 +60,10 @@ public class SimpleBuilder extends AbstractBuilder {
         }
 
         try {
-            if (TypeUtils.isNumber(classOfSimpleType)) {
-                Method numberToLongOrDoubleMethod;
-                String lowercaseClassOfSimpleType = StringUtils.lowercaseFirstLetter(classOfSimpleType.getSimpleName());
-                if (TypeUtils.isDecimal(classOfSimpleType)) {
+            if (TypeUtils.isNumber(typeClass)) {
+                Method numberValueMethod;
+                String lowercaseTypeClass = StringUtils.lowercaseFirstLetter(typeClass.getSimpleName());
+                if (TypeUtils.isDecimal(typeClass)) {
                     if(TypeUtils.isString(initializationObject.getClass())) {
                         try {
                             initializationObject = Double.parseDouble((String) initializationObject);
@@ -72,8 +72,8 @@ public class SimpleBuilder extends AbstractBuilder {
                         }
                     }
 
-                    numberToLongOrDoubleMethod = Double.class.getDeclaredMethod(lowercaseClassOfSimpleType + "Value");
-                    return (T) numberToLongOrDoubleMethod.invoke(initializationObject);
+                    numberValueMethod = Double.class.getDeclaredMethod(lowercaseTypeClass + "Value");
+                    return (T) numberValueMethod.invoke(initializationObject);
                 } else {
                     if(TypeUtils.isString(initializationObject.getClass())) {
                         try {
@@ -83,14 +83,14 @@ public class SimpleBuilder extends AbstractBuilder {
                         }
                     }
 
-                    if (lowercaseClassOfSimpleType.equals("integer")) {
-                        lowercaseClassOfSimpleType = "int";
+                    if (lowercaseTypeClass.equals("integer")) {
+                        lowercaseTypeClass = "int";
                     }
 
-                    numberToLongOrDoubleMethod = Long.class.getDeclaredMethod(lowercaseClassOfSimpleType + "Value");
-                    return (T) numberToLongOrDoubleMethod.invoke(initializationObject);
+                    numberValueMethod = Long.class.getDeclaredMethod(lowercaseTypeClass + "Value");
+                    return (T) numberValueMethod.invoke(initializationObject);
                 }
-            } else if (TypeUtils.isCharacter(classOfSimpleType)) {
+            } else if (TypeUtils.isCharacter(typeClass)) {
                 if(TypeUtils.isString(initializationObject.getClass())) {
                     String initializationString = (String) initializationObject;
 
@@ -103,7 +103,7 @@ public class SimpleBuilder extends AbstractBuilder {
                 }
 
                 return (T) initializationObject;
-            } else if (TypeUtils.isBoolean(classOfSimpleType)) {
+            } else if (TypeUtils.isBoolean(typeClass)) {
                 if(TypeUtils.isString(initializationObject.getClass())) {
                     String initializationString = (String) initializationObject;
 

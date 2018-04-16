@@ -29,7 +29,7 @@ public class MapBuilder extends AbstractBuilder{
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a map of the given class and initialized with the map parameter
+     * @return a map of the given {@link Class} and initialized from the {@link LinkedList} parameter
      */
     @Override
     public <T> T build(Object initializationObject) {
@@ -37,12 +37,12 @@ public class MapBuilder extends AbstractBuilder{
             return null;
         }
 
-        Class classOfMapType = TypeUtils.convertTypeToClass(type);
-        Type typeOfMapKeyTypeArgument = TypeUtils.getTypeArgument(type, 0);
-        Type typeOfMapValueTypeArgument = TypeUtils.getTypeArgument(type, 1);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
+        Type keyType = TypeUtils.getTypeArgument(type, 0);
+        Type valueType = TypeUtils.getTypeArgument(type, 1);
 
-        if (!TypeUtils.isAssignableFrom(classOfMapType, Map.class)) {
-            throw new EserialBuilderMismatchException(Map.class.getSimpleName(), classOfMapType.getName());
+        if (!TypeUtils.isAssignableFrom(typeClass, Map.class)) {
+            throw new EserialBuilderMismatchException(Map.class.getSimpleName(), typeClass.getName());
         }
 
         if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), List.class)) {
@@ -58,11 +58,11 @@ public class MapBuilder extends AbstractBuilder{
                 Object keyObject = map.get("key");
                 Object valueObject = map.get("value");
 
-                if (typeOfMapKeyTypeArgument == null && typeOfMapValueTypeArgument == null) {
+                if (keyType == null && valueType == null) {
                     initializationMap.put(keyObject, valueObject);
                 } else {
-                    AbstractBuilder keyBuilder = BuilderFactory.create(typeOfMapKeyTypeArgument);
-                    AbstractBuilder valueBuilder = BuilderFactory.create(typeOfMapValueTypeArgument);
+                    AbstractBuilder keyBuilder = BuilderFactory.create(keyType);
+                    AbstractBuilder valueBuilder = BuilderFactory.create(valueType);
 
                     Object builtKey = keyBuilder.build(keyObject);
                     Object builtValue = valueBuilder.build(valueObject);
@@ -73,18 +73,18 @@ public class MapBuilder extends AbstractBuilder{
 
             Map mapObject;
 
-            if (classOfMapType.isInterface()) {
-                if (TypeUtils.isAssignableFrom(classOfMapType, ConcurrentNavigableMap.class)) {
+            if (typeClass.isInterface()) {
+                if (TypeUtils.isAssignableFrom(typeClass, ConcurrentNavigableMap.class)) {
                     mapObject = new ConcurrentSkipListMap();
-                } else if (TypeUtils.isAssignableFrom(classOfMapType, ConcurrentMap.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, ConcurrentMap.class)) {
                     mapObject = new ConcurrentHashMap();
-                } else if (TypeUtils.isAssignableFrom(classOfMapType, SortedMap.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, SortedMap.class)) {
                     mapObject = new TreeMap();
                 } else {
                     mapObject = new HashMap();
                 }
             } else {
-                mapObject = (Map) classOfMapType.newInstance();
+                mapObject = (Map) typeClass.newInstance();
             }
 
             mapObject.putAll(initializationMap);

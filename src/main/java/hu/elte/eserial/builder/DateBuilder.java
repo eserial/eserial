@@ -32,10 +32,10 @@ public class DateBuilder extends AbstractBuilder{
             return null;
         }
 
-        Class classOfDateType = TypeUtils.convertTypeToClass(type);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isDate(classOfDateType)) {
-            throw new EserialBuilderMismatchException(Date.class.getSimpleName(), classOfDateType.getName());
+        if (!TypeUtils.isDate(typeClass)) {
+            throw new EserialBuilderMismatchException(Date.class.getSimpleName(), typeClass.getName());
         }
 
         if (TypeUtils.isString(initializationObject.getClass())) {
