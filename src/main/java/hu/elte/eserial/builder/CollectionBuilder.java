@@ -35,11 +35,11 @@ public class CollectionBuilder extends AbstractBuilder {
             return null;
         }
 
-        Class classOfCollectionType = TypeUtils.convertTypeToClass(type);
-        Type typeOfCollectionTypeArgument = TypeUtils.getTypeArgument(type, 0);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
+        Type argumentType = TypeUtils.getTypeArgument(type, 0);
 
-        if (!TypeUtils.isAssignableFrom(classOfCollectionType, Collection.class)) {
-            throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), classOfCollectionType.getName());
+        if (!TypeUtils.isAssignableFrom(typeClass, Collection.class)) {
+            throw new EserialBuilderMismatchException(Collection.class.getSimpleName(), typeClass.getName());
         }
 
         if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), List.class)) {
@@ -52,10 +52,10 @@ public class CollectionBuilder extends AbstractBuilder {
             List<Object> builtList = new ArrayList<>();
 
             for (Object object : initializationList) {
-                if (typeOfCollectionTypeArgument == null) {
+                if (argumentType == null) {
                     builtList.add(object);
                 } else {
-                    AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfCollectionTypeArgument);
+                    AbstractBuilder abstractBuilder = BuilderFactory.create(argumentType);
 
                     Object builtElement = abstractBuilder.build(object);
                     builtList.add(builtElement);
@@ -64,24 +64,24 @@ public class CollectionBuilder extends AbstractBuilder {
 
             Collection collectionObject;
 
-            if (classOfCollectionType.isInterface()) {
-                if (TypeUtils.isAssignableFrom(classOfCollectionType, SortedSet.class)) {
+            if (typeClass.isInterface()) {
+                if (TypeUtils.isAssignableFrom(typeClass, SortedSet.class)) {
                     collectionObject = new TreeSet<>();
-                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, Set.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, Set.class)) {
                     collectionObject = new HashSet<>();
-                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, TransferQueue.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, TransferQueue.class)) {
                     collectionObject = new LinkedTransferQueue();
-                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, BlockingDeque.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, BlockingDeque.class)) {
                     collectionObject = new LinkedBlockingDeque();
-                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, BlockingQueue.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, BlockingQueue.class)) {
                     collectionObject = new PriorityBlockingQueue();
-                } else if (TypeUtils.isAssignableFrom(classOfCollectionType, Queue.class)) {
+                } else if (TypeUtils.isAssignableFrom(typeClass, Queue.class)) {
                     collectionObject = new ArrayDeque<>();
                 } else {
                     collectionObject = new ArrayList<>();
                 }
             } else {
-                 collectionObject = (Collection) classOfCollectionType.newInstance();
+                 collectionObject = (Collection) typeClass.newInstance();
             }
 
             collectionObject.addAll(builtList);

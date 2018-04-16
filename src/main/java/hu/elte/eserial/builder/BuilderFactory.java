@@ -24,18 +24,18 @@ public class BuilderFactory {
      * @return an object builder for {@code type}
      */
     public static AbstractBuilder create(Type type) {
-        Class classOfType = TypeUtils.convertTypeToClass(type);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
 
-        if (!TypeUtils.isCompound(classOfType)) {
+        if (!TypeUtils.isCompound(typeClass)) {
             return new SimpleBuilder(type);
         } else {
-            if (TypeUtils.isAssignableFrom(classOfType, Collection.class)) {
+            if (TypeUtils.isAssignableFrom(typeClass, Collection.class)) {
                 return new CollectionBuilder(type);
-            } else if (TypeUtils.isAssignableFrom(classOfType, Map.class)) {
+            } else if (TypeUtils.isAssignableFrom(typeClass, Map.class)) {
                 return new MapBuilder(type);
-            } else if (TypeUtils.isAssignableFrom(classOfType, Enum.class)) {
+            } else if (TypeUtils.isAssignableFrom(typeClass, Enum.class)) {
                 return new EnumBuilder(type);
-            } else if (TypeUtils.isAssignableFrom(classOfType, Date.class)) {
+            } else if (TypeUtils.isAssignableFrom(typeClass, Date.class)) {
                 return new DateBuilder(type);
             } else {
                 return new CompoundBuilder(type);

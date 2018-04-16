@@ -35,11 +35,11 @@ public class CompoundBuilder extends AbstractBuilder {
         }
 
         try {
-            Class classOfObjectType = TypeUtils.convertTypeToClass(type);
+            Class typeClass = TypeUtils.convertTypeToClass(type);
 
-            Object objectInstance = classOfObjectType.newInstance();
+            Object objectInstance = typeClass.newInstance();
 
-            for (Method method : classOfObjectType.getMethods()) {
+            for (Method method : typeClass.getMethods()) {
                 if (MethodUtils.isIgnored(method) || !MethodUtils.isSetter(method)) {
                     continue;
                 }
@@ -48,13 +48,13 @@ public class CompoundBuilder extends AbstractBuilder {
 
                 Setter setter = new Setter(objectInstance, method);
 
-                String nameOfActualDataMember = setter.getElementName();
-                Object valueOfActualDataMember = initializationMap.get(nameOfActualDataMember);
+                String dataMemberName = setter.getElementName();
+                Object dataMemberValue = initializationMap.get(dataMemberName);
 
-                Type typeOfActualDataMember = setter.getTypeOfSetterParameter();
+                Type dataMemberType = setter.getTypeOfSetterParameter();
 
-                AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfActualDataMember);
-                setter.invoke(abstractBuilder.build(valueOfActualDataMember));
+                AbstractBuilder abstractBuilder = BuilderFactory.create(dataMemberType);
+                setter.invoke(abstractBuilder.build(dataMemberValue));
             }
 
             return (T) objectInstance;
