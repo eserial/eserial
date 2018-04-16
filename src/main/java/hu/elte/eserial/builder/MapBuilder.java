@@ -5,7 +5,6 @@ import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

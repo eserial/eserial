@@ -1,6 +1,5 @@
 package hu.elte.eserial.builder;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
