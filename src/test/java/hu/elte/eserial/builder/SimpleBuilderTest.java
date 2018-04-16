@@ -135,4 +135,14 @@ public class SimpleBuilderTest {
     public void build_GivenString_ReturnsBooleanValue() {
         assertEquals(new Boolean("true"), new SimpleBuilder(Boolean.class).build("tRue"));
     }
+
+    @Test
+    public void build_GivenString_ReturnsLongValue() {
+        assertEquals(new Long(1), new SimpleBuilder(Long.class).build("1"));
+    }
+
+    @Test
+    public void build_GivenString_ReturnsDecimalValue() {
+        assertEquals(new Double(1.5), new SimpleBuilder(Double.class).build("1.5"));
+    }
 }

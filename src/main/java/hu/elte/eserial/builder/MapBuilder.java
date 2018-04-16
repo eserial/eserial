@@ -46,58 +46,48 @@ public class MapBuilder extends AbstractBuilder{
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(), classOfMapType.getName());
         }
 
-        if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), Map.class)) {
+        if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), List.class)) {
             throw new EserialBuilderMismatchException(Map.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
 
         try {
-            Map<Object, Object> initializationMap = (Map<Object, Object>) initializationObject;
+            List<Map<String, Object>> initializationList = (List<Map<String, Object>>) initializationObject;
+            Map<Object, Object> initializationMap = new HashMap<>();
 
-            Class classOfKeyTypeArgumentType = TypeUtils.convertTypeToClass(typeOfMapKeyTypeArgument);
-            Class classOfValueTypeArgumentType = TypeUtils.convertTypeToClass(typeOfMapValueTypeArgument);
+            for (Map<String, Object> map : initializationList) {
+                Object keyObject = map.get("key");
+                Object valueObject = map.get("value");
 
-            if (typeOfMapKeyTypeArgument != null && typeOfMapValueTypeArgument != null) {
-                Map<Object, Object> newMap = new HashMap<>();
-                Iterator it = initializationMap.entrySet().iterator();
-                while(it.hasNext()) {
-                    Map.Entry pair = (Map.Entry)it.next();
+                if (typeOfMapKeyTypeArgument == null && typeOfMapValueTypeArgument == null) {
+                    initializationMap.put(keyObject, valueObject);
+                } else {
+                    AbstractBuilder keyBuilder = BuilderFactory.create(typeOfMapKeyTypeArgument);
+                    AbstractBuilder valueBuilder = BuilderFactory.create(typeOfMapValueTypeArgument);
 
-                    Object keyObject;
-                    if(TypeUtils.isCompound(classOfKeyTypeArgumentType)) {
-                        AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfMapKeyTypeArgument);
-                        keyObject = abstractBuilder.build(pair.getKey());
-                    } else {
-                        keyObject = pair.getKey();
-                    }
+                    Object builtKey = keyBuilder.build(keyObject);
+                    Object builtValue = valueBuilder.build(valueObject);
 
-                    Object valueObject;
-                    if(TypeUtils.isCompound(classOfValueTypeArgumentType)) {
-                        AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfMapValueTypeArgument);
-                        valueObject = abstractBuilder.build(pair.getValue());
-                    } else {
-                        valueObject = pair.getValue();
-                    }
-
-                    newMap.put(keyObject, valueObject);
+                    initializationMap.put(builtKey, builtValue);
                 }
-
-                initializationMap = newMap;
             }
+
+            Map mapObject;
 
             if (classOfMapType.isInterface()) {
                 if (TypeUtils.isAssignableFrom(classOfMapType, ConcurrentNavigableMap.class)) {
-                    return (T) new ConcurrentSkipListMap(initializationMap);
+                    mapObject = new ConcurrentSkipListMap();
                 } else if (TypeUtils.isAssignableFrom(classOfMapType, ConcurrentMap.class)) {
-                    return (T) new ConcurrentHashMap(initializationMap);
+                    mapObject = new ConcurrentHashMap();
                 } else if (TypeUtils.isAssignableFrom(classOfMapType, SortedMap.class)) {
-                    return (T) new TreeMap(initializationMap);
+                    mapObject = new TreeMap();
                 } else {
-                    return (T) new HashMap(initializationMap);
+                    mapObject = new HashMap();
                 }
+            } else {
+                mapObject = (Map) classOfMapType.newInstance();
             }
 
-            Map mapObject = (Map) classOfMapType.newInstance();
             mapObject.putAll(initializationMap);
 
             return (T) mapObject;

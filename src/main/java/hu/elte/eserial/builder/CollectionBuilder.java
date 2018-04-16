@@ -26,7 +26,8 @@ public class CollectionBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a collection of the given {@link Class} initialized from {@code initializationObject}, which is an {@link ArrayList}
+     * @return a {@link Collection} of the given {@link Class} initialized from {@code initializationObject}
+     * , which is a {@link LinkedList}
      */
     @Override
     public <T> T build(Object initializationObject) {
@@ -48,17 +49,17 @@ public class CollectionBuilder extends AbstractBuilder {
 
         try {
             List<Object> initializationList = (List) initializationObject;
+            List<Object> builtList = new ArrayList<>();
 
-            Class classOfTypeArgumentType = TypeUtils.convertTypeToClass(typeOfCollectionTypeArgument);
+            for (Object object : initializationList) {
+                if (typeOfCollectionTypeArgument == null) {
+                    builtList.add(object);
+                } else {
+                    AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfCollectionTypeArgument);
 
-            if (typeOfCollectionTypeArgument != null && TypeUtils.isCompound(classOfTypeArgumentType)) {
-                AbstractBuilder abstractBuilder = BuilderFactory.create(typeOfCollectionTypeArgument);
-                List compoundListItemList = new ArrayList();
-                for (int i = 0; i < initializationList.size(); i++) {
-                    Object innerObject = abstractBuilder.build(initializationList.get(i));
-                    compoundListItemList.add(innerObject);
+                    Object builtElement = abstractBuilder.build(object);
+                    builtList.add(builtElement);
                 }
-                initializationList = compoundListItemList;
             }
 
             Collection collectionObject;
@@ -83,7 +84,7 @@ public class CollectionBuilder extends AbstractBuilder {
                  collectionObject = (Collection) classOfCollectionType.newInstance();
             }
 
-            collectionObject.addAll(initializationList);
+            collectionObject.addAll(builtList);
 
             return (T) collectionObject;
         } catch (IllegalAccessException e) {
