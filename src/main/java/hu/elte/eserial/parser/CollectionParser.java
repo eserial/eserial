@@ -37,35 +37,35 @@ public class CollectionParser extends AbstractParser{
             if(StringUtils.isNumeric(Character.toString(json.charAt(0)))) {
                 index = StringUtils.findNumber(json);
                 value = json.substring(0, index + 1);
-                json = json.substring(index + 1, json.length());
+                json = json.substring(index + 1);
                 list.add(new NumberParser(value).parse());
             } else if(json.startsWith("\"")) {
-                json = json.substring(1, json.length());
+                json = json.substring(1);
                 index = json.indexOf("\"");
                 value = json.substring(0, index);
-                json = json.substring(index + 1, json.length());
+                json = json.substring(index + 1);
                 list.add(new StringParser(value).parse());
             } else if(json.startsWith("false")) {
-                json = json.substring(5, json.length());
+                json = json.substring(5);
                 list.add(new BooleanParser("false").parse());
             } else if(json.startsWith("true")) {
-                json = json.substring(4, json.length());
+                json = json.substring(4);
                 list.add(new BooleanParser("true").parse());
             } else if(json.startsWith("null")) {
-                json = json.substring(4, json.length());
+                json = json.substring(4);
                 list.add(new NullParser("null").parse());
             } else if(json.startsWith("[")) {
                 index = StringUtils.findClosingSquareBracket(json) + 1;
                 value = json.trim().substring(0,index);
-                json = json.substring(index, json.length());
+                json = json.substring(index);
                 list.add(new CollectionParser(value).parse());
             } else if(json.startsWith("{")) {
                 index = StringUtils.findClosingCurlyBracket(json) + 1;
                 value = json.trim().substring(0,index);
-                json = json.substring(index, json.length());
+                json = json.substring(index);
                 list.add(new ObjectParser(value).parse());
-            } else {
-                json = json.substring(1, json.length());
+            } else if(json.startsWith(" ") || json.startsWith(",") || json.startsWith("]")) {
+                json = json.substring(1);
             }
         }
 
