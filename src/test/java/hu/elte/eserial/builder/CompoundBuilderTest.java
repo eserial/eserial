@@ -337,24 +337,36 @@ public class CompoundBuilderTest {
 
     @Test
     public void build_GivenMapDataMember_ReturnsObjectWithValues() {
-        Map<String, Object> map = new HashMap<>();
+        List<Map<String, Object>> mapList = new LinkedList<>();
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("key", "1");
+        map1.put("value", 1L);
 
-        Map<Object, Object> hashMap = new HashMap<>();
-        hashMap.put("1", 1);
-        hashMap.put("2", 2);
-        hashMap.put("3", 3);
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("key", "2");
+        map2.put("value", 2L);
 
-        map.put("map", hashMap);
-        map.put("sortedMap", hashMap);
-        map.put("navigableMap", hashMap);
-        map.put("concurrentNavigableMap", hashMap);
-        map.put("concurrentSkipListMap", hashMap);
-        map.put("hashMap", hashMap);
-        map.put("treeMap", hashMap);
+        Map<String, Object> map3 = new HashMap<>();
+        map3.put("key", "3");
+        map3.put("value", 3L);
+
+        mapList.add(map1);
+        mapList.add(map2);
+        mapList.add(map3);
+
+        Map<String, Object> objectMap = new HashMap<>();
+
+        objectMap.put("map", mapList);
+        objectMap.put("sortedMap", mapList);
+        objectMap.put("navigableMap", mapList);
+        objectMap.put("concurrentNavigableMap", mapList);
+        objectMap.put("concurrentSkipListMap", mapList);
+        objectMap.put("hashMap", mapList);
+        objectMap.put("treeMap", mapList);
 
         CompoundBuilder builder = new CompoundBuilder(MapDataMembers.class);
 
-        MapDataMembers mdm =  builder.build(map);
+        MapDataMembers mdm =  builder.build(objectMap);
 
         assertEquals(3, mdm.getMap().size());
         assertEquals(3, mdm.getConcurrentNavigableMap().size());
@@ -444,15 +456,15 @@ public class CompoundBuilderTest {
         Map<String, Object> classOneMap = new HashMap<>();
         Map<String, Object> classTwoMap = new HashMap<>();
 
-        List<Integer> integerList1 = new ArrayList<>();
-        integerList1.add(1);
-        integerList1.add(2);
+        List<Long> integerList1 = new ArrayList<>();
+        integerList1.add(1L);
+        integerList1.add(2L);
 
-        List<Integer> integerList2 = new ArrayList<>();
-        integerList2.add(3);
-        integerList2.add(4);
+        List<Long> integerList2 = new ArrayList<>();
+        integerList2.add(3L);
+        integerList2.add(4L);
 
-        List<List<Integer>> integerListList = new ArrayList<>();
+        List<List<Long>> integerListList = new ArrayList<>();
         integerListList.add(integerList1);
         integerListList.add(integerList2);
 
@@ -512,15 +524,15 @@ public class CompoundBuilderTest {
     public void build_GivenWrapperAndListAndListInListDataMember_ReturnsObjectWithValues() {
         Map<String, Object> map = new HashMap<>();
 
-        List<Integer> integerList1 = new ArrayList<>();
-        integerList1.add(1);
-        integerList1.add(2);
+        List<Long> integerList1 = new ArrayList<>();
+        integerList1.add(1L);
+        integerList1.add(2L);
 
-        List<Integer> integerList2 = new ArrayList<>();
-        integerList2.add(3);
-        integerList2.add(4);
+        List<Long> integerList2 = new ArrayList<>();
+        integerList2.add(3L);
+        integerList2.add(4L);
 
-        List<List<Integer>> integerListList = new ArrayList<>();
+        List<List<Long>> integerListList = new ArrayList<>();
         integerListList.add(integerList1);
         integerListList.add(integerList2);
 
@@ -548,15 +560,15 @@ public class CompoundBuilderTest {
         Map<String, Object> classOneMap = new HashMap<>();
         Map<String, Object> classTwoMap = new HashMap<>();
 
-        List<Integer> integerList1 = new ArrayList<>();
-        integerList1.add(1);
-        integerList1.add(2);
+        List<Long> integerList1 = new ArrayList<>();
+        integerList1.add(1L);
+        integerList1.add(2L);
 
-        List<Integer> integerList2 = new ArrayList<>();
-        integerList2.add(3);
-        integerList2.add(4);
+        List<Long> integerList2 = new ArrayList<>();
+        integerList2.add(3L);
+        integerList2.add(4L);
 
-        List<List<Integer>> integerListList = new ArrayList<>();
+        List<List<Long>> integerListList = new ArrayList<>();
         integerListList.add(integerList1);
         integerListList.add(integerList2);
 
@@ -582,15 +594,15 @@ public class CompoundBuilderTest {
         Map<String, Object> classOneMap = new HashMap<>();
         Map<String, Object> classTwoMap = new HashMap<>();
 
-        List<Integer> integerList1 = new ArrayList<>();
-        integerList1.add(1);
-        integerList1.add(2);
+        List<Long> integerList1 = new ArrayList<>();
+        integerList1.add(1L);
+        integerList1.add(2L);
 
-        List<Integer> integerList2 = new ArrayList<>();
-        integerList2.add(3);
-        integerList2.add(4);
+        List<Long> integerList2 = new ArrayList<>();
+        integerList2.add(3L);
+        integerList2.add(4L);
 
-        List<List<Integer>> integerListList = new ArrayList<>();
+        List<List<Long>> integerListList = new ArrayList<>();
         integerListList.add(integerList1);
         integerListList.add(integerList2);
 
@@ -620,15 +632,15 @@ public class CompoundBuilderTest {
         Map<String, Object> classOneMap = new HashMap<>();
         Map<String, Object> classTwoMap = new HashMap<>();
 
-        List<Integer> integerList1 = new ArrayList<>();
-        integerList1.add(1);
-        integerList1.add(2);
+        List<Long> integerList1 = new ArrayList<>();
+        integerList1.add(1L);
+        integerList1.add(2L);
 
-        List<Integer> integerList2 = new ArrayList<>();
-        integerList2.add(3);
-        integerList2.add(4);
+        List<Long> integerList2 = new ArrayList<>();
+        integerList2.add(3L);
+        integerList2.add(4L);
 
-        List<List<Integer>> integerListList = new ArrayList<>();
+        List<List<Long>> integerListList = new ArrayList<>();
         integerListList.add(integerList1);
         integerListList.add(integerList2);
 
@@ -636,10 +648,15 @@ public class CompoundBuilderTest {
         classTwoMap.put("list", integerList1);
         classTwoMap.put("listList", integerListList);
 
-        Map<String, Object> map = new HashMap<>();
-        map.put("test", classTwoMap);
+        List<Map<String, Object>> objectList = new LinkedList<>();
 
-        classOneMap.put("compoundTestClassTwoMap", map);
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", "test");
+        map.put("value", classTwoMap);
+
+        objectList.add(map);
+
+        classOneMap.put("compoundTestClassTwoMap", objectList);
 
         CompoundBuilder compoundBuilder = new CompoundBuilder(CompoundTestClassOne.class);
 
@@ -658,15 +675,15 @@ public class CompoundBuilderTest {
         Map<String, Object> classTwoMap2 = new HashMap<>();
 
 
-        List<Integer> integerList1 = new ArrayList<>();
-        integerList1.add(1);
-        integerList1.add(2);
+        List<Long> integerList1 = new ArrayList<>();
+        integerList1.add(1L);
+        integerList1.add(2L);
 
-        List<Integer> integerList2 = new ArrayList<>();
-        integerList2.add(3);
-        integerList2.add(4);
+        List<Long> integerList2 = new ArrayList<>();
+        integerList2.add(3L);
+        integerList2.add(4L);
 
-        List<List<Integer>> integerListList = new ArrayList<>();
+        List<List<Long>> integerListList = new ArrayList<>();
         integerListList.add(integerList1);
         integerListList.add(integerList2);
 
@@ -678,10 +695,16 @@ public class CompoundBuilderTest {
         classTwoMap2.put("list", integerList1);
         classTwoMap2.put("listList", integerListList);
 
-        Map<Object, Object> map = new HashMap<>();
-        map.put(classTwoMap2, classTwoMap1);
+        Map<String, Object> map = new HashMap<>();
 
-        classOneMap.put("compoundTestClassTwoMap2", map);
+        map.put("key", classTwoMap2);
+        map.put("value", classTwoMap1);
+
+        List<Map<String, Object>> objectList = new LinkedList<>();
+
+        objectList.add(map);
+
+        classOneMap.put("compoundTestClassTwoMap2", objectList);
 
         CompoundBuilder compoundBuilder1 = new CompoundBuilder(CompoundTestClassOne.class);
 
