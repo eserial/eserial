@@ -1,7 +1,5 @@
 package hu.elte.eserial.builder;
 
-import hu.elte.eserial.exception.EserialInstantiationException;
-import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.exception.EserialNoDefaultConstructorException;
 import hu.elte.eserial.model.Setter;
 import hu.elte.eserial.util.MethodUtils;

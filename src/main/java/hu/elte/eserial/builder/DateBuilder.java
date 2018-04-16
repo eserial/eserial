@@ -3,7 +3,6 @@ package hu.elte.eserial.builder;
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Date;
 
