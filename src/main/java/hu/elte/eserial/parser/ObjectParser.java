@@ -1,6 +1,6 @@
 package hu.elte.eserial.parser;
 
-import hu.elte.eserial.exception.EserialParserMismatchException;
+import hu.elte.eserial.exception.EserialInvalidJsonException;
 import hu.elte.eserial.util.StringUtils;
 
 import java.util.HashMap;
@@ -12,8 +12,8 @@ import java.util.Map;
 public class ObjectParser extends AbstractParser{
 
     /**
-     * Stores a string for parsing
-     * @param json string to be parsed
+     * {@inheritDoc}
+     * @param {@inheritDoc}
      */
     ObjectParser(String json) {
         super(json);
@@ -25,14 +25,14 @@ public class ObjectParser extends AbstractParser{
      * @return map representation of {@code json}
      */
     @Override
-    Map<String, Object> parser() {
+    Map<String, Object> parse() {
 
         if(!json.trim().startsWith("{")) {
-            throw new EserialParserMismatchException("Missing { the front of the json");
+            throw new EserialInvalidJsonException("Missing { the front of the json");
         }
 
         if(!json.trim().endsWith("}")) {
-            throw new EserialParserMismatchException("Missing } the end of the json");
+            throw new EserialInvalidJsonException("Missing } the end of the json");
         }
 
         Map<String, Object> map = new HashMap<>();
@@ -72,32 +72,32 @@ public class ObjectParser extends AbstractParser{
             value = json;
             index = StringUtils.findClosingCurlyBracket(json) + 1;
             json = json.substring(index, json.length());
-            return new ObjectParser(value).parser();
+            return new ObjectParser(value).parse();
         }  else if(json.startsWith("[")) {
-            index = StringUtils.findSquareBracket(json) + 1;
+            index = StringUtils.findClosingSquareBracket(json) + 1;
             value = json.trim().substring(0,index);
             json = json.substring(index, json.length());
-            return new CollectionParser(value).parser();
+            return new CollectionParser(value).parse();
         } else if(json.startsWith("null")) {
             json = json.substring(4, json.length());
-            return new NullParser("null").parser();
+            return new NullParser("null").parse();
         } else if(json.startsWith("true")) {
             json = json.substring(4, json.length());
-            return new BooleanParser("true").parser();
+            return new BooleanParser("true").parse();
         } else if(json.startsWith("false")) {
             json = json.substring(5, json.length());
-            return new BooleanParser("false").parser();
+            return new BooleanParser("false").parse();
         } else if(StringUtils.isNumeric(Character.toString(json.charAt(0)))) {
             index = StringUtils.findNumber(json);
             value = json.substring(0, index + 1);
             json = json.substring(index + 1, json.length());
-            return new NumberParser(value).parser();
+            return new NumberParser(value).parse();
         } else {
             json = json.substring(1, json.length());
             index = json.indexOf("\"");
             value = json.substring(0, index);
             json = json.substring(index + 1, json.length());
-            return new StringParser(value).parser();
+            return new StringParser(value).parse();
         }
     }
 }

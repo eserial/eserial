@@ -79,8 +79,7 @@ public class StringUtils {
      * @param str a string
      * @return boolean
      */
-    public static boolean isNumeric(String str)
-    {
+    public static boolean isNumeric(String str) {
         return str.matches("-?\\d+(\\.\\d+)?");
     }
 
@@ -91,11 +90,7 @@ public class StringUtils {
      * @return boolean
      */
     public static boolean isBoolean(String str) {
-        if(str.equals("false") || str.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
+        return str.equals("true") || str.equals("false");
     }
 
     /**
@@ -125,17 +120,28 @@ public class StringUtils {
      * @return {@code str} the index of the last digit
      */
     public static int findNumber(String str) {
-        int index = 0;
+       int index = 1;
 
-        while(index < str.length() && (Character.isDigit(str.charAt(index)) || str.charAt(index) == '.' || str.charAt(index) == '-') ) {
+        if(str.startsWith("-")) {
             index++;
         }
 
-        return index - 1;
+        while(isNumeric(str.substring(0, index))) {
+            index++;
+            if(str.charAt(index - 1) == '.') {
+                index++;
+            }
+        }
+
+        if(str.charAt(index - 2) == '.') {
+            return index - 3;
+        }
+
+        return index - 2;
     }
 
     /**
-     * Find the closing curly bracket int the given string
+     * Find the closing curly bracket in the given string
      *
      * @param str a string
      * @return {@code closePos} the index of the closing curly bracket
@@ -158,12 +164,12 @@ public class StringUtils {
 
 
     /**
-     * Find the closing square bracket int the given string
+     * Find the closing square bracket in the given string
      *
      * @param str a string
      * @return {@code closePos} the index of the closing square bracket
      */
-    public static int findSquareBracket(String str) {
+    public static int findClosingSquareBracket(String str) {
         int closePos = 0;
         int counter = 1;
 
@@ -173,6 +179,39 @@ public class StringUtils {
                 counter++;
             }
             else if (c == ']') {
+                counter--;
+            }
+        }
+        return closePos;
+    }
+
+    /**
+     * Find the closing bracket in the given string
+     *
+     * @param str a string
+     * @param bracketType is the type of the bracket
+     * @return {@code closePos} the index of the closing  bracket
+     */
+    public static int findClosingBracket(String str, char bracketType) {
+        int closePos = 0;
+        int counter = 1;
+
+        char endingBracket;
+        char startingBracket;
+        if(bracketType == '[') {
+            endingBracket = ']';
+            startingBracket = '[';
+        } else {
+            endingBracket = '}';
+            startingBracket = '{';
+        }
+
+        while (counter > 0) {
+            char c = str.charAt(++closePos);
+            if (c == startingBracket) {
+                counter++;
+            }
+            else if (c == endingBracket) {
                 counter--;
             }
         }
