@@ -20,10 +20,12 @@ public class BooleanParser extends AbstractParser {
      */
     @Override
     Boolean parse() {
-        if(json == null) {
-            throw new NullPointerException();
+        if(json.startsWith("true")){
+            json = json.substring(4);
+            return true;
+        } else {
+            json = json.substring(5);
+            return false;
         }
-
-        return Boolean.parseBoolean(json);
     }
 }

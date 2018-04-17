@@ -23,6 +23,12 @@ public class StringParser extends AbstractParser{
         if(json == null) {
             throw new NullPointerException();
         }
-        return json;
+
+        json = json.substring(1);
+        int index = json.indexOf("\"");
+        String value = json.substring(0, index);
+        json = json.substring(index + 1);
+
+        return value;
     }
 }

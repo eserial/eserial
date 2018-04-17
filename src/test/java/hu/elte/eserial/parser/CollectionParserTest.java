@@ -16,21 +16,36 @@ public class CollectionParserTest {
 
     @Test(expected = EserialInvalidJsonException.class)
     public void serialize_GivenInvalidJsonWithoutOpeningCurlyBrackets_ThrowsEserialParserMismatchException() {
-        new CollectionParser("\"key1\": 1]").parse();
+        new CollectionParser("1,2,3]").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonComaBeforeTheFirstElement_ThrowsEserialParserMismatchException() {
+        new CollectionParser("[,1,2,3]").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonNoCommasBetweenElements_ThrowsEserialParserMismatchException() {
+        new CollectionParser("[1 2,3]").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonColonInsteadOfCommaBetweenElements_ThrowsEserialParserMismatchException() {
+        new CollectionParser("[1 : 2,3]").parse();
     }
 
     @Test
     public void parser_GivenAJsonWhichRepresentsAListOfNumbers_ReturnLongList() {
-        LinkedList<Object> testList = new CollectionParser("[2, 3,4, 5 ]").parse();
+        LinkedList<Object> testList = new CollectionParser("[2, -3,4, 5 ]").parse();
 
         Assert.assertEquals(4, testList.size());
 
-        Assert.assertEquals(Arrays.asList(2L, 3L, 4L, 5L), testList);
+        Assert.assertEquals(Arrays.asList(2L, -3L, 4L, 5L), testList);
     }
 
     @Test
     public void parser_GivenAJsonWhichRepresentsAListOfBooleans_ReturnBooleanList() {
-        LinkedList<Object> testList = new CollectionParser("[true, false, true, false]").parse();
+        LinkedList<Object> testList = new CollectionParser("[true, false, true , false]").parse();
 
         Assert.assertEquals(4, testList.size());
 

@@ -1,7 +1,6 @@
 package hu.elte.eserial.parser;
 
 import hu.elte.eserial.exception.EserialInvalidJsonException;
-import hu.elte.eserial.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +30,9 @@ public class ObjectParser extends AbstractParser{
             throw new EserialInvalidJsonException("Missing { the front of the json");
         }
 
-        if(!json.trim().endsWith("}")) {
+       /* if(!json.trim().endsWith("}")) {
             throw new EserialInvalidJsonException("Missing } the end of the json");
-        }
+        }*/
 
         Map<String, Object> map = new HashMap<>();
         String key;
@@ -47,15 +46,24 @@ public class ObjectParser extends AbstractParser{
                 int index = json.indexOf("\"");
                 key = json.substring(0, index);
                 json = json.substring(index + 1).trim();
-                map.put(key, valueFinder());
+                System.out.println(json);
+
+                if(!json.startsWith(":")) {
+                    throw new EserialInvalidJsonException("Missing : in the json");
+                }
+
+                json = json.substring(1);
+                AbstractParser abstractParser = ParserFactory.create(json.trim());
+                map.put(key, abstractParser.parse());
+                json = abstractParser.json;
             } else if (json.startsWith(",")) {
                 json = json.substring(1);
                 continue;
             } else if (json.startsWith("}")) {
+                json = json.substring(1);
                 break;
             }
         }
-
         return map;
     }
 
@@ -64,7 +72,7 @@ public class ObjectParser extends AbstractParser{
      *
      * @return object representation of {@code json}
      */
-   public Object valueFinder() {
+   /*public Object valueFinder() {
        String value;
        int index;
        json = json.substring(1).trim();
@@ -100,5 +108,5 @@ public class ObjectParser extends AbstractParser{
            json = json.substring(index + 1);
            return new StringParser(value).parse();
        }
-   }
+   }*/
 }

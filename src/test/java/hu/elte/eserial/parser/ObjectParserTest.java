@@ -19,8 +19,8 @@ public class ObjectParserTest {
     }
 
     @Test(expected = EserialInvalidJsonException.class)
-    public void serialize_GivenInvalidJsonWithoutClosingCurlyBrackets_ThrowsEserialParserMismatchException() {
-        new ObjectParser("{\"key1\": 1").parse();
+    public void serialize_GivenInvalidJsonWithoutColon_ThrowsEserialParserMismatchException() {
+        new ObjectParser("{\"key1\" 1").parse();
     }
 
     @Test

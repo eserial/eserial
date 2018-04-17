@@ -122,11 +122,6 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void findNumber_GivenStringWhichStartWithMinusInteger_ReturnIndex() {
-        assertEquals(3, StringUtils.findNumber("-123.test"));
-    }
-
-    @Test
     public void findNumber_GivenStringWhichStartWithDouble_ReturnIndex() {
         assertEquals(6, StringUtils.findNumber("123.123test"));
     }
