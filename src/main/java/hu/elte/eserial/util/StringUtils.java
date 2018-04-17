@@ -120,24 +120,13 @@ public class StringUtils {
      * @return {@code str} the index of the last digit
      */
     public static int findNumber(String str) {
-       int index = 1;
+        int index = 0;
 
-        if(str.startsWith("-")) {
+        while(index < str.length() && (Character.isDigit(str.charAt(index)) || str.charAt(index) == '.' || str.charAt(index) == '-') ) {
             index++;
         }
 
-        while(isNumeric(str.substring(0, index))) {
-            index++;
-            if(str.charAt(index - 1) == '.') {
-                index++;
-            }
-        }
-
-        if(str.charAt(index - 2) == '.') {
-            return index - 3;
-        }
-
-        return index - 2;
+        return index - 1;
     }
 
     /**

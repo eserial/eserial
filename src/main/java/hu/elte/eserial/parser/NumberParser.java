@@ -24,10 +24,14 @@ public class NumberParser extends AbstractParser{
     @Override
     Number parse() {
 
-        if(StringUtils.isInteger(json)) {
-            return Long.parseLong(json);
+        int index = StringUtils.findNumber(json);
+        String value = json.substring(0, index + 1);
+        json = json.substring(index + 1);
+
+        if(StringUtils.isInteger(value)) {
+            return Long.parseLong(value);
         } else {
-            return Double.parseDouble(json);
+            return Double.parseDouble(value);
         }
     }
 }

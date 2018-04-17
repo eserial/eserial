@@ -10,22 +10,17 @@ public class NumberParserTest {
         new NumberParser(null).parse();
     }
 
-    @Test(expected = NumberFormatException.class)
-    public void parser_GivenAnInvalidNumber_ReturnEntry() {
-        new NumberParser("test2").parse();
-    }
-
     @Test
-    public void parser_GivenAnPairWithInteger_ReturnEntry() {
-        Number number = new NumberParser("2").parse();
+    public void parser_GivenAnJsonWhichStartWithAnInteger_ReturnLong() {
+        Number number = new NumberParser("2 , \"key1\" : ").parse();
 
         assertEquals(new Long(2), number);
         assertEquals(java.lang.Long.class, number.getClass());
     }
 
     @Test
-    public void parser_GivenAnPairWithDouble_ReturnEntry() {
-        Number number = new NumberParser("2.0").parse();
+    public void parser_GivenAnJsonWhichStartWithADouble_ReturnDouble() {
+        Number number = new NumberParser("2.0, \"key1\" : ").parse();
 
         assertEquals(2.0, number);
         assertEquals(java.lang.Double.class, number.getClass());

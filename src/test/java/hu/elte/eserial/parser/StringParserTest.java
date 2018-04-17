@@ -13,7 +13,7 @@ public class StringParserTest {
 
     @Test
     public void parser_GivenASimplePairWithTwoString_ReturnAEntry() {
-       String value = new StringParser("test").parse();
+       String value = new StringParser("\"test\"").parse();
 
        assertEquals("test", value);
     }
