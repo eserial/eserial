@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class NullParserTest {
     @Test
-    public void parser_GivenAPairWhichRepresentANullObject_ReturnEntry() {
+    public void parser_GivenAPairWhichRepresentANullObject_ReturnNull() {
         Object nullObject = new NullParser("null").parse();
 
         assertEquals(null, nullObject);

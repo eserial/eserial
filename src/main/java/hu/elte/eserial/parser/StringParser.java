@@ -1,5 +1,7 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.util.StringUtils;
+
 /**
  * Parses strings.
  */
@@ -29,6 +31,6 @@ public class StringParser extends AbstractParser{
         String value = json.substring(0, index);
         json = json.substring(index + 1);
 
-        return value;
+        return StringUtils.unEscape(value);
     }
 }

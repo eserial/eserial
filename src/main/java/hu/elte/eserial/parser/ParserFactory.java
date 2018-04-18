@@ -1,6 +1,7 @@
 package hu.elte.eserial.parser;
 
 import hu.elte.eserial.exception.EserialInvalidJsonException;
+import hu.elte.eserial.serializer.NullSerializer;
 import hu.elte.eserial.util.StringUtils;
 
 /**
@@ -14,6 +15,10 @@ public class ParserFactory {
     private ParserFactory() {}
 
     public static AbstractParser create(String json) {
+
+        if (json == null) {
+            throw new NullPointerException();
+        }
 
         if(json.startsWith("{")) {
             return new ObjectParser(json);

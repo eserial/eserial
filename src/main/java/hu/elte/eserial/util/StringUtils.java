@@ -76,6 +76,70 @@ public class StringUtils {
     }
 
     /**
+     * Un-escape escaped characters in the string.
+     *
+     * @param str the string to be un-escaped
+     * @return the un-escaped version of {@code str}
+     */
+    public static String unEscape(String str) {
+
+        StringBuilder sb = new StringBuilder(str.length());
+
+        for (int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if (ch == '\\') {
+                char nextChar = (i == str.length() - 1) ? '\\' : str
+                        .charAt(i + 1);
+                if (nextChar >= '0' && nextChar <= '7') {
+                    String code = "" + nextChar;
+                    i++;
+                    if ((i < str.length() - 1) && str.charAt(i + 1) >= '0'
+                            && str.charAt(i + 1) <= '7') {
+                        code += str.charAt(i + 1);
+                        i++;
+                        if ((i < str.length() - 1) && str.charAt(i + 1) >= '0'
+                                && str.charAt(i + 1) <= '7') {
+                            code += str.charAt(i + 1);
+                            i++;
+                        }
+                    }
+                    sb.append((char) Integer.parseInt(code, 8));
+                    continue;
+                }
+                switch (nextChar) {
+                    case '\\':
+                        ch = '\\';
+                        break;
+                    case 'b':
+                        ch = '\b';
+                        break;
+                    case 'f':
+                        ch = '\f';
+                        break;
+                    case 'n':
+                        ch = '\n';
+                        break;
+                    case 'r':
+                        ch = '\r';
+                        break;
+                    case 't':
+                        ch = '\t';
+                        break;
+                    case '\"':
+                        ch = '\"';
+                        break;
+                    case '\'':
+                        ch = '\'';
+                        break;
+                }
+                i++;
+            }
+            sb.append(ch);
+        }
+        return sb.toString();
+    }
+
+    /**
      * Check the the param string is a Numeric
      *
      * @param str a string

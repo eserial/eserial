@@ -117,17 +117,42 @@ public class StringUtilsTest {
     }
 
     @Test
-    public void findNumber_GivenStringWhichStartWithInteger_ReturnIndex() {
+    public void findNumber_GivenStringWhichStartWithInteger_ReturnString() {
         assertEquals("123", StringUtils.findNumber("123test"));
     }
 
     @Test
-    public void findNumber_GivenStringWhichSecondCharacterIsADash_ReturnIndex() {
+    public void findNumber_GivenStringWhichSecondCharacterIsADash_ReturnString() {
         assertEquals("1", StringUtils.findNumber("1-.123.123.test"));
     }
 
     @Test
-    public void findNumber_GivenStringWhichStartWithDouble_ReturnIndex() {
+    public void findNumber_GivenStringWhichStartWithDouble_ReturnString() {
         assertEquals("1.123", StringUtils.findNumber("1.123.123.test"));
+    }
+
+    @Test
+    public void unEscape_GivenStringWithEscapedSlashNCharacter_ReturnUnescapedString() {
+        assertEquals("tes\nt", StringUtils.unEscape("tes\\nt"));
+    }
+
+    @Test
+    public void unEscape_GivenStringWithEscapedSlashBCharacters_ReturnUnescapedString() {
+        assertEquals("tes\bt", StringUtils.unEscape("tes\\bt"));
+    }
+
+    @Test
+    public void unEscape_GivenStringWithEscapedSlashFCharacters_ReturnUnescapedString() {
+        assertEquals("tes\ft", StringUtils.unEscape("tes\\ft"));
+    }
+
+    @Test
+    public void unEscape_GivenStringWithEscapedSlashRCharacters_ReturnUnescapedString() {
+        assertEquals("tes\rt", StringUtils.unEscape("tes\\rt"));
+    }
+
+    @Test
+    public void unEscape_GivenStringWithEscapedSlashTCharacters_ReturnUnescapedString() {
+        assertEquals("tes\tt", StringUtils.unEscape("tes\\tt"));
     }
 }
