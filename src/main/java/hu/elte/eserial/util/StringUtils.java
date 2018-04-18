@@ -188,91 +188,12 @@ public class StringUtils {
     public static String findNumber(String str) {
         String number = null;
 
-        Pattern p = Pattern.compile("-?\\d+(\\.\\d+)?");
-        Matcher m = p.matcher(str);
-        if(m.find(0)) {
-            number = m.group(0);
-            System.out.println(m.group(0));
+        Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
+        Matcher matcher = pattern.matcher(str);
+        if(matcher.find(0)) {
+            number = matcher.group(0);
         }
 
        return number;
-    }
-
-    /**
-     * Find the closing curly bracket in the given string
-     *
-     * @param str a string
-     * @return {@code closePos} the index of the closing curly bracket
-     */
-    public static int findClosingCurlyBracket(String str) {
-        int closePos = 0;
-        int counter = 1;
-
-        while (counter > 0) {
-            char c = str.charAt(++closePos);
-            if (c == '{') {
-                counter++;
-            }
-            else if (c == '}') {
-                counter--;
-            }
-        }
-        return closePos;
-    }
-
-
-    /**
-     * Find the closing square bracket in the given string
-     *
-     * @param str a string
-     * @return {@code closePos} the index of the closing square bracket
-     */
-    public static int findClosingSquareBracket(String str) {
-        int closePos = 0;
-        int counter = 1;
-
-        while (counter > 0) {
-            char c = str.charAt(++closePos);
-            if (c == '[') {
-                counter++;
-            }
-            else if (c == ']') {
-                counter--;
-            }
-        }
-        return closePos;
-    }
-
-    /**
-     * Find the closing bracket in the given string
-     *
-     * @param str a string
-     * @param bracketType is the type of the bracket
-     * @return {@code closePos} the index of the closing  bracket
-     */
-    public static int findClosingBracket(String str, char bracketType) {
-        int closePos = 0;
-        int counter = 1;
-
-        char endingBracket;
-        char startingBracket;
-        if(bracketType == '[') {
-            endingBracket = ']';
-            startingBracket = '[';
-        } else {
-            endingBracket = '}';
-            startingBracket = '{';
-        }
-
-        while (counter > 0) {
-            char c = str.charAt(++closePos);
-            if (c == startingBracket) {
-                counter++;
-            }
-            else if (c == endingBracket) {
-                counter--;
-            }
-        }
-        return closePos;
     }
 }

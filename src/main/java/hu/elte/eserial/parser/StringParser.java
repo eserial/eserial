@@ -2,6 +2,9 @@ package hu.elte.eserial.parser;
 
 import hu.elte.eserial.util.StringUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Parses strings.
  */
@@ -27,7 +30,16 @@ public class StringParser extends AbstractParser{
         }
 
         json = json.substring(1);
-        int index = json.indexOf("\"");
+
+        int index = 0;
+
+        Pattern pattern = Pattern.compile("(?<!\\\\)(?:\\\\{2})*\"");
+        Matcher matcher = pattern.matcher(json);
+
+        if(matcher.find()) {
+            index = matcher.start();
+        }
+
         String value = json.substring(0, index);
         json = json.substring(index + 1);
 

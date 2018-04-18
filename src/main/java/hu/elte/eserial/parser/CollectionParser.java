@@ -38,7 +38,6 @@ public class CollectionParser extends AbstractParser{
             AbstractParser abstractParser = ParserFactory.create(json.trim());
             list.add(abstractParser.parse());
             json = abstractParser.json.trim();
-            System.out.println(json);
 
             if(!json.startsWith(",") && !json.startsWith("]")) {
                 throw new EserialInvalidJsonException("Missing comma in a list in the json");
