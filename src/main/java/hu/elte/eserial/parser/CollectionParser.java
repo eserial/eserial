@@ -42,6 +42,8 @@ public class CollectionParser extends AbstractParser{
 
             if(!json.startsWith(",") && !json.startsWith("]")) {
                 throw new EserialInvalidJsonException("Missing comma in a list in the json");
+            } else if(json.startsWith(",") && json.substring(1).trim().charAt(0) == ']') {
+                throw new EserialInvalidJsonException("Comma after the last element int the list");
             } else if(json.startsWith(",")) {
                 json = json.substring(1);
             }

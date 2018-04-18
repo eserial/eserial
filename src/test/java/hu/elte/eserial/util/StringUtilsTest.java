@@ -118,11 +118,16 @@ public class StringUtilsTest {
 
     @Test
     public void findNumber_GivenStringWhichStartWithInteger_ReturnIndex() {
-        assertEquals(2, StringUtils.findNumber("123test"));
+        assertEquals("123", StringUtils.findNumber("123test"));
+    }
+
+    @Test
+    public void findNumber_GivenStringWhichSecondCharacterIsADash_ReturnIndex() {
+        assertEquals("1", StringUtils.findNumber("1-.123.123.test"));
     }
 
     @Test
     public void findNumber_GivenStringWhichStartWithDouble_ReturnIndex() {
-        assertEquals(6, StringUtils.findNumber("123.123test"));
+        assertEquals("1.123", StringUtils.findNumber("1.123.123.test"));
     }
 }

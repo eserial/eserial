@@ -4,6 +4,8 @@ import hu.elte.eserial.model.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Contains helper methods for the built-in String class.
@@ -119,14 +121,17 @@ public class StringUtils {
      * @param str a string
      * @return {@code str} the index of the last digit
      */
-    public static int findNumber(String str) {
-        int index = 0;
+    public static String findNumber(String str) {
+        String number = null;
 
-        while(index < str.length() && (Character.isDigit(str.charAt(index)) || str.charAt(index) == '.' || str.charAt(index) == '-') ) {
-            index++;
+        Pattern p = Pattern.compile("-?\\d+(\\.\\d+)?");
+        Matcher m = p.matcher(str);
+        if(m.find(0)) {
+            number = m.group(0);
+            System.out.println(m.group(0));
         }
 
-        return index - 1;
+       return number;
     }
 
     /**

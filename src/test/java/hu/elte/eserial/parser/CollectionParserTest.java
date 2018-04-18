@@ -34,6 +34,16 @@ public class CollectionParserTest {
         new CollectionParser("[1 : 2,3]").parse();
     }
 
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonComaAfterTheLastElement_ThrowsEserialParserMismatchException() {
+        new CollectionParser("[1,2,3,]").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonTheLastElementIsInInvalidFormat_ThrowsEserialParserMismatchException() {
+        new CollectionParser("[1,2,3, test]").parse();
+    }
+
     @Test
     public void parser_GivenAJsonWhichRepresentsAListOfNumbers_ReturnLongList() {
         LinkedList<Object> testList = new CollectionParser("[2, -3,4, 5 ]").parse();
@@ -75,15 +85,39 @@ public class CollectionParserTest {
 
         Assert.assertEquals(HashMap.class, testList.get(0).getClass());
         Assert.assertEquals(HashMap.class, testList.get(1).getClass());
+
+        HashMap<String, Object> hashMap = (HashMap) testList.get(0);
+
+        Assert.assertEquals("value1", hashMap.get("key1"));
+        Assert.assertEquals("value2", hashMap.get("key2"));
+
+        hashMap = (HashMap) testList.get(1);
+
+        Assert.assertEquals("value1", hashMap.get("key1"));
+        Assert.assertEquals("value2", hashMap.get("key2"));
     }
 
     @Test
     public void parser_GivenAJsonWhichRepresentsAListOfLists_ReturnListList() {
-        LinkedList<Object> testList = new CollectionParser("[ [\"key1\", \"value1\", \"key2\", \"value2\"], [\"key1\" , \"value1\", \"key2\" , \"value2\"]]").parse();
+        LinkedList<Object> testList = new CollectionParser("[ [\"test1\", \"test2\", \"test3\", \"test4\"], [\"test5\" , \"test6\", \"test7\" , \"test8\"]]").parse();
 
         Assert.assertEquals(2, testList.size());
 
         Assert.assertEquals(LinkedList.class, testList.get(0).getClass());
         Assert.assertEquals(LinkedList.class, testList.get(1).getClass());
+
+        LinkedList linkedList = (LinkedList) testList.get(0);
+
+        Assert.assertEquals("test1", linkedList.get(0));
+        Assert.assertEquals("test2", linkedList.get(1));
+        Assert.assertEquals("test3", linkedList.get(2));
+        Assert.assertEquals("test4", linkedList.get(3));
+
+        linkedList = (LinkedList) testList.get(1);
+
+        Assert.assertEquals("test5", linkedList.get(0));
+        Assert.assertEquals("test6", linkedList.get(1));
+        Assert.assertEquals("test7", linkedList.get(2));
+        Assert.assertEquals("test8", linkedList.get(3));
     }
 }

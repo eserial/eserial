@@ -4,6 +4,7 @@ import hu.elte.eserial.exception.EserialInvalidJsonException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -15,12 +16,17 @@ public class ObjectParserTest {
 
     @Test(expected = EserialInvalidJsonException.class)
     public void serialize_GivenInvalidJsonWithoutOpeningCurlyBrackets_ThrowsEserialParserMismatchException() {
-        new ObjectParser("\"key1\": 1]").parse();
+        new ObjectParser("\"key1\": 1]}").parse();
     }
 
     @Test(expected = EserialInvalidJsonException.class)
     public void serialize_GivenInvalidJsonWithoutColon_ThrowsEserialParserMismatchException() {
-        new ObjectParser("{\"key1\" 1").parse();
+        new ObjectParser("{\"key1\" 1}").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonToManyClosingCurlyBrackets_ThrowsEserialParserMismatchException() {
+        new ObjectParser("{\"key1\" : 1}}").parse();
     }
 
     @Test
@@ -49,6 +55,12 @@ public class ObjectParserTest {
         Map<String, Object> testMap = new ObjectParser("{\"key1\": 2.3, \"key2\" : 5, \"key3\": \"value3\" , \"key4\" : true, \"key5\" : {\"key6\" : \"value6\"}}").parse();
 
         Assert.assertEquals(5, testMap.size());
+
+        Assert.assertEquals(HashMap.class, testMap.get("key5").getClass());
+
+        HashMap<String, Object> hashMap = (HashMap) testMap.get("key5");
+
+        Assert.assertEquals("value6", hashMap.get("key6"));
     }
 
     @Test
@@ -58,5 +70,12 @@ public class ObjectParserTest {
         Assert.assertEquals(2, testMap.size());
 
         Assert.assertTrue(testMap.containsValue(null));
+
+        Assert.assertEquals(LinkedList.class, testMap.get("key1").getClass());
+
+        LinkedList<Object> linkedList = (LinkedList) testMap.get("key1");
+
+        Assert.assertEquals(null, linkedList.get(0));
+        Assert.assertEquals(null, linkedList.get(1));
     }
 }
