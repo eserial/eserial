@@ -42,7 +42,6 @@ public class ObjectParser extends AbstractParser{
                 int index = json.indexOf("\"");
                 key = json.substring(0, index);
                 json = json.substring(index + 1).trim();
-                System.out.println(json);
 
                 if(!json.startsWith(":")) {
                     throw new EserialInvalidJsonException("Missing : in the json");
@@ -54,6 +53,9 @@ public class ObjectParser extends AbstractParser{
                 json = abstractParser.json;
             } else if (json.startsWith(",")) {
                 json = json.substring(1);
+                if(json.trim().startsWith("}")) {
+                    throw new EserialInvalidJsonException("Comma after the last element int the object");
+                }
                 continue;
             } else if (json.startsWith("}")) {
                 json = json.substring(1);

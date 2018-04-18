@@ -25,8 +25,18 @@ public class ObjectParserTest {
     }
 
     @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonObjectTheLastElementIsInInvalidFormat_ThrowsEserialParserMismatchException() {
+        new ObjectParser("{\"key1\": 1, test}").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
     public void serialize_GivenInvalidJsonToManyClosingCurlyBrackets_ThrowsEserialParserMismatchException() {
         new ObjectParser("{\"key1\" : 1}}").parse();
+    }
+
+    @Test(expected = EserialInvalidJsonException.class)
+    public void serialize_GivenInvalidJsonCommaAfterTheLastElement_ThrowsEserialParserMismatchException() {
+        new ObjectParser("{\"key1\" : 1,}").parse();
     }
 
     @Test

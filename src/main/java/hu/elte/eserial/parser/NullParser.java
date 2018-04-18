@@ -20,7 +20,7 @@ public class NullParser extends AbstractParser{
      */
     @Override
     Object parse() {
-        json = json.substring(4, json.length());
+        json = json.substring(4);
         return null;
     }
 }

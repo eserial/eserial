@@ -19,6 +19,13 @@ public class StringParserTest {
     }
 
     @Test
+    public void parser_GivenASimpleStringWhichHasAnEscapedQuote_ReturnString() {
+        String value = new StringParser("\"te\\\"st\"").parse();
+
+        assertEquals("te\"st", value);
+    }
+
+    @Test
     public void parser_GivenASimpleStringWhichHasAnEscapedCharacter_ReturnString() {
         String value = new StringParser("\"te\\nst\"").parse();
 
