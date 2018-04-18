@@ -1,5 +1,6 @@
 package hu.elte.eserial.parser;
 
+import hu.elte.eserial.exception.EserialInvalidJsonException;
 import hu.elte.eserial.util.StringUtils;
 
 /**
@@ -14,15 +15,8 @@ public class ParserFactory {
 
     public static AbstractParser create(String json) {
 
-        String value;
-        int index;
-        //json = json.substring(1).trim();
-
         if(json.startsWith("{")) {
-            value = json;
-            index = StringUtils.findClosingCurlyBracket(json) + 1;
-            json = json.substring(index);
-            return new ObjectParser(value);
+            return new ObjectParser(json);
         }  else if(json.startsWith("[")) {
             return new CollectionParser(json);
         } else if(json.startsWith("null")) {
@@ -31,8 +25,10 @@ public class ParserFactory {
             return new BooleanParser(json);
         } else if(StringUtils.isNumeric(Character.toString(json.charAt(0))) || (StringUtils.isNumeric(Character.toString(json.charAt(1))) && json.charAt(0) == '-')) {
             return new NumberParser(json);
-        } else {
+        } else if(json.startsWith("\"")) {
             return new StringParser(json);
+        } else {
+            throw new EserialInvalidJsonException("Invalid character in the json");
         }
     }
 }
