@@ -12,9 +12,16 @@ public class StringParserTest {
     }
 
     @Test
-    public void parser_GivenASimplePairWithTwoString_ReturnAEntry() {
+    public void parser_GivenASimpleString_ReturnString() {
        String value = new StringParser("\"test\"").parse();
 
        assertEquals("test", value);
+    }
+
+    @Test
+    public void parser_GivenASimpleStringWhichHasAnEscapedCharacter_ReturnString() {
+        String value = new StringParser("\"te\\nst\"").parse();
+
+        assertEquals("te\nst", value);
     }
 }
