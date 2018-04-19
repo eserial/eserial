@@ -1,6 +1,7 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
 import org.junit.Test;
 
@@ -16,8 +17,8 @@ public class SimpleBuilderTest {
         new SimpleBuilder(Date.class).build(3L);
     }
 
-    @Test(expected = EserialBuilderMismatchException.class)
-    public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
+    @Test(expected = EserialInputTypeMismatchException.class)
+    public void build_GivenInvalidValue_ThrowsEserialInputTypeMismatchException() {
         new SimpleBuilder(Integer.class).build(new Date());
     }
 

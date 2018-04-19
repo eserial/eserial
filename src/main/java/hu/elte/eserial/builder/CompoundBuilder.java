@@ -1,5 +1,7 @@
 package hu.elte.eserial.builder;
 
+import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialNoDefaultConstructorException;
 import hu.elte.eserial.model.Setter;
 import hu.elte.eserial.util.MethodUtils;
@@ -34,9 +36,18 @@ public class CompoundBuilder extends AbstractBuilder {
             return null;
         }
 
-        try {
-            Class typeClass = TypeUtils.convertTypeToClass(type);
+        Class typeClass = TypeUtils.convertTypeToClass(type);
 
+        if (!TypeUtils.isCompound(typeClass)) {
+            throw new EserialBuilderMismatchException("Compound type", typeClass.getSimpleName());
+        }
+
+        if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), Map.class)) {
+            throw new EserialInputTypeMismatchException(Map.class.getSimpleName(),
+                    initializationObject.getClass().getName());
+        }
+
+        try {
             Object objectInstance = typeClass.newInstance();
 
             for (Method method : typeClass.getMethods()) {

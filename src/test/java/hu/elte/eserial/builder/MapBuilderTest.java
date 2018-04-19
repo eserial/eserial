@@ -1,6 +1,7 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import org.junit.Test;
 
 import java.util.*;
@@ -26,8 +27,8 @@ public class MapBuilderTest {
         new MapBuilder(Boolean.class).build(mapList);
     }
 
-    @Test(expected = EserialBuilderMismatchException.class)
-    public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
+    @Test(expected = EserialInputTypeMismatchException.class)
+    public void build_GivenInvalidValue_ThrowsEserialInputTypeMismatchException() {
         new MapBuilder(Map.class).build(new Boolean("true"));
     }
 
@@ -55,6 +56,8 @@ public class MapBuilderTest {
 
         assertEquals(ConcurrentSkipListMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals("text", builtMap.get("string"));
+        assertEquals("text2", builtMap.get("string2"));
     }
 
     @Test
@@ -76,6 +79,8 @@ public class MapBuilderTest {
 
         assertEquals(ConcurrentHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -97,6 +102,8 @@ public class MapBuilderTest {
 
         assertEquals(TreeMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -118,6 +125,8 @@ public class MapBuilderTest {
 
         assertEquals(HashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -139,6 +148,8 @@ public class MapBuilderTest {
 
         assertEquals(ConcurrentHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -160,6 +171,8 @@ public class MapBuilderTest {
 
         assertEquals(ConcurrentSkipListMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -181,6 +194,8 @@ public class MapBuilderTest {
 
         assertEquals(TreeMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -202,6 +217,8 @@ public class MapBuilderTest {
 
         assertEquals(LinkedHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -223,6 +240,8 @@ public class MapBuilderTest {
 
         assertEquals(IdentityHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -244,6 +263,8 @@ public class MapBuilderTest {
 
         assertEquals(WeakHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 
     @Test
@@ -265,5 +286,7 @@ public class MapBuilderTest {
 
         assertEquals(HashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
+        assertEquals(2L, builtMap.get(1L));
+        assertEquals(4L, builtMap.get(3L));
     }
 }

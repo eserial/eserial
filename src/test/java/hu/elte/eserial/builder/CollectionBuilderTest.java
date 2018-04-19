@@ -1,8 +1,11 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import org.junit.Test;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -16,8 +19,8 @@ public class CollectionBuilderTest {
         new CollectionBuilder(Date.class).build(Arrays.asList("2"));
     }
 
-    @Test(expected = EserialBuilderMismatchException.class)
-    public void build_GivenInvalidValue_ThrowsEserialBuilderMismatchException() {
+    @Test(expected = EserialInputTypeMismatchException.class)
+    public void build_GivenInvalidValue_ThrowsEserialInputTypeMismatchException() {
         Set<String> set = new HashSet<>();
         set.add("2");
 
@@ -139,5 +142,37 @@ public class CollectionBuilderTest {
 
         assertEquals(ArrayList.class, builtList.getClass());
         assertEquals(1, builtList.size());
+    }
+
+    public static class User {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+    }
+
+    public static class ListOfUser {
+        private List<User> users;
+
+        public List<User> getUsers() {
+            return users;
+        }
+
+        public void setUsers(List<User> users) {
+            this.users = users;
+        }
+    }
+
+    @Test(expected = EserialInputTypeMismatchException.class)
+    public void build_GivenListWithInvalidValue_ThrowsEserialInputTypeMismatchException() throws NoSuchMethodException {
+        Method method = ListOfUser.class.getDeclaredMethod("setUsers", List.class);
+        Type type = method.getGenericParameterTypes()[0];
+
+        new CollectionBuilder(type).build(Arrays.asList("2"));
     }
 }
