@@ -10,6 +10,6 @@ public class EserialPrimitiveCanNotBeNullException extends EserialException {
      * @param type is the primitive type
      */
     public EserialPrimitiveCanNotBeNullException(String type) {
-        super(String.format("Type %s can not be null", type));
+        super(String.format("Type %s cannot be null", type));
     }
 }
