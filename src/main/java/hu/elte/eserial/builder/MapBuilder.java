@@ -54,20 +54,19 @@ public class MapBuilder extends AbstractBuilder{
 
         try {
             List<Map<String, Object>> initializationList = (List<Map<String, Object>>) initializationObject;
-            Map builtMap = MapFactory.create(typeClass);
+            Map<Object, Object> builtMap = MapFactory.create(typeClass);
 
-            for (Map<String, Object> map : initializationList) {
-                Object keyObject = map.get(KEY);
-                Object valueObject = map.get(VALUE);
+            if(keyType == null && valueType == null) {
+                for (Map<String, Object> map : initializationList) {
+                    builtMap.put(map.get(KEY), map.get(VALUE));
+                }
+            } else {
+                AbstractBuilder keyBuilder = BuilderFactory.create(keyType);
+                AbstractBuilder valueBuilder = BuilderFactory.create(valueType);
 
-                if (keyType == null && valueType == null) {
-                    builtMap.put(keyObject, valueObject);
-                } else {
-                    AbstractBuilder keyBuilder = BuilderFactory.create(keyType);
-                    AbstractBuilder valueBuilder = BuilderFactory.create(valueType);
-
-                    Object builtKey = keyBuilder.build(keyObject);
-                    Object builtValue = valueBuilder.build(valueObject);
+                for (Map<String, Object> map : initializationList) {
+                    Object builtKey = keyBuilder.build(map.get(KEY));
+                    Object builtValue = valueBuilder.build(map.get(VALUE));
 
                     builtMap.put(builtKey, builtValue);
                 }
