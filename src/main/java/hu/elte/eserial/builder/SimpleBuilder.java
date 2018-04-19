@@ -4,6 +4,7 @@ import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.exception.EserialPrimitiveCanNotBeNullException;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.StringUtils;
 import hu.elte.eserial.util.TypeUtils;
 
@@ -28,11 +29,12 @@ public class SimpleBuilder extends AbstractBuilder {
 
     /**
      * @param initializationObject {@inheritDoc}
+     * @param context {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a simple {@link Object} of the given {@link Type} and initialized with the primitive or Wrapper parameter
      */
     @Override
-    public <T> T build(Object initializationObject) {
+    public <T> T build(Object initializationObject, EserialContext context) {
         Class typeClass = TypeUtils.convertTypeToClass(type);
 
         if (initializationObject == null) {

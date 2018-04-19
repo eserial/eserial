@@ -2,6 +2,7 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
@@ -24,11 +25,12 @@ public class DateBuilder extends AbstractBuilder{
     /**
      *
      * @param initializationObject {@inheritDoc}
+     * @param context {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a {@link Date} object initialized with the given {@link Long} value
      */
     @Override
-    public <T> T build(Object initializationObject) {
+    public <T> T build(Object initializationObject, EserialContext context) {
         if (initializationObject == null) {
             return null;
         }

@@ -1,7 +1,6 @@
 package hu.elte.eserial.model;
 
 import hu.elte.eserial.exception.EserialInvalidMethodException;
-import hu.elte.eserial.util.MethodUtils;
 import hu.elte.eserial.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
@@ -13,21 +12,16 @@ import java.util.regex.Pattern;
  * Wrapper class for an instance and a getter method.
  * It can evaluate the getter and return the name of the corresponding element.
  */
-public class Getter {
-
-    private Object that;
-    private Method method;
+public class Getter extends Accessor {
 
     /**
      * Constructs a new getter wrapper.
      *
      * @param that an arbitrary object
      * @param method a getter method
-     * @see MethodUtils#isGetter
      */
     public Getter(Object that, Method method) {
-        this.that = that;
-        this.method = method;
+        super(that, method);
     }
 
     /**
@@ -35,6 +29,7 @@ public class Getter {
      *
      * @return the name of the element
      */
+    @Override
     public String getElementName() {
         Pattern pattern = Pattern.compile("(get|is)(.+)");
         Matcher matcher = pattern.matcher(method.getName());
@@ -57,9 +52,5 @@ public class Getter {
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new EserialInvalidMethodException("Could not evaluate getter", e);
         }
-    }
-
-    public Method getMethod() {
-        return this.method;
     }
 }

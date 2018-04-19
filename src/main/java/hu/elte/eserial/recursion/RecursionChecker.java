@@ -4,6 +4,7 @@ import hu.elte.eserial.model.EserialElement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * Simple class to check for recursion while serializing an object.<br>
@@ -31,7 +32,7 @@ public class RecursionChecker {
    * @return {@code true} if the {@code element} has not already been visited and it's not the root of the map.
    */
   public boolean canVisit(EserialElement element) {
-    return !this.elements.contains(element)
+    return this.elements.stream().noneMatch(e -> e.equalsForRecursion(element))
             && element.getValue() != this.root;
   }
 
@@ -48,7 +49,10 @@ public class RecursionChecker {
    * @param element the element that has been visited
    */
   public void afterVisit(EserialElement element) {
-    int index = this.elements.indexOf(element);
+    int index = IntStream.range(0, this.elements.size())
+            .filter(i -> element.equalsForRecursion(this.elements.get(i)))
+            .findFirst()
+            .orElse(-1);
     if (index != -1) {
       for (int i = this.elements.size() - 1; i >= index; i--) {
         this.elements.remove(i);

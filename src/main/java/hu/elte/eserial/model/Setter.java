@@ -14,10 +14,7 @@ import java.util.regex.Pattern;
  * Wrapper class for an instance and a setter method.
  * It can invoke the setter, furthermore return the name and the type of the corresponding element.
  */
-public class Setter {
-
-    private Object that;
-    private Method method;
+public class Setter extends Accessor {
 
     /**
      * Constructs a new setter wrapper.
@@ -27,8 +24,7 @@ public class Setter {
      * @see MethodUtils#isSetter
      */
     public Setter(Object that, Method method) {
-        this.that = that;
-        this.method = method;
+        super(that, method);
     }
 
     /**
@@ -36,6 +32,7 @@ public class Setter {
      *
      * @return the name of the element
      */
+    @Override
     public String getElementName() {
         Pattern pattern = Pattern.compile("(set)(.+)");
         Matcher matcher = pattern.matcher(method.getName());
