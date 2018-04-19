@@ -1,9 +1,9 @@
 package hu.elte.eserial.recursion;
 
+import hu.elte.eserial.recursion.model.EserialElement;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import hu.elte.eserial.recursion.model.EserialElement;
 
 /**
  * Simple class to check for recursion while serializing an object.<br>

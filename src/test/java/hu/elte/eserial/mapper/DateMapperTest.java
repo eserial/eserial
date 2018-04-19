@@ -1,13 +1,11 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.text.ParseException;
-import java.util.Date;
-
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;

@@ -1,12 +1,12 @@
 package hu.elte.eserial.model;
 
 import hu.elte.eserial.exception.EserialInvalidMethodException;
-import hu.elte.eserial.model.Getter;
 import org.junit.Test;
 
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class GetterTest {
     public class ClassWithGetters {

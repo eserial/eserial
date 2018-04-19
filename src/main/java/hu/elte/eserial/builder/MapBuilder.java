@@ -7,11 +7,9 @@ import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentNavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Builds Map objects.
