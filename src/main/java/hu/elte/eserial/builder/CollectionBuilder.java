@@ -50,42 +50,19 @@ public class CollectionBuilder extends AbstractBuilder {
 
         try {
             List<Object> initializationList = (List) initializationObject;
-            List<Object> builtList = new ArrayList<>();
 
-            for (Object object : initializationList) {
-                if (argumentType == null) {
-                    builtList.add(object);
-                } else {
-                    AbstractBuilder abstractBuilder = BuilderFactory.create(argumentType);
+            Collection collectionObject = CollectionFactory.create(typeClass);
 
-                    Object builtElement = abstractBuilder.build(object);
-                    builtList.add(builtElement);
-                }
-            }
-
-            Collection collectionObject;
-
-            if (typeClass.isInterface()) {
-                if (TypeUtils.isAssignableFrom(typeClass, SortedSet.class)) {
-                    collectionObject = new TreeSet<>();
-                } else if (TypeUtils.isAssignableFrom(typeClass, Set.class)) {
-                    collectionObject = new HashSet<>();
-                } else if (TypeUtils.isAssignableFrom(typeClass, TransferQueue.class)) {
-                    collectionObject = new LinkedTransferQueue();
-                } else if (TypeUtils.isAssignableFrom(typeClass, BlockingDeque.class)) {
-                    collectionObject = new LinkedBlockingDeque();
-                } else if (TypeUtils.isAssignableFrom(typeClass, BlockingQueue.class)) {
-                    collectionObject = new PriorityBlockingQueue();
-                } else if (TypeUtils.isAssignableFrom(typeClass, Queue.class)) {
-                    collectionObject = new ArrayDeque<>();
-                } else {
-                    collectionObject = new ArrayList<>();
-                }
+            if (argumentType == null) {
+                collectionObject.addAll(initializationList);
             } else {
-                 collectionObject = (Collection) typeClass.newInstance();
-            }
+                AbstractBuilder abstractBuilder = BuilderFactory.create(argumentType);
 
-            collectionObject.addAll(builtList);
+                for (Object object : initializationList) {
+                    Object builtElement = abstractBuilder.build(object);
+                    collectionObject.add(builtElement);
+                }
+            }
 
             return (T) collectionObject;
         } catch (IllegalAccessException e) {
