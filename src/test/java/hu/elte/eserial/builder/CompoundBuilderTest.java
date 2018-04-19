@@ -478,7 +478,9 @@ public class CompoundBuilderTest {
 
         CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap);
 
-        assertEquals(CompoundTestClassTwo.class, compoundTestClassOne.getCompoundTestClassTwo().getClass());
+        assertEquals(2, compoundTestClassOne.getCompoundTestClassTwo().getList().size());
+        assertEquals(2, compoundTestClassOne.getCompoundTestClassTwo().getListList().size());
+        assertEquals("test", compoundTestClassOne.getCompoundTestClassTwo().getString());
     }
 
     public static class CompoundTestClassTwo {

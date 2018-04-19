@@ -1,6 +1,8 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
+import hu.elte.eserial.exception.EserialInvalidEnumOrdinalException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -17,9 +19,14 @@ public class EnumBuilderTest  {
         new EnumBuilder(Integer.class).build(2L);
     }
 
-    @Test(expected = EserialBuilderMismatchException.class)
-    public void build_GivenDoubleValue_ThrowsEserialBuilderMismatchException() {
+    @Test(expected = EserialInputTypeMismatchException.class)
+    public void build_GivenDoubleValue_ThrowsEserialInputTypeMismatchException() {
         new EnumBuilder(TestEnum.class).build(3.14);
+    }
+
+    @Test(expected = EserialInvalidEnumOrdinalException.class)
+    public void build_GivenInvalidOrdinal_ThrowsEserialInputTypeMismatchException() {
+        new EnumBuilder(TestEnum.class).build(3L);
     }
 
     @Test

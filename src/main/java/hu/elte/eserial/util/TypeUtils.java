@@ -169,7 +169,7 @@ public class TypeUtils {
      *
      * @param type is a {@link Type}
      * @param i is the index of the ActualTypeArgument
-     * @return  the {@code i}_th type parameter of the given type if parametrized, else null
+     * @return  the {@code i}_th type parameter of the given type if parametrized, else {@code null}
      */
     public static Type getTypeArgument(Type type, int i) {
         if (type instanceof ParameterizedType) {
