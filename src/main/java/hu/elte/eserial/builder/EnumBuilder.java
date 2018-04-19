@@ -2,6 +2,7 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
+import hu.elte.eserial.exception.EserialInvalidEnumOrdinalException;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
@@ -38,22 +39,26 @@ public class EnumBuilder extends AbstractBuilder {
             throw new EserialBuilderMismatchException(Enum.class.getSimpleName(), typeClass.getName());
         }
 
-        if (TypeUtils.isString(initializationObject.getClass())) {
-            Long initializationLong;
+        if (!TypeUtils.isLong(initializationObject.getClass()) && !TypeUtils.isString(initializationObject.getClass())) {
+            throw new EserialInputTypeMismatchException(Long.class.getSimpleName(), initializationObject.getClass().getName());
+        }
 
+        Long initializationLong;
+
+        if (TypeUtils.isString(initializationObject.getClass())) {
             try {
                 initializationLong = Long.parseLong((String) initializationObject);
             } catch (NumberFormatException e) {
                 throw new EserialInputTypeMismatchException("Could not parse String to Long", e);
             }
-
-            return (T) typeClass.getEnumConstants()[initializationLong.intValue()];
+        } else {
+            initializationLong = (Long) initializationObject;
         }
 
-        if (!TypeUtils.isLong(initializationObject.getClass())) {
-            throw new EserialInputTypeMismatchException(Long.class.getSimpleName(), initializationObject.getClass().getName());
+        if (initializationLong < 0 || typeClass.getEnumConstants().length - 1 < initializationLong) {
+            throw new EserialInvalidEnumOrdinalException();
         }
 
-        return (T) typeClass.getEnumConstants()[((Long) initializationObject).intValue()];
+        return (T) typeClass.getEnumConstants()[initializationLong.intValue()];
     }
 }
