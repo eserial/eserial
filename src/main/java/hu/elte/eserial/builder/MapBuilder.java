@@ -4,6 +4,7 @@ import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
@@ -29,11 +30,12 @@ public class MapBuilder extends AbstractBuilder{
 
     /**
      * @param initializationObject {@inheritDoc}
+     * @param context {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a map of the given {@link Type} and initialized from the {@link LinkedList} parameter
      */
     @Override
-    public <T> T build(Object initializationObject) {
+    public <T> T build(Object initializationObject, EserialContext context) {
         if (initializationObject == null) {
             return null;
         }
@@ -63,8 +65,8 @@ public class MapBuilder extends AbstractBuilder{
                 AbstractBuilder valueBuilder = BuilderFactory.create(valueType);
 
                 for (Map<String, Object> map : initializationList) {
-                    Object builtKey = keyBuilder.build(map.get(KEY));
-                    Object builtValue = valueBuilder.build(map.get(VALUE));
+                    Object builtKey = keyBuilder.build(map.get(KEY), context);
+                    Object builtValue = valueBuilder.build(map.get(VALUE), context);
 
                     builtMap.put(builtKey, builtValue);
                 }

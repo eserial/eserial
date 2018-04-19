@@ -3,7 +3,10 @@ package hu.elte.eserial.builder;
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialNoDefaultConstructorException;
+import hu.elte.eserial.model.EserialContext;
+import hu.elte.eserial.model.EserialElement;
 import hu.elte.eserial.model.Setter;
+import hu.elte.eserial.util.AnnotationUtils;
 import hu.elte.eserial.util.MethodUtils;
 import hu.elte.eserial.util.TypeUtils;
 
@@ -27,11 +30,12 @@ public class CompoundBuilder extends AbstractBuilder {
 
     /**
      * @param initializationObject {@inheritDoc}
+     * @param context {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a compound object of the given {@link Type} and initialized with the {@link Map} parameter
      */
     @Override
-    public <T> T build(Object initializationObject) {
+    public <T> T build(Object initializationObject, EserialContext context) {
         if (initializationObject == null) {
             return null;
         }
@@ -60,12 +64,16 @@ public class CompoundBuilder extends AbstractBuilder {
                 Setter setter = new Setter(objectInstance, method);
 
                 String dataMemberName = setter.getElementName();
-                Object inputValue = initializationMap.get(dataMemberName);
-
                 Type dataMemberType = setter.getTypeOfSetterParameter();
 
-                AbstractBuilder abstractBuilder = BuilderFactory.create(dataMemberType);
-                setter.invoke(abstractBuilder.build(inputValue));
+                EserialElement element = EserialElement.fromAccessor(setter);
+                EserialContext newContext = EserialContext.forBuilderElement(element);
+
+                if (AnnotationUtils.shouldIncludeElement(element)) {
+                    Object inputValue = initializationMap.get(dataMemberName);
+                    AbstractBuilder abstractBuilder = BuilderFactory.create(dataMemberType);
+                    setter.invoke(abstractBuilder.build(inputValue, newContext));
+                }
             }
 
             return (T) objectInstance;

@@ -4,6 +4,7 @@ import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
+import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
@@ -27,12 +28,13 @@ public class CollectionBuilder extends AbstractBuilder {
 
     /**
      * @param initializationObject {@inheritDoc}
+     * @param context {@inheritDoc}
      * @param <T> {@inheritDoc}
      * @return a {@link Collection} of the given {@link Type} initialized from {@code initializationObject}
      * , which is a {@link LinkedList}
      */
     @Override
-    public <T> T build(Object initializationObject) {
+    public <T> T build(Object initializationObject, EserialContext context) {
         if (initializationObject == null) {
             return null;
         }
@@ -60,7 +62,7 @@ public class CollectionBuilder extends AbstractBuilder {
                 AbstractBuilder abstractBuilder = BuilderFactory.create(argumentType);
 
                 for (Object object : initializationList) {
-                    Object builtElement = abstractBuilder.build(object);
+                    Object builtElement = abstractBuilder.build(object, context);
                     builtCollection.add(builtElement);
                 }
             }

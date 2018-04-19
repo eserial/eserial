@@ -2,14 +2,22 @@ package hu.elte.eserial.util;
 
 import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.enumeration.EserialAnnotationType;
+import hu.elte.eserial.annotation.inclusionrule.AbstractInclusionRule;
+import hu.elte.eserial.annotation.inclusionrule.InclusionRuleFactory;
 import hu.elte.eserial.exception.EserialNotEserialAnnotationException;
-import hu.elte.eserial.model.EserialContext;
+import hu.elte.eserial.model.Accessor;
+import hu.elte.eserial.model.EserialElement;
+import hu.elte.eserial.model.Getter;
+import hu.elte.eserial.model.Setter;
 
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.INCLUSION;
 
 /**
  * Utility class for {@link EserialAnnotation}s.
@@ -19,14 +27,23 @@ public class AnnotationUtils {
     private AnnotationUtils() {}
 
     /**
-     * @param accessibleObject a field or a method
+     * @param field an arbitrary field
      * @param type the type of {@link EserialAnnotation}
-     * @return a list of {@link EserialAnnotation}s on the {@code accessibleObject}
+     * @return a list of {@link EserialAnnotation}s on the {@code field}
      *
      * @see AnnotationUtils#getEserialAnnotations(List, EserialAnnotationType)
      */
-    public static List<Annotation> getEserialAnnotations(AccessibleObject accessibleObject, EserialAnnotationType type) {
-        return getEserialAnnotations(Arrays.asList(accessibleObject.getAnnotations()), type);
+    public static List<Annotation> getEserialAnnotations(Field field, EserialAnnotationType type) {
+        return getEserialAnnotations(Arrays.asList(field.getAnnotations()), type);
+    }
+
+    /**
+     * @param accessor a {@link Getter} or {@link Setter}
+     * @param type the type of {@link EserialAnnotation}
+     * @return a list of {@link EserialAnnotation}s on the {@code accessor} method
+     */
+    public static List<Annotation> getEserialAnnotations(Accessor accessor, EserialAnnotationType type) {
+        return getEserialAnnotations(Arrays.asList(accessor.getMethod().getAnnotations()), type);
     }
 
     /**
@@ -103,32 +120,70 @@ public class AnnotationUtils {
     }
 
     /**
-     * @param context the context of an element in which annotations are searched
+     * @param element an element on which annotations are searched
      * @param annotationClass the class of annotation to find
      * @param <T> the type of the annotation
      * @return {@code true} if there is an annotation with the given type for the element
      */
-    public static <T extends Annotation> boolean hasAnnotation(EserialContext context, Class<T> annotationClass) {
-        return getAnnotation(context, annotationClass) != null;
+    public static <T extends Annotation> boolean hasAnnotation(EserialElement element, Class<T> annotationClass) {
+        return getAnnotation(element, annotationClass) != null;
     }
 
     /**
-     * @param context the context of an element in which annotations are searched
+     * @param element an element on which annotations are searched
      * @param annotationClass the class of annotation to find
      * @param <T> the type of the annotation for convenient casting of return value
      * @return the annotation on the element with the given type or {@code null} if none was found
      */
-    public static <T extends Annotation> T getAnnotation(EserialContext context, Class<T> annotationClass) {
+    public static <T extends Annotation> T getAnnotation(EserialElement element, Class<T> annotationClass) {
         Annotation annotation = null;
-        if (context.getField() != null) {
-            annotation = context.getField().getDeclaredAnnotation(annotationClass);
+        if (element.getField() != null) {
+            annotation = element.getField().getDeclaredAnnotation(annotationClass);
         }
-        if (annotation == null && context.getGetter() != null) {
-            annotation = context.getGetter().getMethod().getDeclaredAnnotation(annotationClass);
+        if (annotation == null && element.getAccessor() != null) {
+            annotation = element.getAccessor().getMethod().getDeclaredAnnotation(annotationClass);
         }
-        if (annotation == null && context.getContainingClass() != null) {
-            annotation = context.getContainingClass().getDeclaredAnnotation(annotationClass);
+        if (annotation == null && element.getContainingClass() != null) {
+            annotation = element.getContainingClass().getDeclaredAnnotation(annotationClass);
         }
         return (T) annotation;
+    }
+
+    /**
+     * Decides whether an {@code element} should be included depending on the {@link EserialAnnotation}s on its
+     * field (if exists), accessor and containing class.<br>
+     * The annotations are ordered by their priorities.
+     * @param element an element containing an accessor and a field
+     * @return {@code true} if the {@code element} should be included
+     *
+     * @see EserialAnnotation#priority()
+     */
+    public static boolean shouldIncludeElement(EserialElement element) {
+
+        Class clazz = element.getContainingClass();
+
+        List<Annotation> annotations = new ArrayList<>();
+
+        annotations.addAll(AnnotationUtils.getEserialAnnotations(clazz, INCLUSION));
+        annotations.addAll(AnnotationUtils.getEserialAnnotations(element.getAccessor(), INCLUSION));
+        String fieldName = element.getAccessor().getElementName();
+        Field field = FieldUtils.getField(clazz, fieldName);
+        if (field != null) {
+            annotations.addAll(AnnotationUtils.getEserialAnnotations(field, INCLUSION));
+        }
+
+        annotations.sort(AnnotationUtils::compare);
+        for (Annotation annotation : annotations) {
+
+            AbstractInclusionRule inclusionRule = InclusionRuleFactory.get(annotation);
+            boolean result = inclusionRule.evaluate(element);
+            if (result && inclusionRule.isInclusionRule()) {
+                return true;
+            }
+            else if (!result && !inclusionRule.isInclusionRule()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -1,7 +1,6 @@
 package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.annotation.UseToString;
-import hu.elte.eserial.annotation.processor.EserialAnnotationProcessor;
 import hu.elte.eserial.exception.EserialMapperMismatchException;
 import hu.elte.eserial.model.EserialContext;
 import hu.elte.eserial.model.EserialElement;
@@ -39,11 +38,10 @@ class CompoundMapper extends AbstractMapper {
             throw new EserialMapperMismatchException("Compound", this.object.getClass().getSimpleName());
         }
 
-        if (AnnotationUtils.hasAnnotation(context, UseToString.class)) {
+        if (AnnotationUtils.hasAnnotation(context.getElement(), UseToString.class)) {
             return MapperFactory.create(this.object.toString()).map(null);
         }
 
-        EserialAnnotationProcessor annotationProcessor = new EserialAnnotationProcessor();
         RecursionChecker recursionChecker = context.getRecursionChecker();
 
         Map<String, Object> values = new HashMap<>();
@@ -55,12 +53,12 @@ class CompoundMapper extends AbstractMapper {
 
             Getter getter = new Getter(this.object, method);
             Object value = getter.evaluate();
-            EserialElement element = new EserialElement(method, value);
+            EserialElement element = EserialElement.fromAccessorAndValue(getter, value);
 
-            if (annotationProcessor.shouldIncludeElement(element) && recursionChecker.canVisit(element)) {
+            if (AnnotationUtils.shouldIncludeElement(element) && recursionChecker.canVisit(element)) {
                 recursionChecker.beforeVisit(element);
                 values.put(getter.getElementName(), MapperFactory.create(value)
-                        .map(EserialContext.forElement(this.object, method.getName(), recursionChecker)));
+                        .map(EserialContext.forMapperElement(element, recursionChecker)));
                 recursionChecker.afterVisit(element);
             }
         }

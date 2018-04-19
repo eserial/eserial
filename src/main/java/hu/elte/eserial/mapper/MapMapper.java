@@ -49,14 +49,14 @@ public class MapMapper extends AbstractMapper {
           Object value = entry.getValue();
           Object mappedValue = null;
 
-          EserialElement keyElement = new EserialElement(null, key);
+          EserialElement keyElement = EserialElement.fromValue(key);
           if (recursionChecker.canVisit(keyElement)) {
             recursionChecker.beforeVisit(keyElement);
             mappedKey = MapperFactory.create(key).map(context);
             recursionChecker.afterVisit(keyElement);
           }
 
-          EserialElement valueElement = new EserialElement(null, value);
+          EserialElement valueElement = EserialElement.fromValue(value);
           if (recursionChecker.canVisit(valueElement)) {
               recursionChecker.beforeVisit(valueElement);
               mappedValue = MapperFactory.create(value).map(context);

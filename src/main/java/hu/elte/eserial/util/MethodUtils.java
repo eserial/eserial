@@ -72,12 +72,13 @@ public final class MethodUtils {
     /**
      * @param clazz the class to find the method in
      * @param methodName the name of the method
+     * @param paramTypes the types of the parameters of the method
      * @return a method from the class {@code clazz} with the name {@code methodName} or
      * {@code null} if no such method exists
      */
-    public static Method getMethod(Class clazz, String methodName) {
+    public static Method getMethod(Class clazz, String methodName, Class... paramTypes) {
         try {
-            return clazz.getDeclaredMethod(methodName);
+            return clazz.getDeclaredMethod(methodName, paramTypes);
         }
         catch (NoSuchMethodException e) {
             return null;
