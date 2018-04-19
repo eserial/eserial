@@ -6,12 +6,11 @@ package hu.elte.eserial.exception;
 public class EserialNoDefaultConstructorException extends EserialException{
 
     /**
-     * Instantiates a new EserialNoDefaultConstructorException with the given message and cause.
+     * Instantiates a new EserialNoDefaultConstructorException with the given cause.
      *
-     * @param message the message of the exception
      * @param cause the cause of the exception
      */
-    public EserialNoDefaultConstructorException(String message, Throwable cause) {
-        super(message, cause);
+    public EserialNoDefaultConstructorException(Throwable cause) {
+        super("Could not find default constructor", cause);
     }
 }
