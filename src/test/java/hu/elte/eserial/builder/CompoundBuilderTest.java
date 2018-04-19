@@ -3,10 +3,30 @@ package hu.elte.eserial.builder;
 import hu.elte.eserial.exception.EserialNoDefaultConstructorException;
 import org.junit.Test;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.NavigableSet;
+import java.util.Queue;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.Vector;
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentNavigableMap;
+import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.TransferQueue;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class CompoundBuilderTest {
 
@@ -99,7 +119,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder builder = new CompoundBuilder(PrimitiveDataMembers.class);
 
-        PrimitiveDataMembers pdm = builder.build(map);
+        PrimitiveDataMembers pdm = builder.build(map, null);
 
         assertEquals(1, pdm.getIntDataMember());
         assertEquals(5.3f, pdm.getFloatDataMember(), 0.001);
@@ -250,7 +270,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder builder = new CompoundBuilder(CollectionDataMember.class);
 
-        CollectionDataMember cdm = builder.build(map);
+        CollectionDataMember cdm = builder.build(map, null);
 
         assertEquals(3, cdm.getSortedSetDataMember().size());
         assertEquals(3, cdm.getSetDataMember().size());
@@ -362,7 +382,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder builder = new CompoundBuilder(MapDataMembers.class);
 
-        MapDataMembers mdm =  builder.build(objectMap);
+        MapDataMembers mdm =  builder.build(objectMap, null);
 
         assertEquals(3, mdm.getMap().size());
         assertEquals(3, mdm.getConcurrentNavigableMap().size());
@@ -394,7 +414,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder compoundBuilder = new CompoundBuilder(DateDataMember.class);
 
-        DateDataMember ddm = compoundBuilder.build(map);
+        DateDataMember ddm = compoundBuilder.build(map, null);
 
         assertEquals(date, ddm.getDate());
     }
@@ -472,7 +492,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder compoundBuilder = new CompoundBuilder(CompoundTestClassOne.class);
 
-        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap);
+        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap, null);
 
         assertEquals(2, compoundTestClassOne.getCompoundTestClassTwo().getList().size());
         assertEquals(2, compoundTestClassOne.getCompoundTestClassTwo().getListList().size());
@@ -513,7 +533,7 @@ public class CompoundBuilderTest {
     public void build_GivenNullValue_ReturnsObjectWithNullValue() {
         CompoundBuilder compoundBuilder = new CompoundBuilder(CompoundTestClassTwo.class);
 
-        CompoundTestClassTwo compoundTestClassTwo = compoundBuilder.build(null);
+        CompoundTestClassTwo compoundTestClassTwo = compoundBuilder.build(null, null);
 
         assertNull(compoundTestClassTwo);
     }
@@ -540,7 +560,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder builder = new CompoundBuilder(CompoundTestClassTwo.class);
 
-        CompoundTestClassTwo compoundTestClassTwo = builder.build(map);
+        CompoundTestClassTwo compoundTestClassTwo = builder.build(map, null);
 
         assertEquals("test", compoundTestClassTwo.getString());
         assertEquals(2, compoundTestClassTwo.getList().size());
@@ -581,7 +601,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder compoundBuilder = new CompoundBuilder(CompoundTestClassOne.class);
 
-        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap);
+        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap, null);
 
         assertEquals(1, compoundTestClassOne.getCompoundTestClassTwoList().size());
         assertEquals(CompoundTestClassTwo.class, compoundTestClassOne.getCompoundTestClassTwoList().get(0).getClass());;
@@ -618,7 +638,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder compoundBuilder = new CompoundBuilder(CompoundTestClassOne.class);
 
-        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap);
+        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap, null);
 
         assertEquals(1, compoundTestClassOne.getCompoundTestClassTwoListList().size());
         assertEquals(CompoundTestClassTwo.class,
@@ -658,7 +678,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder compoundBuilder = new CompoundBuilder(CompoundTestClassOne.class);
 
-        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap);
+        CompoundTestClassOne compoundTestClassOne = compoundBuilder.build(classOneMap, null);
 
         assertEquals(1, compoundTestClassOne.getCompoundTestClassTwoMap().size());
         assertTrue(compoundTestClassOne.getCompoundTestClassTwoMap().containsKey("test"));
@@ -706,7 +726,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder compoundBuilder1 = new CompoundBuilder(CompoundTestClassOne.class);
 
-        CompoundTestClassOne compoundTestClassOne = compoundBuilder1.build(classOneMap);
+        CompoundTestClassOne compoundTestClassOne = compoundBuilder1.build(classOneMap, null);
 
         assertEquals(1, compoundTestClassOne.getCompoundTestClassTwoMap2().size());
     }
@@ -721,7 +741,7 @@ public class CompoundBuilderTest {
         Map<String, Object> map = new HashMap<>();
         CompoundBuilder compoundBuilder = new CompoundBuilder(PrivateConstructor.class);
 
-        PrivateConstructor privateConstructor = compoundBuilder.build(map);
+        PrivateConstructor privateConstructor = compoundBuilder.build(map, null);
     }
 
     public static class NoDefaultConstructor {
@@ -734,7 +754,7 @@ public class CompoundBuilderTest {
         Map<String, Object> map = new HashMap<>();
         CompoundBuilder compoundBuilder = new CompoundBuilder(NoDefaultConstructor.class);
 
-        NoDefaultConstructor noDefaultConstructor = compoundBuilder.build(map);
+        NoDefaultConstructor noDefaultConstructor = compoundBuilder.build(map, null);
     }
 
     public enum Color {
@@ -748,7 +768,7 @@ public class CompoundBuilderTest {
 
         CompoundBuilder builder = new CompoundBuilder(EnumDataMember.class);
 
-        EnumDataMember edm = builder.build(map);
+        EnumDataMember edm = builder.build(map, null);
 
         assertEquals(2, edm.getColorDataMember().ordinal());
     }

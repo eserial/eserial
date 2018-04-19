@@ -125,9 +125,17 @@ public class EserialElement {
         else if (this.accessor == null || that.accessor == null) {
             return false;
         }
+
+        Method thisMethod = this.accessor.getMethod();
+        Method thatMethod = that.accessor.getMethod();
+
+        if (thisMethod == null && thatMethod == null) {
+            return this.value == that.value;
+        }
+        else if (thisMethod == null || thatMethod == null) {
+            return false;
+        }
         else {
-            Method thisMethod = this.accessor.getMethod();
-            Method thatMethod = that.accessor.getMethod();
             return thisMethod.getName().equals(thatMethod.getName())
                 && thisMethod.getReturnType() == thatMethod.getReturnType()
                 && thisMethod.getDeclaringClass() == thatMethod.getDeclaringClass()

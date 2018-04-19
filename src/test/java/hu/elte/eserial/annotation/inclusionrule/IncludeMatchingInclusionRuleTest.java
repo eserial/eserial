@@ -27,17 +27,17 @@ public class IncludeMatchingInclusionRuleTest {
 
     @Test
     public void shouldInclude_GivenA_ReturnsTrue() {
-        assertTrue(notNullAndNotEmptyIncludeMatcher.evaluate(new EserialElement(null, "a")));
+        assertTrue(notNullAndNotEmptyIncludeMatcher.evaluate(EserialElement.fromValue("a")));
     }
 
     @Test
     public void shouldInclude_GivenEmptyString_ReturnsFalse() {
-        assertFalse(notNullAndNotEmptyIncludeMatcher.evaluate(new EserialElement(null, "")));
+        assertFalse(notNullAndNotEmptyIncludeMatcher.evaluate(EserialElement.fromValue("")));
     }
 
     @Test
     public void shouldInclude_GivenNull_ReturnsFalse() {
-        assertFalse(notNullAndNotEmptyIncludeMatcher.evaluate(new EserialElement(null, null)));
+        assertFalse(notNullAndNotEmptyIncludeMatcher.evaluate(EserialElement.fromValue(null)));
     }
 
     @Test

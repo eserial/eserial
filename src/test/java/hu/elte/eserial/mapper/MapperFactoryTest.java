@@ -1,6 +1,5 @@
 package hu.elte.eserial.mapper;
 
-import hu.elte.eserial.model.EserialElement;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -18,7 +17,7 @@ public class MapperFactoryTest {
 
     @Test
     public void create_GivenCompoundType_ReturnsCompoundMapper() {
-        assertTrue(MapperFactory.create(new EserialElement(null, null)) instanceof CompoundMapper);
+        assertTrue(MapperFactory.create(new MapperFactoryTest()) instanceof CompoundMapper);
     }
 
     @Test

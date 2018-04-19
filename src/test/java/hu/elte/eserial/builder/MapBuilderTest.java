@@ -4,7 +4,15 @@ import hu.elte.eserial.exception.EserialBuilderMismatchException;
 import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import org.junit.Test;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentNavigableMap;
@@ -24,17 +32,17 @@ public class MapBuilderTest {
 
         mapList.add(map);
 
-        new MapBuilder(Boolean.class).build(mapList);
+        new MapBuilder(Boolean.class).build(mapList, null);
     }
 
     @Test(expected = EserialInputTypeMismatchException.class)
     public void build_GivenInvalidValue_ThrowsEserialInputTypeMismatchException() {
-        new MapBuilder(Map.class).build(new Boolean("true"));
+        new MapBuilder(Map.class).build(new Boolean("true"), null);
     }
 
     @Test
     public void build_GivenMapNullValue_ReturnsNullValue() {
-        assertNull(new MapBuilder(Map.class).build(null));
+        assertNull(new MapBuilder(Map.class).build(null, null));
     }
 
     @Test
@@ -52,7 +60,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        ConcurrentSkipListMap builtMap = mapBuilder.build(mapList);
+        ConcurrentSkipListMap builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(ConcurrentSkipListMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -75,7 +83,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(ConcurrentHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -98,7 +106,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(TreeMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -121,7 +129,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(HashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -144,7 +152,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(ConcurrentHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -167,7 +175,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(ConcurrentSkipListMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -190,7 +198,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(TreeMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -213,7 +221,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(LinkedHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -236,7 +244,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(IdentityHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -259,7 +267,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(WeakHashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());
@@ -282,7 +290,7 @@ public class MapBuilderTest {
         mapList.add(map1);
         mapList.add(map2);
 
-        Map builtMap = mapBuilder.build(mapList);
+        Map builtMap = mapBuilder.build(mapList, null);
 
         assertEquals(HashMap.class, builtMap.getClass());
         assertEquals(2, builtMap.size());

@@ -4,6 +4,8 @@ import hu.elte.eserial.annotation.Enumerated;
 import hu.elte.eserial.annotation.enumeration.EnumeratedFormat;
 import hu.elte.eserial.exception.EserialMapperMismatchException;
 import hu.elte.eserial.model.EserialContext;
+import hu.elte.eserial.model.EserialElement;
+import hu.elte.eserial.model.Getter;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -44,24 +46,29 @@ public class EnumMapperTest {
         }
     }
 
+    private EserialContext createContext(String methodName) throws NoSuchMethodException {
+        Getter getter = new Getter(new EnumTest(), EnumTest.class.getDeclaredMethod(methodName));
+        return EserialContext.forMapperElement(EserialElement.fromAccessor(getter), null);
+    }
+
     @Test
-    public void map_GivenAnEnumWithEnumeratedFormatName_ReturnsItsName() {
+    public void map_GivenAnEnumWithEnumeratedFormatName_ReturnsItsName() throws NoSuchMethodException {
         EnumTest enumTest = new EnumTest();
         assertEquals("A", new EnumMapper(enumTest.getByName())
-                .map(EserialContext.forElement(enumTest, "getByName", null)));
+                .map(createContext("getByName")));
     }
 
     @Test
-    public void map_GivenAnEnumWithEnumeratedFormatOrdinal_ReturnsItsOrdinalValue() {
+    public void map_GivenAnEnumWithEnumeratedFormatOrdinal_ReturnsItsOrdinalValue() throws NoSuchMethodException {
         EnumTest enumTest = new EnumTest();
         assertEquals(1, new EnumMapper(enumTest.getByOrdinal())
-                .map(EserialContext.forElement(enumTest, "getByOrdinal", null)));
+                .map(createContext("getByOrdinal")));
     }
 
     @Test
-    public void map_GivenAnEnumWithNoAnnotations_ReturnsItsOrdinalValue() {
+    public void map_GivenAnEnumWithNoAnnotations_ReturnsItsOrdinalValue() throws NoSuchMethodException {
         EnumTest enumTest = new EnumTest();
         assertEquals(2, new EnumMapper(enumTest.getNoAnnotation())
-                .map(EserialContext.forElement(enumTest, "getNoAnnotation", null)));
+                .map(createContext("getNoAnnotation")));
     }
 }

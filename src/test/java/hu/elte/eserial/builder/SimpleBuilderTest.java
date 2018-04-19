@@ -14,136 +14,136 @@ public class SimpleBuilderTest {
 
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidType_ThrowsEserialBuilderMismatchException() {
-        new SimpleBuilder(Date.class).build(3L);
+        new SimpleBuilder(Date.class).build(3L, null);
     }
 
     @Test(expected = EserialInputTypeMismatchException.class)
     public void build_GivenInvalidValue_ThrowsEserialInputTypeMismatchException() {
-        new SimpleBuilder(Integer.class).build(new Date());
+        new SimpleBuilder(Integer.class).build(new Date(), null);
     }
 
     @Test(expected = EserialPrimitiveCanNotBeNullException.class)
     public void build_GivenPrimitiveTypeNullValue_ThrowsEserialPrimitiveCanNotBeNullException() {
-        new SimpleBuilder(int.class).build(null);
+        new SimpleBuilder(int.class).build(null, null);
     }
 
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenCharacterTypeStringValue_ThrowsEserialBuilderMismatchException() {
-        new SimpleBuilder(Character.class).build("character");
+        new SimpleBuilder(Character.class).build("character", null);
     }
 
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenBooleanTypeStringValue_ThrowsEserialBuilderMismatchException() {
-        new SimpleBuilder(Boolean.class).build("notboolean");
+        new SimpleBuilder(Boolean.class).build("notboolean", null);
     }
 
     @Test
     public void build_GivenStringTypeNullValue_ReturnsStringWithNullValue() {
-        assertNull(new SimpleBuilder(String.class).build(null));
+        assertNull(new SimpleBuilder(String.class).build(null, null));
     }
 
     @Test
     public void build_GivenIntPrimitive_ReturnsIntValue() {
-        assertEquals(new Integer(1), new SimpleBuilder(int.class).build(1L));
+        assertEquals(new Integer(1), new SimpleBuilder(int.class).build(1L, null));
     }
 
     @Test
     public void build_GivenIntWrapper_ReturnsIntValue() {
-        assertEquals(new Integer(1), new SimpleBuilder(Integer.class).build(1L));
+        assertEquals(new Integer(1), new SimpleBuilder(Integer.class).build(1L, null));
     }
 
     @Test
     public void build_GivenShortPrimitive_ReturnsShortValue() {
-        assertEquals(new Short((short) 1), new SimpleBuilder(short.class).build(1L));
+        assertEquals(new Short((short) 1), new SimpleBuilder(short.class).build(1L, null));
     }
 
     @Test
     public void build_GivenShortWrapper_ReturnsShortValue() {
-        assertEquals(new Short((short) 1), new SimpleBuilder(Short.class).build(1L));
+        assertEquals(new Short((short) 1), new SimpleBuilder(Short.class).build(1L, null));
     }
 
     @Test
     public void build_GivenBytePrimitive_ReturnsByteValue() {
-        assertEquals(new Byte((byte) 1), new SimpleBuilder(byte.class).build(1L));
+        assertEquals(new Byte((byte) 1), new SimpleBuilder(byte.class).build(1L, null));
     }
 
     @Test
     public void build_GivenByteWrapper_ReturnsByteValue() {
-        assertEquals(new Byte((byte) 1), new SimpleBuilder(Byte.class).build(1L));
+        assertEquals(new Byte((byte) 1), new SimpleBuilder(Byte.class).build(1L, null));
     }
 
     @Test
     public void build_GivenLongPrimitive_ReturnsLongValue() {
-        assertEquals(new Long(1), new SimpleBuilder(long.class).build(1L));
+        assertEquals(new Long(1), new SimpleBuilder(long.class).build(1L, null));
     }
 
     @Test
     public void build_GivenLongWrapper_ReturnsLongValue() {
-        assertEquals(new Long(1), new SimpleBuilder(Long.class).build(1L));
+        assertEquals(new Long(1), new SimpleBuilder(Long.class).build(1L, null));
     }
 
     @Test
     public void build_GivenFloatPrimitive_ReturnsFloatValue() {
-        assertEquals(new Float(1.5), new SimpleBuilder(float.class).build(1.5d));
+        assertEquals(new Float(1.5), new SimpleBuilder(float.class).build(1.5d, null));
     }
 
     @Test
     public void build_GivenFloatWrapper_ReturnsFloatValue() {
-        assertEquals(new Float(1.5), new SimpleBuilder(Float.class).build(1.5d));
+        assertEquals(new Float(1.5), new SimpleBuilder(Float.class).build(1.5d, null));
     }
 
     @Test
     public void build_GivenDoublePrimitive_ReturnsDoubleValue() {
-        assertEquals(new Double(1.5), new SimpleBuilder(double.class).build(1.5d));
+        assertEquals(new Double(1.5), new SimpleBuilder(double.class).build(1.5d, null));
     }
 
     @Test
     public void build_GivenDoubleWrapper_ReturnsDoubleValue() {
-        assertEquals(new Double(1.5), new SimpleBuilder(Double.class).build(1.5d));
+        assertEquals(new Double(1.5), new SimpleBuilder(Double.class).build(1.5d, null));
     }
 
     @Test
     public void build_GivenCharPrimitive_ReturnsChar() {
-        assertEquals(new Character('c'), new SimpleBuilder(char.class).build('c'));
+        assertEquals(new Character('c'), new SimpleBuilder(char.class).build('c', null));
     }
 
     @Test
     public void build_GivenCharWrapper_ReturnsChar() {
-        assertEquals(new Character('c'), new SimpleBuilder(Character.class).build('c'));
+        assertEquals(new Character('c'), new SimpleBuilder(Character.class).build('c', null));
     }
 
     @Test
     public void build_GivenBooleanPrimitive_ReturnsBooleanValue() {
-        assertEquals(new Boolean("true"), new SimpleBuilder(boolean.class).build(true));
+        assertEquals(new Boolean("true"), new SimpleBuilder(boolean.class).build(true, null));
     }
 
     @Test
     public void build_GivenBooleanWrapper_ReturnsBooleanValue() {
-        assertEquals(new Boolean("true"), new SimpleBuilder(Boolean.class).build(true));
+        assertEquals(new Boolean("true"), new SimpleBuilder(Boolean.class).build(true, null));
     }
 
     @Test
     public void build_GivenString_ReturnsStringValue() {
-        assertEquals("string", new SimpleBuilder(String.class).build("string"));
+        assertEquals("string", new SimpleBuilder(String.class).build("string", null));
     }
 
     @Test
     public void build_GivenString_ReturnsCharacterValue() {
-        assertEquals(new Character('c'), new SimpleBuilder(Character.class).build("c"));
+        assertEquals(new Character('c'), new SimpleBuilder(Character.class).build("c", null));
     }
 
     @Test
     public void build_GivenString_ReturnsBooleanValue() {
-        assertEquals(new Boolean("true"), new SimpleBuilder(Boolean.class).build("tRue"));
+        assertEquals(new Boolean("true"), new SimpleBuilder(Boolean.class).build("tRue", null));
     }
 
     @Test
     public void build_GivenString_ReturnsLongValue() {
-        assertEquals(new Long(1), new SimpleBuilder(Long.class).build("1"));
+        assertEquals(new Long(1), new SimpleBuilder(Long.class).build("1", null));
     }
 
     @Test
     public void build_GivenString_ReturnsDecimalValue() {
-        assertEquals(new Double(1.5), new SimpleBuilder(Double.class).build("1.5"));
+        assertEquals(new Double(1.5), new SimpleBuilder(Double.class).build("1.5", null));
     }
 }
