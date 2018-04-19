@@ -1,4 +1,4 @@
-package hu.elte.eserial.recursion.model;
+package hu.elte.eserial.model;
 
 import java.lang.reflect.Method;
 import java.util.Objects;

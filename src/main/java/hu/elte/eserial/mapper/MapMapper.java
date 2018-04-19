@@ -2,8 +2,8 @@ package hu.elte.eserial.mapper;
 
 import hu.elte.eserial.exception.EserialMapperMismatchException;
 import hu.elte.eserial.model.EserialContext;
+import hu.elte.eserial.model.EserialElement;
 import hu.elte.eserial.recursion.RecursionChecker;
-import hu.elte.eserial.recursion.model.EserialElement;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.util.ArrayList;

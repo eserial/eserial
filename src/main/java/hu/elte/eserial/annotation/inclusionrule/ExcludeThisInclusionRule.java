@@ -1,7 +1,7 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.ExcludeThis;
-import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.model.EserialElement;
 
 /**
  * Evaluates {@link ExcludeThis} annotations.

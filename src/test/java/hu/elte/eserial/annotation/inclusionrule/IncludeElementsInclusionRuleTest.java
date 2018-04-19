@@ -1,7 +1,7 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.IncludeElements;
-import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.model.EserialElement;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
