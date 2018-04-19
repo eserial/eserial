@@ -2,7 +2,7 @@ package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
-import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.model.EserialElement;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;

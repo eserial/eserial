@@ -1,6 +1,6 @@
 package hu.elte.eserial.builder;
 
-import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.model.EserialElement;
 import org.junit.Test;
 
 import java.util.ArrayList;

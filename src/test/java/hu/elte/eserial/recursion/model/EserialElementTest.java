@@ -1,5 +1,6 @@
 package hu.elte.eserial.recursion.model;
 
+import hu.elte.eserial.model.EserialElement;
 import org.junit.Before;
 import org.junit.Test;
 

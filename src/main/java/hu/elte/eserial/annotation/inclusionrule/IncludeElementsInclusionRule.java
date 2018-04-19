@@ -1,8 +1,8 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
 import hu.elte.eserial.annotation.IncludeElements;
+import hu.elte.eserial.model.EserialElement;
 import hu.elte.eserial.model.Getter;
-import hu.elte.eserial.recursion.model.EserialElement;
 
 import java.util.Arrays;
 

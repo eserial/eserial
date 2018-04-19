@@ -4,7 +4,7 @@ import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import hu.elte.eserial.annotation.includematcherevaluator.IncludeMatcherEvaluator;
 import hu.elte.eserial.annotation.includematcherevaluator.IncludeMatcherEvaluatorFactory;
-import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.model.EserialElement;
 
 /**
  * Evaluates {@link IncludeMatching} annotations.

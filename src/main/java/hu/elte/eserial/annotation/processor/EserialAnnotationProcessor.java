@@ -3,8 +3,8 @@ package hu.elte.eserial.annotation.processor;
 import hu.elte.eserial.annotation.EserialAnnotation;
 import hu.elte.eserial.annotation.inclusionrule.AbstractInclusionRule;
 import hu.elte.eserial.annotation.inclusionrule.InclusionRuleFactory;
+import hu.elte.eserial.model.EserialElement;
 import hu.elte.eserial.model.Getter;
-import hu.elte.eserial.recursion.model.EserialElement;
 import hu.elte.eserial.util.AnnotationUtils;
 import hu.elte.eserial.util.FieldUtils;
 

@@ -1,6 +1,6 @@
 package hu.elte.eserial.recursion;
 
-import hu.elte.eserial.recursion.model.EserialElement;
+import hu.elte.eserial.model.EserialElement;
 
 import java.util.ArrayList;
 import java.util.List;
