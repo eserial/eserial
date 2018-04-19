@@ -29,33 +29,35 @@ public class SimpleBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a simple {@link Type} of the given {@link Class} and initialized with the primitive or Wrapper parameter
+     * @return a simple {@link Object} of the given {@link Type} and initialized with the primitive or Wrapper parameter
      */
     @Override
     public <T> T build(Object initializationObject) {
         Class typeClass = TypeUtils.convertTypeToClass(type);
 
-        if (initializationObject == null && (TypeUtils.isString(typeClass)
-                || TypeUtils.isWrapper(typeClass))) {
-            return null;
-        } else if (initializationObject == null) {
-            throw new EserialPrimitiveCanNotBeNullException(typeClass.getSimpleName());
+        if (initializationObject == null) {
+            if (TypeUtils.isString(typeClass) || TypeUtils.isWrapper(typeClass)) {
+                return null;
+            }
+            else {
+                throw new EserialPrimitiveCanNotBeNullException(typeClass.getSimpleName());
+            }
         }
 
-        boolean isTypePrimitive = TypeUtils.isPrimitive(typeClass);
-        boolean isTypeWrapper = TypeUtils.isWrapper(typeClass);
-        boolean isTypeString = TypeUtils.isString(typeClass);
+        boolean isTargetTypePrimitive = TypeUtils.isPrimitive(typeClass);
+        boolean isTargetTypeWrapper = TypeUtils.isWrapper(typeClass);
+        boolean isTargetTypeString = TypeUtils.isString(typeClass);
 
-        Class initObjectClass = initializationObject.getClass();
-        boolean isInitObjectPrimitive = TypeUtils.isPrimitive(initObjectClass);
-        boolean isInitObjectWrapper = TypeUtils.isWrapper(initObjectClass);
-        boolean isInitObjectString = TypeUtils.isString(initObjectClass);
+        Class inputObjectClass = initializationObject.getClass();
+        boolean isInputClassPrimitive = TypeUtils.isPrimitive(inputObjectClass);
+        boolean isInputClassWrapper = TypeUtils.isWrapper(inputObjectClass);
+        boolean isInputClassString = TypeUtils.isString(inputObjectClass);
 
-        if (!isTypePrimitive && !isTypeWrapper && !isTypeString) {
+        if (!isTargetTypePrimitive && !isTargetTypeWrapper && !isTargetTypeString) {
             throw new EserialBuilderMismatchException(PrimitiveType.class.getSimpleName(), typeClass.getName());
         }
 
-        if (!isInitObjectPrimitive && !isInitObjectWrapper && !isInitObjectString) {
+        if (!isInputClassPrimitive && !isInputClassWrapper && !isInputClassString) {
             throw new EserialInputTypeMismatchException(PrimitiveType.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
@@ -119,7 +121,7 @@ public class SimpleBuilder extends AbstractBuilder {
 
                 return (T) initializationObject;
             } else {
-                return (T) initializationObject;
+                return (T) initializationObject.toString();
             }
         } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
            throw new EserialInvalidMethodException("Could not build simple object", e);

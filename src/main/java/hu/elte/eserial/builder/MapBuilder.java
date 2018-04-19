@@ -32,7 +32,7 @@ public class MapBuilder extends AbstractBuilder{
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a map of the given {@link Class} and initialized from the {@link LinkedList} parameter
+     * @return a map of the given {@link Type} and initialized from the {@link LinkedList} parameter
      */
     @Override
     public <T> T build(Object initializationObject) {

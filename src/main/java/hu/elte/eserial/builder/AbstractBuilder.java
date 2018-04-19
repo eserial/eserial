@@ -12,7 +12,7 @@ abstract class AbstractBuilder {
     /**
      * Constructs an {@link AbstractBuilder} descendant and sets the {@code type} in it.
      *
-     * @param type the {@link Class} to be used in the {@link AbstractBuilder#build} method
+     * @param type the {@link Type} to be used in the {@link AbstractBuilder#build} method
      */
     AbstractBuilder(Type type) {
         this.type = type;
@@ -23,7 +23,7 @@ abstract class AbstractBuilder {
      *
      * @param initializationObject is the initial value of the {@link Object}
      * @param <T> is the {@link Type} of the reference which the returned {@link Object} is given to
-     * @return an {@link Object} of the given {@link Class} and initialized with the {@code initializationObject} parameter
+     * @return an {@link Object} of the given {@link Type} and initialized with the {@code initializationObject} parameter
      */
     abstract <T> T build(Object initializationObject);
 }

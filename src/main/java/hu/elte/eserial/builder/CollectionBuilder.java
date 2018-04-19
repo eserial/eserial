@@ -27,7 +27,7 @@ public class CollectionBuilder extends AbstractBuilder {
     /**
      * @param initializationObject {@inheritDoc}
      * @param <T> {@inheritDoc}
-     * @return a {@link Collection} of the given {@link Class} initialized from {@code initializationObject}
+     * @return a {@link Collection} of the given {@link Type} initialized from {@code initializationObject}
      * , which is a {@link LinkedList}
      */
     @Override
