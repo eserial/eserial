@@ -9,6 +9,7 @@ public class EserialInvalidEnumException extends EserialException {
 
     /**
      * Instantiates a new EserialInvalidEnumException with a message generated from the given {@link EnumeratedFormat}.
+     * @param format an {@link EnumeratedFormat} whose name will be used in the message
      */
     public EserialInvalidEnumException(EnumeratedFormat format) {
         super("Could not initialize Enum with the given " + format.name().toLowerCase());
