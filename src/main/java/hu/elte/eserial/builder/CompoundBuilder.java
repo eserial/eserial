@@ -49,17 +49,17 @@ public class CompoundBuilder extends AbstractBuilder {
                 Setter setter = new Setter(objectInstance, method);
 
                 String dataMemberName = setter.getElementName();
-                Object dataMemberValue = initializationMap.get(dataMemberName);
+                Object inputValue = initializationMap.get(dataMemberName);
 
                 Type dataMemberType = setter.getTypeOfSetterParameter();
 
                 AbstractBuilder abstractBuilder = BuilderFactory.create(dataMemberType);
-                setter.invoke(abstractBuilder.build(dataMemberValue));
+                setter.invoke(abstractBuilder.build(inputValue));
             }
 
             return (T) objectInstance;
         } catch (IllegalAccessException | InstantiationException e) {
-            throw new EserialNoDefaultConstructorException("Could not find default constructor", e);
+            throw new EserialNoDefaultConstructorException(e);
         }
     }
 }
