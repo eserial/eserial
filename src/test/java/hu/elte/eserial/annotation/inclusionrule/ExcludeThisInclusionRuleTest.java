@@ -1,9 +1,6 @@
 package hu.elte.eserial.annotation.inclusionrule;
 
-import hu.elte.eserial.annotation.ExcludeThis;
 import org.junit.Test;
-
-import java.lang.annotation.Annotation;
 
 import static org.junit.Assert.assertFalse;
 

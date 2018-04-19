@@ -2,7 +2,6 @@ package hu.elte.eserial.builder;
 
 import hu.elte.eserial.util.TypeUtils;
 
-import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.*;
 

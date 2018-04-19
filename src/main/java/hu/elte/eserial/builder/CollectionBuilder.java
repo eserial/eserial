@@ -7,8 +7,9 @@ import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Builds Collection objects (e.g List).
