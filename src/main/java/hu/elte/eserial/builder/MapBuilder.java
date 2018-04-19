@@ -17,6 +17,8 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * Builds Map objects.
  */
 public class MapBuilder extends AbstractBuilder{
+    private final String KEY = "key";
+    private final String VALUE = "value";
 
     /**
      * Constructs a {@link MapBuilder} and sets the {@code mapType} in it.
@@ -47,20 +49,19 @@ public class MapBuilder extends AbstractBuilder{
         }
 
         if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), List.class)) {
-            throw new EserialInputTypeMismatchException(Map.class.getSimpleName(),
-                    initializationObject.getClass().getName());
+            throw new EserialInputTypeMismatchException(initializationObject.getClass().getName());
         }
 
         try {
             List<Map<String, Object>> initializationList = (List<Map<String, Object>>) initializationObject;
-            Map<Object, Object> initializationMap = new HashMap<>();
+            Map builtMap = MapFactory.create(typeClass);
 
             for (Map<String, Object> map : initializationList) {
-                Object keyObject = map.get("key");
-                Object valueObject = map.get("value");
+                Object keyObject = map.get(KEY);
+                Object valueObject = map.get(VALUE);
 
                 if (keyType == null && valueType == null) {
-                    initializationMap.put(keyObject, valueObject);
+                    builtMap.put(keyObject, valueObject);
                 } else {
                     AbstractBuilder keyBuilder = BuilderFactory.create(keyType);
                     AbstractBuilder valueBuilder = BuilderFactory.create(valueType);
@@ -68,29 +69,11 @@ public class MapBuilder extends AbstractBuilder{
                     Object builtKey = keyBuilder.build(keyObject);
                     Object builtValue = valueBuilder.build(valueObject);
 
-                    initializationMap.put(builtKey, builtValue);
+                    builtMap.put(builtKey, builtValue);
                 }
             }
 
-            Map mapObject;
-
-            if (typeClass.isInterface()) {
-                if (TypeUtils.isAssignableFrom(typeClass, ConcurrentNavigableMap.class)) {
-                    mapObject = new ConcurrentSkipListMap();
-                } else if (TypeUtils.isAssignableFrom(typeClass, ConcurrentMap.class)) {
-                    mapObject = new ConcurrentHashMap();
-                } else if (TypeUtils.isAssignableFrom(typeClass, SortedMap.class)) {
-                    mapObject = new TreeMap();
-                } else {
-                    mapObject = new HashMap();
-                }
-            } else {
-                mapObject = (Map) typeClass.newInstance();
-            }
-
-            mapObject.putAll(initializationMap);
-
-            return (T) mapObject;
+            return (T) builtMap;
         } catch (IllegalAccessException e) {
             throw new EserialInvalidMethodException("Could not initialize map", e);
         } catch (InstantiationException e) {
