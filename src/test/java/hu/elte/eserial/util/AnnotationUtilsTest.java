@@ -5,6 +5,10 @@ import hu.elte.eserial.annotation.IncludeElements;
 import hu.elte.eserial.annotation.IncludeMatching;
 import hu.elte.eserial.annotation.enumeration.IncludeMatcher;
 import hu.elte.eserial.exception.EserialNotEserialAnnotationException;
+import hu.elte.eserial.model.EserialElement;
+import hu.elte.eserial.model.Getter;
+import hu.elte.eserial.model.Setter;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.annotation.Annotation;
@@ -13,7 +17,9 @@ import java.util.List;
 
 import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.FORMATTING;
 import static hu.elte.eserial.annotation.enumeration.EserialAnnotationType.INCLUSION;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class AnnotationUtilsTest {
 
@@ -61,6 +67,16 @@ public class AnnotationUtilsTest {
             return 0;
         }
     };
+
+    private EserialElement createElementGetter(Object object, String methodName) throws NoSuchMethodException {
+        Getter getter = new Getter(object, object.getClass().getDeclaredMethod(methodName));
+        return EserialElement.fromAccessorAndValue(getter, getter.evaluate());
+    }
+
+    private EserialElement createElementSetter(Object object, String methodName, Class paramType) throws NoSuchMethodException {
+        Setter setter = new Setter(object, object.getClass().getDeclaredMethod(methodName, paramType));
+        return EserialElement.fromAccessor(setter);
+    }
 
     @Test
     public void compare_SortsAnnotationsByTheirPriorities() {
@@ -162,9 +178,154 @@ public class AnnotationUtilsTest {
 
     @Test
     public void getEserialAnnotations_GivenGetterWithExcludeThis_ReturnsExcludeThis() throws NoSuchMethodException {
-        List<Annotation> annotations = AnnotationUtils.getEserialAnnotations(
-                WithExcludeThisOnGetter.class.getDeclaredMethod("onGetter"), INCLUSION);
+        Getter getter = new Getter(null, WithExcludeThisOnGetter.class.getDeclaredMethod("onGetter"));
+        List<Annotation> annotations = AnnotationUtils.getEserialAnnotations(getter, INCLUSION);
         assertEquals(1, annotations.size());
         assertTrue(annotations.get(0) instanceof ExcludeThis);
+    }
+
+    public class ExcludeThisDummy {
+
+        private String fieldIncluded = "fieldIncludedValue";
+
+        @ExcludeThis
+        private String fieldExcluded = "fieldExcludedValue";
+
+        private String fieldWithGetterExcluded = "fieldWithGetterExcludedValue";
+
+        private String fieldWithSetterExcluded = "fieldWithSetterExcludedValue";
+
+        public String getFieldIncluded() {
+            return fieldIncluded;
+        }
+
+        public void setFieldIncluded(String fieldIncluded) {
+            this.fieldIncluded = fieldIncluded;
+        }
+
+        public String getFieldExcluded() {
+            return fieldExcluded;
+        }
+
+        public void setFieldExcluded(String fieldExcluded) {
+            this.fieldExcluded = fieldExcluded;
+        }
+
+        @ExcludeThis
+        public String getFieldWithGetterExcluded() {
+            return fieldWithGetterExcluded;
+        }
+
+        public void setFieldWithGetterExcluded(String fieldWithGetterExcluded) {
+            this.fieldWithGetterExcluded = fieldWithGetterExcluded;
+        }
+
+        public String getFieldWithSetterExcluded() {
+            return fieldWithSetterExcluded;
+        }
+
+        @ExcludeThis
+        public void setFieldWithSetterExcluded(String fieldWithSetterExcluded) {
+            this.fieldWithSetterExcluded = fieldWithSetterExcluded;
+        }
+    }
+
+    @IncludeElements({"includedAndNull", "includedAndNotNull"})
+    @IncludeMatching(IncludeMatcher.NOT_NULL)
+    public class IncludeFieldsAndMatchingDummy {
+
+        private String includedAndNull = null;
+        private String includedAndNotNull = "includedAndNotNullValue";
+
+        private String notIncludedAndNull = null;
+        private String notIncludedAndNotNull = "notIncludedAndNotNullValue";
+
+        public String getIncludedAndNull() {
+            return includedAndNull;
+        }
+
+        public String getIncludedAndNotNull() {
+            return includedAndNotNull;
+        }
+
+        public String getNotIncludedAndNull() {
+            return notIncludedAndNull;
+        }
+
+        public String getNotIncludedAndNotNull() {
+            return notIncludedAndNotNull;
+        }
+    }
+
+    private ExcludeThisDummy excludeThisDummy;
+
+    private IncludeFieldsAndMatchingDummy includeFieldsAndMatchingDummy;
+
+    @Before
+    public void setUp() {
+        excludeThisDummy = new ExcludeThisDummy();
+        includeFieldsAndMatchingDummy = new IncludeFieldsAndMatchingDummy();
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenExcludeThisedField_ReturnsFalse() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(excludeThisDummy, "getFieldExcluded");
+        assertFalse(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenGetterAndIgnoreThisedGetter_ReturnsFalse() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(excludeThisDummy, "getFieldWithGetterExcluded");
+        assertFalse(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenSetterAndIgnoreThisedGetter_ReturnsTrue() throws NoSuchMethodException {
+        EserialElement element = createElementSetter(excludeThisDummy, "setFieldWithGetterExcluded", String.class);
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenGetterAndIgnoreThisedSetter_ReturnsTrue() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(excludeThisDummy, "getFieldWithSetterExcluded");
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenSetterAndIgnoreThisedSetter_ReturnsFalse() throws NoSuchMethodException {
+        EserialElement element = createElementSetter(excludeThisDummy, "setFieldWithSetterExcluded", String.class);
+        assertFalse(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenFieldWithoutIgnoreThis_ReturnsTrue() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(excludeThisDummy, "getFieldIncluded");
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
+        element = createElementSetter(excludeThisDummy, "setFieldIncluded", String.class);
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenIncludedAndNullField_ReturnsTrue() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(includeFieldsAndMatchingDummy, "getIncludedAndNull");
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenIncludedAndNotNullField_ReturnsTrue() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(includeFieldsAndMatchingDummy, "getIncludedAndNotNull");
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenNotIncludedAndNullField_ReturnsFalse() throws NoSuchMethodException{
+        EserialElement element = createElementGetter(includeFieldsAndMatchingDummy, "getNotIncludedAndNull");
+        assertFalse(AnnotationUtils.shouldIncludeElement(element));
+    }
+
+    @Test
+    public void shouldIncludeElement_GivenNotIncludedAndNotNullField_ReturnsTrue() throws NoSuchMethodException {
+        EserialElement element = createElementGetter(includeFieldsAndMatchingDummy, "getNotIncludedAndNotNull");
+        assertTrue(AnnotationUtils.shouldIncludeElement(element));
     }
 }

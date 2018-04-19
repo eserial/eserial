@@ -1,14 +1,13 @@
-package hu.elte.eserial.recursion.model;
+package hu.elte.eserial.model;
 
-import hu.elte.eserial.model.EserialElement;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class EserialElementTest {
 
@@ -35,6 +34,10 @@ public class EserialElementTest {
 
     private BasicUser basicUser;
 
+    private EserialElement createElement(Method method, Object value) {
+        return EserialElement.fromAccessorAndValue(new Getter(basicUser, method), value);
+    }
+
     @Before
     public void setUp() {
         basicUser = new BasicUser();
@@ -47,10 +50,11 @@ public class EserialElementTest {
             throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Method getter1 = BasicUser.class.getDeclaredMethod("getName");
         Object value1 = getter1.invoke(this.basicUser);
-        EserialElement element1 = new EserialElement(getter1, value1);
+        EserialElement element1 = createElement(getter1, value1);
 
-        EserialElement element2 = new EserialElement(null, value1);
-        assertNotEquals(element1, element2);
+        EserialElement element2 = EserialElement.fromValue(value1);
+        element2.setAccessor(new Getter(basicUser, null));
+        assertFalse(element1.equalsForRecursion(element2));
     }
 
     @Test
@@ -59,13 +63,13 @@ public class EserialElementTest {
 
         Method getter1 = BasicUser.class.getDeclaredMethod("getName");
         Object value1 = getter1.invoke(this.basicUser);
-        EserialElement element1 = new EserialElement(getter1, value1);
+        EserialElement element1 = createElement(getter1, value1);
 
         Method getter2 = BasicUser.class.getDeclaredMethod("getName");
         Object value2 = getter1.invoke(this.basicUser);
-        EserialElement element2 = new EserialElement(getter2, value2);
+        EserialElement element2 = createElement(getter2, value2);
 
-        assertEquals(element1, element2);
+        assertTrue(element1.equalsForRecursion(element2));
     }
 
     @Test
@@ -74,14 +78,14 @@ public class EserialElementTest {
 
         Method getter1 = BasicUser.class.getDeclaredMethod("getName");
         Object value1 = getter1.invoke(this.basicUser);
-        EserialElement element1 = new EserialElement(getter1, value1);
+        EserialElement element1 = createElement(getter1, value1);
 
         this.basicUser.setName("anotherName");
         Method getter2 = BasicUser.class.getDeclaredMethod("getName");
         Object value2 = getter2.invoke(this.basicUser);
-        EserialElement element2 = new EserialElement(getter2, value2);
+        EserialElement element2 = createElement(getter2, value2);
 
-        assertNotEquals(element1, element2);
+        assertFalse(element1.equalsForRecursion(element2));
     }
 
     @Test
@@ -90,13 +94,13 @@ public class EserialElementTest {
 
         Method getter1 = BasicUser.class.getDeclaredMethod("getName");
         Object value1 = getter1.invoke(this.basicUser);
-        EserialElement element1 = new EserialElement(getter1, value1);
+        EserialElement element1 = createElement(getter1, value1);
 
         Method getter2 = BasicUser.class.getDeclaredMethod("getName");
         Object value2 = new String((String)value1);
-        EserialElement element2 = new EserialElement(getter2, value2);
+        EserialElement element2 = createElement(getter2, value2);
 
-        assertNotEquals(element1, element2);
+        assertFalse(element1.equalsForRecursion(element2));
     }
 
     public class BasicUserCopy {
@@ -128,14 +132,14 @@ public class EserialElementTest {
         this.basicUser.setName(value);
         Method getter1 = BasicUser.class.getDeclaredMethod("getName");
         Object value1 = getter1.invoke(this.basicUser);
-        EserialElement element1 = new EserialElement(getter1, value1);
+        EserialElement element1 = createElement(getter1, value1);
 
         BasicUserCopy basicUserCopy = new BasicUserCopy();
         basicUserCopy.setName(value);
         Method getter2 = BasicUserCopy.class.getDeclaredMethod("getName");
         Object value2 = getter2.invoke(basicUserCopy);
-        EserialElement element2 = new EserialElement(getter2, value2);
+        EserialElement element2 = createElement(getter2, value2);
 
-        assertNotEquals(element1, element2);
+        assertFalse(element1.equalsForRecursion(element2));
     }
 }

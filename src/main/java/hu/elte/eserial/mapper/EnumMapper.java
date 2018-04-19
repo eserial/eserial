@@ -33,7 +33,7 @@ public class EnumMapper extends AbstractMapper {
         }
 
         Enum enumValue = (Enum) this.object;
-        Enumerated enumerated = AnnotationUtils.getAnnotation(context, Enumerated.class);
+        Enumerated enumerated = AnnotationUtils.getAnnotation(context.getElement(), Enumerated.class);
         if (enumerated != null && enumerated.value().equals(EnumeratedFormat.NAME)) {
             return enumValue.name();
         }

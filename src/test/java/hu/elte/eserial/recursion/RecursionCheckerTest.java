@@ -1,12 +1,11 @@
 package hu.elte.eserial.recursion;
 
 import hu.elte.eserial.model.EserialElement;
+import hu.elte.eserial.model.Getter;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -102,11 +101,10 @@ public class RecursionCheckerTest {
 
     private EserialElement eserialElementFromInstance(Object instance, String getterName) {
         try {
-            Method getter = instance.getClass().getDeclaredMethod(getterName);
-            Object value = getter.invoke(instance);
-            return new EserialElement(getter, value);
+            Getter getter = new Getter(instance, instance.getClass().getDeclaredMethod(getterName));
+            return EserialElement.fromAccessorAndValue(getter, getter.evaluate());
 
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return null;
         }
@@ -156,7 +154,7 @@ public class RecursionCheckerTest {
     @Test
     public void beforeVisit_GivenAnything_PutsIntoElementsList() {
 
-        EserialElement element = new EserialElement(null, null);
+        EserialElement element = EserialElement.fromValue(null);
         this.recursionChecker.beforeVisit(element);
 
         assertEquals(1, this.getElements().size());

@@ -12,7 +12,7 @@ public class DateBuilderTest {
 
     @Test(expected = EserialBuilderMismatchException.class)
     public void build_GivenInvalidType_ThrowsEserialBuilderMismatchException() {
-        new DateBuilder(Integer.class).build(3000000L);
+        new DateBuilder(Integer.class).build(3000000L, null);
     }
 
     @Test
@@ -21,12 +21,12 @@ public class DateBuilderTest {
         Long value = date.getTime();
         DateBuilder dateBuilder = new DateBuilder(Date.class);
 
-        assertEquals(date, dateBuilder.build(value.toString()));
+        assertEquals(date, dateBuilder.build(value.toString(), null));
     }
 
     @Test
     public void build_GivenDateNullValue_ReturnsNullValue() {
-        assertNull(new EnumBuilder(Date.class).build(null));
+        assertNull(new EnumBuilder(Date.class).build(null, null));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class DateBuilderTest {
         Long value = date.getTime();
         DateBuilder dateBuilder = new DateBuilder(Date.class);
 
-        assertEquals(date, dateBuilder.build(value));
+        assertEquals(date, dateBuilder.build(value, null));
 
     }
 }
