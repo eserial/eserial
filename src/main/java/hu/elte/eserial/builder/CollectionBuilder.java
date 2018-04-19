@@ -51,20 +51,20 @@ public class CollectionBuilder extends AbstractBuilder {
         try {
             List<Object> initializationList = (List) initializationObject;
 
-            Collection collectionObject = CollectionFactory.create(typeClass);
+            Collection builtCollection = CollectionFactory.create(typeClass);
 
             if (argumentType == null) {
-                collectionObject.addAll(initializationList);
+                builtCollection.addAll(initializationList);
             } else {
                 AbstractBuilder abstractBuilder = BuilderFactory.create(argumentType);
 
                 for (Object object : initializationList) {
                     Object builtElement = abstractBuilder.build(object);
-                    collectionObject.add(builtElement);
+                    builtCollection.add(builtElement);
                 }
             }
 
-            return (T) collectionObject;
+            return (T) builtCollection;
         } catch (IllegalAccessException e) {
             throw new EserialInvalidMethodException("Could not initialize collection", e);
         } catch (InstantiationException e) {

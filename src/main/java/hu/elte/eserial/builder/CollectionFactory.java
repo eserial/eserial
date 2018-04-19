@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * Provides an adequate {@link java.util.Collection} implementation for a given {@link Type}.
+ * Provides an adequate {@link java.util.Collection} implementation for a given {@link Class}.
  */
 public class CollectionFactory {
 
@@ -17,10 +17,10 @@ public class CollectionFactory {
     private CollectionFactory() {}
 
     /**
-     * Creates a type-specific object builder instance.
+     * Creates a type-specific {@link Collection} instance.
      *
-     * @param collectionClass
-     * @return an arbitrary {@link Class}
+     * @param collectionClass an arbitrary {@link Class}
+     * @return a {@link Collection} instance
      * @throws InstantiationException if could not instantiate the non-interface {@link Collection}
      * @throws IllegalAccessException if could not instantiate the non-interface {@link Collection}
      */
