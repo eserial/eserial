@@ -1,6 +1,7 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.exception.EserialInstantiationException;
 import hu.elte.eserial.exception.EserialInvalidMethodException;
 import hu.elte.eserial.util.TypeUtils;
@@ -46,7 +47,7 @@ public class MapBuilder extends AbstractBuilder{
         }
 
         if (!TypeUtils.isAssignableFrom(initializationObject.getClass(), List.class)) {
-            throw new EserialBuilderMismatchException(Map.class.getSimpleName(),
+            throw new EserialInputTypeMismatchException(Map.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
 
