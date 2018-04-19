@@ -1,6 +1,7 @@
 package hu.elte.eserial.builder;
 
 import hu.elte.eserial.exception.EserialBuilderMismatchException;
+import hu.elte.eserial.exception.EserialInputTypeMismatchException;
 import hu.elte.eserial.util.TypeUtils;
 
 import java.lang.reflect.Type;
@@ -44,14 +45,14 @@ public class DateBuilder extends AbstractBuilder{
             try {
                 initializationLong = Long.parseLong((String) initializationObject);
             } catch (NumberFormatException e) {
-                throw new EserialBuilderMismatchException("Could not parse String to Long", e);
+                throw new EserialInputTypeMismatchException("Could not parse String to Long", e);
             }
 
             return (T) new Date(initializationLong);
         }
 
         if (!TypeUtils.isLong(initializationObject.getClass())) {
-            throw new EserialBuilderMismatchException(Long.class.getSimpleName(),
+            throw new EserialInputTypeMismatchException(Long.class.getSimpleName(),
                     initializationObject.getClass().getName());
         }
 
