@@ -23,7 +23,7 @@ public class StringSerializer extends AbstractSerializer {
      * @return string representation of {@code object}
      */
     @Override
-    String serialize() {
+    public String serialize() {
         if (!TypeUtils.isString(object.getClass()) && !TypeUtils.isCharacter(object.getClass())) {
             throw new EserialSerializerMismatchException("String or Character", object.getClass().getSimpleName());
         }

@@ -24,7 +24,7 @@ public class ObjectParser extends AbstractParser{
      * @return map representation of {@code json}
      */
     @Override
-    Map<String, Object> parse() {
+    public Map<String, Object> parse() {
 
         if(!json.trim().startsWith("{")) {
             throw new EserialInvalidJsonException("Missing { the front of the json");

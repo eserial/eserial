@@ -22,7 +22,7 @@ public class BooleanSerializer extends AbstractSerializer {
      * @return string representation of {@code object}
      */
     @Override
-    String serialize() {
+    public String serialize() {
         if (!TypeUtils.isBoolean(object.getClass())) {
             throw new EserialSerializerMismatchException(Boolean.class.getSimpleName(), object.getClass().getSimpleName());
         }

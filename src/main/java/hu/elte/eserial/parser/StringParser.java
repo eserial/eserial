@@ -24,7 +24,7 @@ public class StringParser extends AbstractParser{
      * @return string representation of {@code json}
      */
     @Override
-    String parse() {
+    public String parse() {
         if(json == null) {
             throw new NullPointerException();
         }
