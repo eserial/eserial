@@ -19,7 +19,7 @@ public class NullParser extends AbstractParser{
      * @return object representation of null a object
      */
     @Override
-    Object parse() {
+    public Object parse() {
         json = json.substring(4);
         return null;
     }

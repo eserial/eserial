@@ -21,7 +21,7 @@ public class CollectionParser extends AbstractParser{
      * @return list representation of {@code json}
      */
     @Override
-    LinkedList<Object> parse() {
+    public LinkedList<Object> parse() {
         if(!json.startsWith("[")) {
             throw new EserialInvalidJsonException("Missing [ at the front of the list in json");
         }

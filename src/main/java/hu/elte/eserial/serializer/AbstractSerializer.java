@@ -3,7 +3,7 @@ package hu.elte.eserial.serializer;
 /**
  * Common superclass for the different serializers.
  */
-abstract class AbstractSerializer {
+public abstract class AbstractSerializer {
 
     protected Object object;
 
@@ -20,5 +20,5 @@ abstract class AbstractSerializer {
      *
      * @return string representation of {@code object}
      */
-    abstract String serialize();
+    public abstract String serialize();
 }

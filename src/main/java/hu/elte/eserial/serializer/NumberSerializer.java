@@ -22,7 +22,7 @@ public class NumberSerializer extends AbstractSerializer {
      * @return string representation of {@code object}
      */
     @Override
-    String serialize() {
+    public String serialize() {
         if (!TypeUtils.isNumber(object.getClass())) {
             throw new EserialSerializerMismatchException(Number.class.getSimpleName(), object.getClass().getSimpleName());
         }

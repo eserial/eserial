@@ -5,7 +5,7 @@ import hu.elte.eserial.model.EserialContext;
 /**
  * Abstract class for the different object mappers.
  */
-abstract class AbstractMapper {
+public abstract class AbstractMapper {
 
     protected Object object;
 
@@ -23,5 +23,5 @@ abstract class AbstractMapper {
      * @param context an {@link EserialContext} containing information about the context of the element to be mapped
      * @return mapped representation of the contained object
      */
-    abstract Object map(EserialContext context);
+    public abstract Object map(EserialContext context);
 }

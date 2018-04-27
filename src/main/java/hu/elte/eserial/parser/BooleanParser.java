@@ -19,7 +19,7 @@ public class BooleanParser extends AbstractParser {
      * @return boolean representation of {@code json}
      */
     @Override
-    Boolean parse() {
+    public Boolean parse() {
         if(json.startsWith("true")){
             json = json.substring(4);
             return true;
