@@ -3,6 +3,7 @@ package hu.elte.eserial.parser;
 /**
  * Abstract class for the different parsers.
  */
+
 public abstract class AbstractParser {
 
     protected String json;
@@ -22,4 +23,5 @@ public abstract class AbstractParser {
      * @return Object representation of {@code json}
      */
     public abstract Object parse();
+
 }
