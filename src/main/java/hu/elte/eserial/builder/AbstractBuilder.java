@@ -7,7 +7,7 @@ import java.lang.reflect.Type;
 /**
  * Abstract class for the different object builders.
  */
-abstract class AbstractBuilder {
+public abstract class AbstractBuilder {
 
     protected Type type;
 
@@ -28,5 +28,5 @@ abstract class AbstractBuilder {
      * @param <T> is the {@link Type} of the reference which the returned {@link Object} is given to
      * @return an {@link Object} of the given {@link Type} and initialized with the {@code initializationObject} parameter
      */
-    abstract <T> T build(Object initializationObject, EserialContext context);
+    public abstract <T> T build(Object initializationObject, EserialContext context);
 }

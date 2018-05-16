@@ -1,6 +1,7 @@
 package hu.elte.eserial.parser;
 
 import hu.elte.eserial.exception.EserialInvalidJsonException;
+import hu.elte.eserial.serializer.NullSerializer;
 import hu.elte.eserial.util.StringUtils;
 
 /**

@@ -21,7 +21,7 @@ public class NullSerializer extends AbstractSerializer {
      * @return string representation of null
      */
     @Override
-    String serialize() {
+    public String serialize() {
         if (object != null) {
             throw new EserialSerializerMismatchException("null", object.getClass().getSimpleName());
         }

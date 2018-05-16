@@ -21,7 +21,7 @@ public class NumberParser extends AbstractParser{
      * @return number representation of {@code json}
      */
     @Override
-    Number parse() {
+    public Number parse() {
 
         String value = StringUtils.findNumber(json);
         json = json.substring(value.length());

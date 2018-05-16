@@ -25,7 +25,7 @@ public class ArraySerializer extends AbstractSerializer {
      * @return string representation of {@code object}
      */
     @Override
-    String serialize() {
+    public String serialize() {
         if (!TypeUtils.isAssignableFrom(object.getClass(), List.class)) {
             throw new EserialSerializerMismatchException(List.class.getSimpleName(), object.getClass().getSimpleName());
         }
