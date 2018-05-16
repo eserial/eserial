@@ -131,7 +131,6 @@ public class StringUtils {
                     case '\'':
                         ch = '\'';
                         break;
-
                     default:
                         break;
                 }
