@@ -91,19 +91,19 @@ public class StringUtils {
                 char nextChar = (i == str.length() - 1) ? '\\' : str
                         .charAt(i + 1);
                 if (nextChar >= '0' && nextChar <= '7') {
-                    String code = "" + nextChar;
+                    StringBuilder stringBuilder = new StringBuilder();
                     i++;
                     if ((i < str.length() - 1) && str.charAt(i + 1) >= '0'
                             && str.charAt(i + 1) <= '7') {
-                        code += str.charAt(i + 1);
+                        stringBuilder.append(str.charAt(i + 1));
                         i++;
                         if ((i < str.length() - 1) && str.charAt(i + 1) >= '0'
                                 && str.charAt(i + 1) <= '7') {
-                            code += str.charAt(i + 1);
+                            stringBuilder.append(str.charAt(i + 1));
                             i++;
                         }
                     }
-                    sb.append((char) Integer.parseInt(code, 8));
+                    sb.append((char) Integer.parseInt(stringBuilder.toString(), 8));
                     continue;
                 }
                 switch (nextChar) {
@@ -130,6 +130,9 @@ public class StringUtils {
                         break;
                     case '\'':
                         ch = '\'';
+                        break;
+
+                    default:
                         break;
                 }
                 i++;
@@ -194,6 +197,6 @@ public class StringUtils {
             number = matcher.group(0);
         }
 
-       return number;
+        return number;
     }
 }
